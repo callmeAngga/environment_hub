@@ -13,9 +13,16 @@ class CreateCacheTable extends Migration
      */
     public function up()
     {
-        Schema::create('caches', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('cache', function (Blueprint $table) {
+            $table->string('key')->primary();
+            $table->mediumText('value');
+            $table->integer('expiration');
+        });
+
+        Schema::create('cache_locks', function (Blueprint $table) {
+            $table->string('key')->primary();
+            $table->string('owner');
+            $table->integer('expiration');
         });
     }
 
@@ -26,6 +33,7 @@ class CreateCacheTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('caches');
+        Schema::dropIfExists('cache');
+        Schema::dropIfExists('cache_locks');
     }
 }
