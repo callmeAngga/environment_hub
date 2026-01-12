@@ -22,6 +22,12 @@ class CreateLokasiWwtpTable extends Migration
             $table->decimal('kapasitas_debit', 10, 2);
             $table->timestamps();
         });
+
+        Schema::create('operator_wwtp', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama_operator');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -32,5 +38,6 @@ class CreateLokasiWwtpTable extends Migration
     public function down()
     {
         Schema::dropIfExists('lokasi_wwtp');
+        Schema::dropIfExists('operator_wwtp');
     }
 }

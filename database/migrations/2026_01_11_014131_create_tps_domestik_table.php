@@ -18,11 +18,11 @@ class CreateTpsDomestikTable extends Migration
             $table->foreignId('tps_id')->constrained('tps')->cascadeOnDelete();
             $table->string('no_sampah_keluar', 50)->unique();
             $table->date('tanggal_pengangkutan');
-            $table->foreignId('ekspedisi_id')->constrained('ekspedisi');
+            $table->foreignId('ekspedisi_id')->constrained('daftar_ekspedisi');
             $table->string('no_kendaraan', 20);
             $table->decimal('berat_bersih_kg', 10, 2);
             $table->foreignId('jenis_sampah_id')->constrained('jenis_sampah');
-            $table->foreignId('penerima_id')->constrained('penerima');
+            $table->foreignId('penerima_id')->constrained('daftar_penerima');
             $table->timestamps();
         });
     }
