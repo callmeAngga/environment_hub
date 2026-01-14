@@ -73,7 +73,7 @@
             </form>
             
             <p class="text-center text-gray-500 text-xs mt-8">
-                &copy;2026 Environment Hub. All rights reserved.
+                &copy;2026 Sistem Manajemen Data Lingkungan. All rights reserved.
             </p>
         </div>
     </div>
