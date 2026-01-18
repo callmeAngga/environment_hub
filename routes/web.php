@@ -2,6 +2,15 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TpsProduksiController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LokasiWwtpController;
+use App\Http\Controllers\OperatorWwtpController;
+use App\Http\Controllers\TpsController;
+use App\Http\Controllers\LabController;
+use App\Http\Controllers\SatuanSampahController;
+use App\Http\Controllers\JenisSampahController;
+use App\Http\Controllers\DaftarEkspedisiController;
+use App\Http\Controllers\DaftarPenerimaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,9 +53,17 @@ Route::middleware('auth')->group(function () {
         return view('pages.dummy', ['title' => 'TPS Domestik']);
     })->name('tps-domestik.index');
 
-    Route::get('/profile', function () {
-        return view('pages.dummy', ['title' => 'Profile User']);
-    })->name('profile.index');
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
+        Route::resource('wwtp', LokasiWwtpController::class)->only(['store', 'update', 'destroy']);
+        Route::resource('operator', OperatorWwtpController::class)->only(['store', 'update', 'destroy']);
+        Route::resource('tps', TpsController::class)->only(['store', 'update', 'destroy']);
+        Route::resource('lab', LabController::class)->only(['store', 'update', 'destroy']);
+        Route::resource('jenis-sampah', JenisSampahController::class)->only(['store', 'update', 'destroy']);
+        Route::resource('satuan-sampah', SatuanSampahController::class)->only(['store', 'update', 'destroy']);
+        Route::resource('daftar-ekspedisi', DaftarEkspedisiController::class)->only(['store', 'update', 'destroy']);
+        Route::resource('daftar-penerima', DaftarPenerimaController::class)->only(['store', 'update', 'destroy']);
+    });
 });
 
 Route::middleware(['auth'])->prefix('tps-produksi')->name('tps-produksi.')->group(function () {
