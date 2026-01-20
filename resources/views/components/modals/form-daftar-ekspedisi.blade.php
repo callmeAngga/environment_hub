@@ -31,7 +31,7 @@
     </div>
 </div>
 
-<script>
+<!-- <script>
     function openEkspedisiModal(id = null, nama = '', alamat = '') {
         if (id) {
             document.getElementById('modalEkspedisiTitle').textContent = 'Edit Ekspedisi';
@@ -49,4 +49,4 @@
         }
         openModal('modalEkspedisi');
     }
-</script>
+</script> -->

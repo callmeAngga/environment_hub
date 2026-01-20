@@ -1,7 +1,9 @@
 <div id="modalSampahKeluar" class="modal-overlay">
-    <div class="modal-content" style="max-width: 800px;"> <div class="modal-header">
+    <div class="modal-content" style="max-width: 800px;">
+        <div class="modal-header">
             <h3 id="modalKeluarTitle" class="card-title">Tambah Sampah Keluar</h3>
-            <button onclick="closeModal('modalSampahKeluar')" class="alert-close" style="position:static;">&times;</button>
+            <button onclick="closeModal('modalSampahKeluar')" class="alert-close"
+                style="position:static;">&times;</button>
         </div>
 
         <form id="formSampahKeluar" method="POST">
@@ -29,7 +31,8 @@
                 <div class="flex-gap">
                     <div class="form-group" style="flex:1">
                         <label class="form-label">Tanggal Angkut <span class="text-red">*</span></label>
-                        <input type="date" name="tanggal_pengangkutan" id="keluarTanggal" required value="{{ date('Y-m-d') }}" class="form-control">
+                        <input type="date" name="tanggal_pengangkutan" id="keluarTanggal" required
+                            value="{{ date('Y-m-d') }}" class="form-control">
                     </div>
                     <div class="form-group" style="flex:1">
                         <label class="form-label">Ekspedisi <span class="text-red">*</span></label>
@@ -44,27 +47,33 @@
 
                 <div class="form-group">
                     <label class="form-label">No. Kendaraan <span class="text-red">*</span></label>
-                    <input type="text" name="no_kendaraan" id="keluarKendaraan" required class="form-control" placeholder="B 1234 XYZ">
+                    <input type="text" name="no_kendaraan" id="keluarKendaraan" required class="form-control"
+                        placeholder="B 1234 XYZ">
                 </div>
 
-                <h4 class="mt-4 mb-4" style="border-bottom:1px solid #eee; padding-bottom:5px;">Berat (kg)</h4>
-                
+                <h4 class="mt-4 mb-4" style="border-bottom:1px solid #eee; padding-bottom:5px; color:#555;">Berat (kg)
+                </h4>
+
                 <div class="flex-gap">
                     <div class="form-group" style="flex:1">
                         <label class="form-label">Berat Kosong</label>
-                        <input type="number" step="0.01" name="berat_kosong_kg" id="keluarBeratKosong" required min="0" oninput="hitungBeratBersihKeluar()" class="form-control">
+                        <input type="number" step="0.01" name="berat_kosong_kg" id="keluarBeratKosong" required min="0"
+                            oninput="hitungBeratBersihKeluar()" class="form-control">
                     </div>
                     <div class="form-group" style="flex:1">
                         <label class="form-label">Berat Isi</label>
-                        <input type="number" step="0.01" name="berat_isi_kg" id="keluarBeratIsi" required min="0" oninput="hitungBeratBersihKeluar()" class="form-control">
+                        <input type="number" step="0.01" name="berat_isi_kg" id="keluarBeratIsi" required min="0"
+                            oninput="hitungBeratBersihKeluar()" class="form-control">
                     </div>
                     <div class="form-group" style="flex:1">
                         <label class="form-label">Berat Bersih</label>
-                        <input type="text" id="keluarBeratBersih" readonly class="form-control" style="background-color:#f3f4f6;">
+                        <input type="text" id="keluarBeratBersih" readonly class="form-control"
+                            style="background-color:#f3f4f6; font-weight:bold; color:#16a34a;">
                     </div>
                 </div>
 
-                <h4 class="mt-4 mb-4" style="border-bottom:1px solid #eee; padding-bottom:5px;">Info Lain</h4>
+                <h4 class="mt-4 mb-4" style="border-bottom:1px solid #eee; padding-bottom:5px; color:#555;">Info Lain
+                </h4>
 
                 <div class="flex-gap">
                     <div class="form-group" style="flex:1">
@@ -90,7 +99,7 @@
 
             <div class="modal-footer">
                 <button type="button" onclick="closeModal('modalSampahKeluar')" class="btn btn-secondary">Batal</button>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Data</button>
+                <button type="submit" class="btn btn-primary">Simpan Data</button>
             </div>
         </form>
     </div>
@@ -119,7 +128,7 @@
         try {
             const response = await fetch(`/tps-produksi/data/keluar/${id}`);
             const data = await response.json();
-            
+
             document.getElementById('modalKeluarTitle').textContent = 'Edit Sampah Keluar';
             document.getElementById('formSampahKeluar').action = `/tps-produksi/keluar/${id}`;
             document.getElementById('keluarMethod').value = 'PUT';
@@ -139,7 +148,7 @@
             openModal('modalSampahKeluar');
         } catch (error) {
             console.error('Error:', error);
-            alert('Gagal mengambil data untuk edit');
+            alert('Gagal mengambil data');
         }
     }
 </script>

@@ -437,6 +437,8 @@
 
 <div id="modalEkspedisi" class="modal-overlay"><div class="modal-content"><div class="modal-header"><h3 id="modalEkspedisiTitle">Form Ekspedisi</h3><button onclick="closeModal('modalEkspedisi')" class="btn-icon">&times;</button></div><form id="formEkspedisi" method="POST">@csrf <input type="hidden" id="ekspedisi_method" name="_method" value="POST"><div class="modal-body"><div class="form-group"><label class="form-label">Nama Ekspedisi</label><input type="text" name="nama_ekspedisi" id="nama_ekspedisi" class="form-control" required></div><div class="form-group"><label class="form-label">Alamat</label><textarea name="alamat" id="alamat_ekspedisi" class="form-control"></textarea></div></div><div class="modal-footer"><button type="button" onclick="closeModal('modalEkspedisi')" class="btn btn-secondary">Batal</button><button type="submit" id="btnSubmitEkspedisi" class="btn btn-primary">Simpan</button></div></form></div></div>
 
+<div id="modalPenerimaSampah" class="modal-overlay"><div class="modal-content"><div class="modal-header"><h3 id="modalPenerimaSampahTitle">Form Penerima Sampah</h3><button onclick="closeModal('modalPenerimaSampah')" class="btn-icon">&times;</button></div><form id="formPenerimaSampah" method="POST">@csrf <input type="hidden" id="penerima_sampah_method" name="_method" value="POST"><div class="modal-body"><div class="form-group"><label class="form-label">Nama Penerima Sampah</label><input type="text" name="nama_penerima" id="nama_penerima" class="form-control" required></div><div class="form-group"><label class="form-label">Alamat</label><textarea name="alamat" id="alamat_penerima_sampah" class="form-control"></textarea></div></div><div class="modal-footer"><button type="button" onclick="closeModal('modalPenerimaSampah')" class="btn btn-secondary">Batal</button><button type="submit" id="btnSubmitPenerimaSampah" class="btn btn-primary">Simpan</button></div></form></div></div>
+
 @push('scripts')
 <script>
     // Logic Tab
@@ -564,6 +566,22 @@
             document.getElementById('formJenisSampah').reset();
         }
         openModal('modalJenisSampah');
+    }
+
+    function openPenerimaModal(id=null, nama='', alamat='') {
+        if(id) {
+            document.getElementById('modalPenerimaSampahTitle').innerText = "Edit Penerima";
+            document.getElementById('penerima_sampah_method').value = "PUT";
+            document.getElementById('formPenerimaSampah').action = "/profile/daftar-penerima/" + id;
+            document.getElementById('nama_penerima').value = nama;
+            document.getElementById('alamat_penerima_sampah').value = alamat;
+        } else {
+            document.getElementById('modalPenerimaSampahTitle').innerText = "Tambah Penerima";
+            document.getElementById('penerima_sampah_method').value = "POST";
+            document.getElementById('formPenerimaSampah').action = "{{ route('daftar-penerima.store') }}";
+            document.getElementById('formPenerimaSampah').reset();
+        }
+        openModal('modalPenerimaSampah');
     }
 
     function openEkspedisiModal(id=null, nama='', alamat='') {

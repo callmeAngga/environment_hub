@@ -2,7 +2,8 @@
     <div class="modal-content">
         <div class="modal-header">
             <h3 id="modalMasukTitle" class="card-title">Tambah Sampah Masuk</h3>
-            <button onclick="closeModal('modalSampahMasuk')" class="alert-close" style="position:static;">&times;</button>
+            <button onclick="closeModal('modalSampahMasuk')" class="alert-close"
+                style="position:static;">&times;</button>
         </div>
 
         <form id="formSampahMasuk" method="POST">
@@ -24,11 +25,13 @@
                 <div class="flex-gap">
                     <div class="form-group" style="flex:1">
                         <label class="form-label">Tanggal <span class="text-red">*</span></label>
-                        <input type="date" name="tanggal" id="masukTanggal" required value="{{ date('Y-m-d') }}" class="form-control">
+                        <input type="date" name="tanggal" id="masukTanggal" required value="{{ date('Y-m-d') }}"
+                            class="form-control">
                     </div>
                     <div class="form-group" style="flex:1">
                         <label class="form-label">Jumlah <span class="text-red">*</span></label>
-                        <input type="number" step="1" name="jumlah_sampah" id="masukJumlah" required min="1" class="form-control" placeholder="0">
+                        <input type="number" step="1" name="jumlah_sampah" id="masukJumlah" required min="1"
+                            class="form-control" placeholder="0">
                     </div>
                 </div>
 
@@ -56,7 +59,7 @@
 
             <div class="modal-footer">
                 <button type="button" onclick="closeModal('modalSampahMasuk')" class="btn btn-secondary">Batal</button>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Data</button>
+                <button type="submit" class="btn btn-primary">Simpan Data</button>
             </div>
         </form>
     </div>
@@ -91,8 +94,8 @@
 
             openModal('modalSampahMasuk');
         } catch (error) {
-            console.error('Error detail:', error);
-            alert('Gagal mengambil data: ' + error.message);
+            console.error('Error:', error);
+            alert('Gagal mengambil data');
         }
     }
 </script>
