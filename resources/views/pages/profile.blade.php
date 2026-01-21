@@ -36,6 +36,10 @@
         <button onclick="switchTabProfile('wwtp')" id="tab-wwtp-profile" class="tab-btn active">WWTP</button>
         <button onclick="switchTabProfile('tps-produksi')" id="tab-tps-produksi-profile" class="tab-btn">TPS Produksi</button>
         <button onclick="switchTabProfile('tps-domestik')" id="tab-tps-domestik-profile" class="tab-btn">TPS Domestik</button>
+
+        @if(Auth::user()->role === 'ADMIN')
+            <button onclick="switchTabProfile('pengguna')" id="tab-pengguna-profile" class="tab-btn">Pengguna</button>
+        @endif
     </div>
 
     <div id="content-wwtp-profile">
@@ -358,6 +362,67 @@
         </div>
     </div>
 
+    @if(Auth::user()->role === 'ADMIN')
+        <div id="content-pengguna-profile" class="hidden">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Manajemen Pengguna</h3>
+                    <button onclick="openUserModal()" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Tambah User
+                    </button>
+                </div>
+
+                <div style="padding: 0 20px 20px 20px;">
+                    <form action="{{ route('profile.index') }}" method="GET" class="flex-gap">
+                        <input type="text" name="search_user" value="{{ request('search_user') }}" 
+                            placeholder="Cari nama atau email..." class="form-control" style="max-width: 300px;">
+                        <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i> Cari</button>
+                        @if(request('search_user'))
+                            <a href="{{ route('profile.index') }}" class="btn btn-danger">Reset</a>
+                        @endif
+                    </form>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($usersList as $u)
+                            <tr>
+                                <td>{{ $u->name }}</td>
+                                <td>{{ $u->email }}</td>
+                                <td><span style="background:#dbeafe; color:#1e40af; padding:2px 8px; border-radius:4px; font-size:0.8rem;">{{ $u->role }}</span></td>
+                                <td>
+                                    <div class="flex-gap">
+                                        <button onclick="openUserModal('{{ $u->id }}', '{{ $u->email }}')" class="btn-icon text-blue">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <form action="{{ route('users.destroy', $u->id) }}" method="POST" onsubmit="return confirm('Hapus user ini? Akses mereka akan hilang.')">
+                                            @csrf @method('DELETE')
+                                            <button class="btn-icon text-red"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="4" class="text-center text-gray">Tidak ada data pengguna found.</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    @endif
+
 </div>
 
 <div id="modalLokasiWWTP" class="modal-overlay">
@@ -439,17 +504,35 @@
 
 <div id="modalPenerimaSampah" class="modal-overlay"><div class="modal-content"><div class="modal-header"><h3 id="modalPenerimaSampahTitle">Form Penerima Sampah</h3><button onclick="closeModal('modalPenerimaSampah')" class="btn-icon">&times;</button></div><form id="formPenerimaSampah" method="POST">@csrf <input type="hidden" id="penerima_sampah_method" name="_method" value="POST"><div class="modal-body"><div class="form-group"><label class="form-label">Nama Penerima Sampah</label><input type="text" name="nama_penerima" id="nama_penerima" class="form-control" required></div><div class="form-group"><label class="form-label">Alamat</label><textarea name="alamat" id="alamat_penerima_sampah" class="form-control"></textarea></div></div><div class="modal-footer"><button type="button" onclick="closeModal('modalPenerimaSampah')" class="btn btn-secondary">Batal</button><button type="submit" id="btnSubmitPenerimaSampah" class="btn btn-primary">Simpan</button></div></form></div></div>
 
+@include('components.modals.form-pengguna')
+
 @push('scripts')
 <script>
     // Logic Tab
     function switchTabProfile(tab) {
-        ['wwtp', 'tps-produksi', 'tps-domestik'].forEach(t => {
-            document.getElementById('tab-' + t + '-profile').classList.remove('active');
-            document.getElementById('content-' + t + '-profile').classList.add('hidden');
+        ['wwtp', 'tps-produksi', 'tps-domestik', 'pengguna'].forEach(t => {
+           const btn = document.getElementById('tab-' + t + '-profile');
+            const content = document.getElementById('content-' + t + '-profile');
+        
+            if(btn && content) {
+                btn.classList.remove('active');
+                content.classList.add('hidden');
+            }
         });
-        document.getElementById('tab-' + tab + '-profile').classList.add('active');
-        document.getElementById('content-' + tab + '-profile').classList.remove('hidden');
+        const activeBtn = document.getElementById('tab-' + tab + '-profile');
+        const activeContent = document.getElementById('content-' + tab + '-profile');
+
+        if(activeBtn && activeContent) {
+            activeBtn.classList.add('active');
+            activeContent.classList.remove('hidden');
+        }
     }
+
+    @if(request('search_user'))
+        document.addEventListener("DOMContentLoaded", function() {
+            switchTabProfile('pengguna');
+        });
+    @endif
 
     // Logic Modal CSS (Gunakan class 'show')
     function openModal(modalId) {
