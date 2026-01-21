@@ -15,7 +15,7 @@ use App\Models\DaftarPenerima;
 
 class ProfileController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
 
         $wwtps = LokasiWwtp::latest()->get();
@@ -27,8 +27,23 @@ class ProfileController extends Controller
         $daftar_ekspedisi = DaftarEkspedisi::latest()->get();
         $daftar_penerima = DaftarPenerima::latest()->get();
 
+        $usersList = [];
+        if (auth()->user()->role === 'ADMIN') {
+            $query = \App\Models\User::where('role', '!=', 'ADMIN');
+
+            if ($request->has('search_user') && $request->search_user != '') {
+                $search = $request->search_user;
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                });
+            }
+            $usersList = $query->latest()->get();
+        }
+
         return view('pages.profile', compact(
             'wwtps',
+            'usersList',
             'operators',
             'labs',
             'tps',

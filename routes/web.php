@@ -13,6 +13,7 @@ use App\Http\Controllers\JenisSampahController;
 use App\Http\Controllers\DaftarEkspedisiController;
 use App\Http\Controllers\DaftarPenerimaController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +79,12 @@ Route::middleware('auth')->group(function () {
         Route::resource('satuan-sampah', SatuanSampahController::class)->only(['store', 'update', 'destroy']);
         Route::resource('daftar-ekspedisi', DaftarEkspedisiController::class)->only(['store', 'update', 'destroy']);
         Route::resource('daftar-penerima', DaftarPenerimaController::class)->only(['store', 'update', 'destroy']);
+
+        Route::middleware(['is_admin'])->group(function () {
+            Route::post('/users', [UserController::class, 'store'])->name('users.store');
+            Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+            Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+        });
     });
 });
 

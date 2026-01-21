@@ -73,9 +73,9 @@
                     <tr>
                         <th>Nama TPS</th>
                         <th>Tanggal</th>
-                        <th>Jumlah</th>
+                        <th>Jumlah Sampah</th>
                         <th>Satuan</th>
-                        <th>Jenis</th>
+                        <th>Jenis Sampah</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -137,12 +137,14 @@
                 <thead>
                     <tr>
                         <th>Nama TPS</th>
-                        <th>No. Sampah</th>
+                        <th>No. Sampah Keluar</th>
                         <th>Tanggal</th>
                         <th>Ekspedisi</th>
-                        <th>No. Polisi</th>
+                        <th>No. Kendaraan</th>
+                        <th>Berat Kosong (kg)</th>
+                        <th>Berat Isi (kg)</th>
                         <th>Berat Bersih (kg)</th>
-                        <th>Jenis</th>
+                        <th>Jenis Sampah</th>
                         <th>Penerima</th>
                         <th>Aksi</th>
                     </tr>
@@ -155,6 +157,8 @@
                         <td>{{ $item->tanggal_pengangkutan ? $item->tanggal_pengangkutan->format('d/m/Y') : '-' }}</td>
                         <td>{{ $item->ekspedisi->nama_ekspedisi ?? '-' }}</td>
                         <td>{{ $item->no_kendaraan }}</td>
+                        <td>{{ number_format($item->berat_kosong_kg, 2, ',', '.') }}</td>
+                        <td>{{ number_format($item->berat_isi_kg, 2, ',', '.') }}</td>
                         <td style="color: #16a34a; font-weight:bold;">{{ number_format($item->berat_isi_kg - $item->berat_kosong_kg, 2, ',', '.') }}</td>
                         <td>{{ $item->jenisSampah->nama_jenis ?? '-' }}</td>
                         <td>{{ $item->penerima->nama_penerima ?? '-' }}</td>
@@ -170,7 +174,7 @@
                         </td>
                     </tr>
                     @empty
-                    <tr><td colspan="9" class="text-center text-gray">Belum ada data sampah keluar</td></tr>
+                    <tr><td colspan="11" class="text-center text-gray">Belum ada data sampah keluar</td></tr>
                     @endforelse
                 </tbody>
             </table>
