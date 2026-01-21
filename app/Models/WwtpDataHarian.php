@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class WwtpDataHarian extends Model
 {
     protected $table = 'wwtp_data_harian';
-    
+
     protected $fillable = [
         'wwtp_id',
         'operator_id',
@@ -46,7 +46,6 @@ class WwtpDataHarian extends Model
         'ph_outlet' => 'decimal:1'
     ];
 
-    // Tambahkan $appends agar attribute otomatis tersedia
     protected $appends = [
         'display_ph_ekualisasi_1',
         'display_ph_ekualisasi_2',
@@ -61,7 +60,6 @@ class WwtpDataHarian extends Model
         'display_debit_outlet'
     ];
 
-    // Accessor untuk format tampilan
     public function getDisplayPhEkualisasi1Attribute()
     {
         return $this->formatDecimal($this->ph_ekualisasi_1, 1);
@@ -129,7 +127,7 @@ class WwtpDataHarian extends Model
 
         $floatValue = floatval($value);
         $intValue = intval($value);
-        
+
         $tolerance = 0.00001;
         if (abs($floatValue - $intValue) < $tolerance) {
             return (string)$intValue;

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class WwtpDataBulanan extends Model
 {
     protected $table = 'wwtp_data_bulanan';
-    
+
     protected $fillable = [
         'wwtp_id',
         'bulan',
@@ -37,7 +37,6 @@ class WwtpDataBulanan extends Model
         'minyak_lemak_outlet' => 'decimal:2'
     ];
 
-    // Tambahkan $appends untuk display attributes
     protected $appends = [
         'display_tss_inlet',
         'display_tss_outlet',
@@ -106,24 +105,40 @@ class WwtpDataBulanan extends Model
     public function getBulanTahunAttribute()
     {
         $namaBulan = [
-            1 => 'Januari', 2 => 'Februari', 3 => 'Maret',
-            4 => 'April', 5 => 'Mei', 6 => 'Juni',
-            7 => 'Juli', 8 => 'Agustus', 9 => 'September',
-            10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember'
         ];
-        
+
         return $namaBulan[$this->bulan] . ' ' . $this->tahun;
     }
 
     public function getNamaBulanAttribute()
     {
         $namaBulan = [
-            1 => 'Januari', 2 => 'Februari', 3 => 'Maret',
-            4 => 'April', 5 => 'Mei', 6 => 'Juni',
-            7 => 'Juli', 8 => 'Agustus', 9 => 'September',
-            10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember'
         ];
-        
+
         return $namaBulan[$this->bulan] ?? $this->bulan;
     }
 
@@ -135,7 +150,7 @@ class WwtpDataBulanan extends Model
 
         $floatValue = floatval($value);
         $intValue = intval($value);
-        
+
         $tolerance = 0.00001;
         if (abs($floatValue - $intValue) < $tolerance) {
             return (string)$intValue;

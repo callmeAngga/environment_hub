@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\WwtpController;
 use App\Http\Controllers\TpsProduksiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LokasiWwtpController;
@@ -44,10 +45,24 @@ Route::middleware('auth')->group(function () {
         return redirect()->route('dashboard');
     });
 
-    // DUMMY
-    Route::get('/wwtp', function () {
-        return view('pages.dummy', ['title' => 'WWTP']);
-    })->name('wwtp.index');
+    // WWTP Routes
+    Route::prefix('wwtp')->group(function () {
+        Route::get('/', [WwtpController::class, 'index'])->name('wwtp.index');
+
+        Route::get('/export/harian/excel', [WwtpController::class, 'exportHarianExcel'])->name('wwtp.export.harian.excel');
+        Route::get('/export/bulanan/excel', [WwtpController::class, 'exportBulananExcel'])->name('wwtp.export.bulanan.excel');
+
+        Route::post('/harian', [WwtpController::class, 'storeHarian'])->name('wwtp.harian.store');
+        Route::put('/harian/{id}', [WwtpController::class, 'updateHarian'])->name('wwtp.harian.update');
+        Route::delete('/harian/{id}', [WwtpController::class, 'destroyHarian'])->name('wwtp.harian.destroy');
+
+        Route::post('/bulanan', [WwtpController::class, 'storeBulanan'])->name('wwtp.bulanan.store');
+        Route::put('/bulanan/{id}', [WwtpController::class, 'updateBulanan'])->name('wwtp.bulanan.update');
+        Route::delete('/bulanan/{id}', [WwtpController::class, 'destroyBulanan'])->name('wwtp.bulanan.destroy');
+
+        Route::get('/data/harian/{id}', [WwtpController::class, 'getDataHarian'])->name('wwtp.data.harian');
+        Route::get('/data/bulanan/{id}', [WwtpController::class, 'getDataBulanan'])->name('wwtp.data.bulanan');
+    });
 
     Route::get('/tps-domestik', function () {
         return view('pages.dummy', ['title' => 'TPS Domestik']);
