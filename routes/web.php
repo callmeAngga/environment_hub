@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WwtpController;
 use App\Http\Controllers\TpsProduksiController;
+use App\Http\Controllers\TpsDomestikController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LokasiWwtpController;
 use App\Http\Controllers\OperatorWwtpController;
@@ -65,9 +66,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/data/bulanan/{id}', [WwtpController::class, 'getDataBulanan'])->name('wwtp.data.bulanan');
     });
 
-    Route::get('/tps-domestik', function () {
-        return view('pages.dummy', ['title' => 'TPS Domestik']);
-    })->name('tps-domestik.index');
+    Route::prefix('tps-domestik')->group(function () {
+        Route::get('/', [TpsDomestikController::class, 'index'])->name('tps-domestik.index');
+        Route::get('/export/excel', [TpsDomestikController::class, 'exportExcel'])->name('tps-domestik.export.excel');
+        Route::post('/', [TpsDomestikController::class, 'store'])->name('tps-domestik.store');
+        Route::get('/{id}', [TpsDomestikController::class, 'show'])->name('tps-domestik.show');
+        Route::put('/{id}', [TpsDomestikController::class, 'update'])->name('tps-domestik.update');
+        Route::delete('/{id}', [TpsDomestikController::class, 'destroy'])->name('tps-domestik.destroy');
+    });
 
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
