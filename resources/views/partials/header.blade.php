@@ -1,42 +1,90 @@
-<header>
-    <div class="main-header">
+<header class="site-header">
+    <!-- Top Bar -->
+    <div class="header-topbar">
         <div class="container">
-            <h1 class="header-title">Sistem Manajemen Data Lingkungan</h1>
-            <p class="header-subtitle">Platform Monitoring dan Pengelolaan Data Lingkungan</p>
+            <div class="topbar-content">
+                <div class="topbar-left">
+                    <span class="topbar-text">
+                        <i class="fas fa-building"></i>
+                        PT Indofood CBP Sukses Makmur Tbk
+                    </span>
+                </div>
+                <div class="topbar-right">
+                    <span class="topbar-text">
+                        <i class="fas fa-user-circle"></i>
+                        {{ Auth::user()->name ?? 'User' }}
+                    </span>
+                    <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="btn-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <div class="header-main">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-brand">
+                    <div class="brand-logo">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="brand-text">
+                        <h1 class="brand-title">Sistem Manajemen Data Lingkungan</h1>
+                        <p class="brand-subtitle">Environmental Data Management System</p>
+                    </div>
+                </div>
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
         </div>
     </div>
     
-    <nav class="main-nav">
+    <!-- Navigation -->
+    <nav class="header-nav">
         <div class="container">
             <ul class="nav-list">
-                <li>
+                <li class="nav-item">
                     <a href="{{ route('dashboard') }}" 
                        class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        Dashboard
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
                     </a>
                 </li>
-                <li>
+                <li class="nav-item">
                     <a href="{{ route('wwtp.index') }}" 
                        class="nav-link {{ request()->routeIs('wwtp.*') ? 'active' : '' }}">
-                        WWTP
+                        <i class="fas fa-water"></i>
+                        <span>WWTP</span>
                     </a>
                 </li>
-                <li>
+                <li class="nav-item">
                     <a href="{{ route('tps-produksi.index') }}" 
                        class="nav-link {{ request()->routeIs('tps-produksi.*') ? 'active' : '' }}">
-                        TPS Produksi
+                        <i class="fas fa-industry"></i>
+                        <span>TPS Produksi</span>
                     </a>
                 </li>
-                <li>
+                <li class="nav-item">
                     <a href="{{ route('tps-domestik.index') }}" 
                        class="nav-link {{ request()->routeIs('tps-domestik.*') ? 'active' : '' }}">
-                        TPS Domestik
+                        <i class="fas fa-home"></i>
+                        <span>TPS Domestik</span>
                     </a>
                 </li>
-                <li>
+                <li class="nav-item">
                     <a href="{{ route('profile.index') }}" 
                        class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}">
-                        Profile
+                        <i class="fas fa-cog"></i>
+                        <span>Profile</span>
                     </a>
                 </li>
             </ul>
