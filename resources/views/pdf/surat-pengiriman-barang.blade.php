@@ -5,228 +5,190 @@
     <title>Surat Pengiriman Barang</title>
     <style>
         @page {
-            margin: 20mm;
+            margin: 10mm 15mm;
         }
         
         body {
             font-family: Arial, sans-serif;
-            font-size: 11pt;
-            line-height: 1.4;
+            font-size: 10pt;
+            line-height: 1.3;
             color: #000;
         }
+
+        .bold { font-weight: bold; }
+        .center { text-align: center; }
+        .right { text-align: right; }
+        .left { text-align: left; }
+        .uppercase { text-transform: uppercase; }
         
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        
-        .company-name {
-            font-size: 16pt;
-            font-weight: bold;
-            margin-bottom: 3px;
-        }
-        
-        .company-info {
-            font-size: 9pt;
-            margin-bottom: 2px;
-        }
-        
-        .document-title {
-            font-size: 14pt;
-            font-weight: bold;
-            text-decoration: underline;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .info-section {
-            margin-bottom: 20px;
-        }
-        
-        .info-row {
-            display: table;
-            width: 100%;
-            margin-bottom: 3px;
-        }
-        
-        .info-label {
-            display: table-cell;
-            width: 100px;
-            font-size: 10pt;
-        }
-        
-        .info-colon {
-            display: table-cell;
-            width: 15px;
-        }
-        
-        .info-value {
-            display: table-cell;
-            font-size: 10pt;
-        }
-        
-        .address-section {
-            margin-bottom: 20px;
-        }
-        
-        .address-row {
-            margin-bottom: 3px;
-        }
-        
-        .address-label {
-            font-size: 10pt;
-            display: inline-block;
-            width: 120px;
-        }
-        
-        table {
+        .layout-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-        }
-        
-        table th {
-            background-color: #f5f5f5;
-            border: 1px solid #000;
-            padding: 10px 8px;
-            font-size: 10pt;
-            font-weight: bold;
-            text-align: center;
-        }
-        
-        table td {
-            border: 1px solid #000;
-            padding: 50px 8px;
-            font-size: 10pt;
-        }
-        
-        table td.center {
-            text-align: center;
-        }
-        
-        table td.right {
-            text-align: right;
-        }
-        
-        .footer-note {
-            font-size: 8pt;
-            font-style: italic;
-            text-align: right;
-            margin-top: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .disclaimer {
-            font-size: 8pt;
-            font-style: italic;
-            margin: 15px 0;
-            text-align: center;
-        }
-        
-        .signature-section {
-            margin-top: 40px;
-        }
-        
-        .signature-row {
-            display: table;
-            width: 100%;
-        }
-        
-        .signature-cell {
-            display: table-cell;
-            width: 33.33%;
-            text-align: center;
-            vertical-align: top;
-        }
-        
-        .signature-label {
-            font-size: 10pt;
             margin-bottom: 5px;
         }
-        
-        .signature-space {
-            height: 60px;
+        .layout-table td {
+            border: none;
+            vertical-align: top;
+            padding: 0;
         }
-        
-        .signature-name {
-            font-size: 10pt;
+
+        .company-name {
+            font-size: 18pt;
             font-weight: bold;
-            text-decoration: underline;
-            margin-top: 5px;
         }
-        
-        .signature-position {
+        .company-address {
             font-size: 9pt;
-            font-style: italic;
         }
-        
-        .biwa-section {
-            margin-top: 20px;
+
+        .recipient-box {
+            margin-left: auto;
+            width: 60%;
+        }
+
+        .info-label {
+            display: inline-block;
+            width: 100px;
+        }
+        .info-colon {
+            display: inline-block;
+            width: 10px;
+            text-align: center;
+        }
+
+        .doc-title {
+            font-size: 14pt;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid #000;
+            padding: 5px;
+            vertical-align: middle;
+        }
+        .data-table th {
+            text-align: center;
+            font-weight: bold;
+            height: 30px;
+        }
+        .data-table td {
+            height: 40px;
+        }
+
+        .disclaimer {
+            text-align: center;
+            font-size: 9pt;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        .doc-code-left {
+            font-size: 9pt;
+            position: absolute;
+            left: 0;
+        }
+        .doc-code-right {
+            font-size: 9pt;
             text-align: right;
         }
-        
-        .biwa-label {
-            font-size: 10pt;
-            display: inline-block;
-            width: 150px;
-            text-align: left;
+
+        .signature-table {
+            width: 100%;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .signature-space {
+            height: 70px;
+        }
+        .signature-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .signature-role {
+            margin-top: 5px;
+        }
+
+        .distribution-list {
+            margin-top: 20px;
+            font-size: 8pt;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="company-name">PT INDOFOOD CBP SUKSES MAKMUR Tbk</div>
-        <div class="company-info">Jalan Raya Pamanukan – Cilacap KM 15, Desa Cilacap</div>
-        <div class="company-info">Kecamatan Pamanukan, Subang – Purwakarta, Jawa Barat</div>
-        <div class="company-info">Telp/Fax: (0260) 540004</div>
-    </div>
-    
-    <div style="float: right; text-align: left; margin-bottom: 15px;">
-        <div style="font-size: 10pt; margin-bottom: 3px;">
-            <span style="display: inline-block; width: 70px;">SPB No</span>
-            <span>: {{ $data->no_sampah_keluar }}</span>
-        </div>
-        <div style="font-size: 10pt;">
-            <span style="display: inline-block; width: 70px;">Tanggal</span>
-            <span>: {{ $data->tanggal_pengangkutan ? $data->tanggal_pengangkutan->format('d.m.Y') : '-' }}</span>
-        </div>
-    </div>
-    
-    <div style="clear: both;"></div>
-    
-    <div class="info-section">
-        <div style="font-size: 10pt; margin-bottom: 8px;">
-            <strong>NON-BIWA</strong>
-        </div>
-        <div style="font-size: 10pt; margin-bottom: 3px;">
-            PT Tenang Jaya Sejahtera
-        </div>
-        <div style="font-size: 10pt;">
-            Waste Management Service
-        </div>
-    </div>
-    
-    <div class="address-section">
-        <div class="address-row">
-            <span class="address-label">Akan diantar di</span>
-            <span style="font-size: 10pt;">: {{ $data->penerima->nama_penerima ?? '-' }}</span>
-        </div>
-        <div class="address-row">
-            <span class="address-label">No Polisi</span>
-            <span style="font-size: 10pt;">: {{ $data->no_kendaraan }}</span>
-        </div>
-    </div>
-    
-    <div class="document-title">SURAT PENGIRIMAN BARANG</div>
-    
-    <table>
+
+    <table class="layout-table">
+        <tr>
+            <td style="width: 55%;">
+                <div class="company-name">PT INDOFOOD CBP SUKSES MAKMUR Tbk</div>
+                <div class="company-address">
+                    Jalan Raya Purwakarta - Cikopo KM 13, Desa Cikopo<br>
+                    Kecamatan Bungursari Kabupaten Purwakarta, Jawa Barat<br>
+                    Telp (0264) 313 511 Fax (0264) 313 505
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+
+    <table class="layout-table">
+        <tr>
+            <td style="width: 55%">
+                <div>Kepada Yth</div>
+                <div class="bold">NON-BIWA</div> <div class="bold">{{ $data->penerima->nama_penerima ?? 'PT. Tenang Jaya Sejahtera' }}</div>
+                <div>Waste Management Service</div>
+            </td>
+
+            <td style="width: 55%;padding-left: 148px;">
+                <div>
+                    <span class="info-label">SPB No</span>
+                    <span class="info-colon">:</span>
+                    <span>{{ $data->no_sampah_keluar }}</span>
+                </div>
+                <div>
+                    <span class="info-label">Tanggal</span>
+                    <span class="info-colon">:</span>
+                    <span>{{ $data->tanggal_pengangkutan ? $data->tanggal_pengangkutan->format('d.m.Y') : '-' }}</span>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+
+    <table class="layout-table">
+        <tr>
+            <td style="width: 55%;">
+                <div>
+                    <span class="info-label">Jasa ekspedisi</span>
+                    <span class="info-colon">:</span>
+                    <span>{{ $data->ekspedisi->nama_ekspedisi ?? '-' }}</span>
+                </div>
+                <div>
+                    <span class="info-label">No Polisi</span>
+                    <span class="info-colon">:</span>
+                    <span>{{ $data->no_kendaraan }}</span>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="doc-title">SURAT PENGIRIMAN BARANG</div>
+
+    <table class="data-table">
         <thead>
             <tr>
                 <th style="width: 5%;">NO</th>
-                <th style="width: 45%;">NAMA BARANG</th>
+                <th style="width: 35%;">NAMA BARANG</th>
                 <th style="width: 15%;">SATUAN</th>
-                <th style="width: 20%;">JUMLAH/<br/>SATUAN</th>
-                <th style="width: 15%;">KETERANGAN</th>
+                <th style="width: 15%;">JUMLAH<br>SATUAN</th>
+                <th style="width: 30%;">KETERANGAN</th>
             </tr>
         </thead>
         <tbody>
@@ -234,68 +196,62 @@
                 <td class="center">1</td>
                 <td>{{ $data->jenisSampah->nama_jenis ?? '-' }}</td>
                 <td class="center">Kilogram</td>
-                <td class="right" style="padding-right: 15px;">{{ number_format($data->berat_isi_kg - $data->berat_kosong_kg, 0, ',', '.') }}</td>
+                <td class="center">{{ number_format($data->berat_isi_kg - $data->berat_kosong_kg, 0, ',', '.') }}</td>
                 <td></td>
             </tr>
         </tbody>
     </table>
-    
-    <div class="footer-note">
-        F.02.00/FGT/NR-004
-    </div>
-    
+
+    <table class="layout-table">
+        <tr>
+            <td>
+                <div class="bold">F.02.01/FGT-HR-004</div>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+
     <div class="disclaimer">
-        ***KETERANGAN BARANG SETELAH KELUAR DARI PABRIK MERUPAKAN TANGGUNG JAWAB EXPEDISI***<br/>
-        ***DAN KEPERCAYAAN/KEKELUARGAAN BARANG KEPADA EXPEDISI***
+        "KEKURANGAN BARANG SETELAH KELUAR DARI PABRIK MERUPAKAN TANGGUNG JAWAB EKSPEDISI"<br>
+        "CLAIM KERUSAKAN/KEKURANGAN BARANG KEPADA EKSPEDISI"
     </div>
-    
-    <div class="signature-section">
-        <div class="signature-row">
-            <div class="signature-cell">
-                <div class="signature-label">Dibuat Oleh</div>
-                <div class="signature-space"></div>
-                <div class="signature-name">________________</div>
-            </div>
-            <div class="signature-cell">
-                <div class="signature-label">Diketahui Oleh</div>
-                <div class="signature-space"></div>
-                <div class="signature-name">________________</div>
-            </div>
-            <div class="signature-cell">
-                <div class="signature-label">Diterima Oleh</div>
-                <div class="signature-space"></div>
-                <div class="signature-name">________________</div>
-            </div>
-        </div>
-        <div class="signature-row" style="margin-top: 5px;">
-            <div class="signature-cell">
-                <div class="signature-label">GA2 Loader</div>
-            </div>
-            <div class="signature-cell">
-                <div class="signature-label">GA2 SPV</div>
-            </div>
-            <div class="signature-cell">
-                <div class="signature-label">Ekspedisi</div>
-            </div>
-        </div>
-        <div class="signature-row" style="margin-top: 15px; font-size: 9pt; font-style: italic;">
-            <div class="signature-cell">
-                <div>Sharia Heryanto</div>
-            </div>
-            <div class="signature-cell">
-                <div>Sharia Hai</div>
-            </div>
-            <div class="signature-cell">
-                <div>Penerima Barang</div>
-            </div>
-        </div>
+
+    <br>
+
+    <table class="signature-table">
+        <tr>
+            <td style="width: 33%;">Dibuat Oleh</td>
+            <td style="width: 33%;">Diketahui Oleh</td>
+            <td style="width: 33%;">Diterima Oleh</td>
+        </tr>
+        <tr>
+            <td class="signature-space"></td>
+            <td class="signature-space"></td>
+            <td class="signature-space"></td>
+        </tr>
+        <tr>
+            <td>
+                <span style="text-decoration: underline;">(________________)</span>
+                <div>GAS Leader</div>
+            </td>
+            <td>
+                <span style="text-decoration: underline;">(________________)</span>
+                <div>GAS SPV</div>
+            </td>
+            <td>
+                <span style="text-decoration: underline;">(________________)</span>
+                <div>Ekspedisi</div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="distribution-list">
+        <div class="bold">Distribusi</div>
+        <div>- Human Resource</div>
+        <div>- Ekspedisi</div>
+        <div>- Penerima Barang</div>
     </div>
-    
-    <div class="biwa-section">
-        <div style="font-size: 10pt; margin-top: 25px;">
-            <span class="biwa-label">BIWA (KG)</span>
-            <span>: ________________</span>
-        </div>
-    </div>
+
 </body>
 </html>
