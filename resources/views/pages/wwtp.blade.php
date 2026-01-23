@@ -2,14 +2,10 @@
 
 @section('title', 'WWTP - Sistem Manajemen Data Lingkungan')
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/wwtp.css') }}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-@endpush
 @section('content')
 
-<div class="wwtp-container">
-    <!-- Alert Messages -->
+<div class="container">
+    {{-- Alert Messages --}}
     @if(session('success'))
     <div class="alert alert-success">
         <span>{{ session('success') }}</span>
@@ -41,130 +37,70 @@
     </div>
     @endif
 
-    <!-- Header -->
-    <div class="wwtp-header">
-        <div class="wwtp-title">
-            <h2>Waste Water Treatment Plant (WWTP)</h2>
-            <p>Kelola data monitoring pengolahan air limbah</p>
-        </div>
-        <div id="button-harian-container">
-            <button onclick="openModalTambahHarian()" class="btn-add">
-                <i class="fas fa-plus"></i> Tambah Data Harian
-            </button>
-        </div>
-        <div id="button-bulanan-container" class="hidden">
-            <button onclick="openModalTambahBulanan()" class="btn-add">
-                <i class="fas fa-plus"></i> Tambah Data Bulanan
-            </button>
+    {{-- Page Header --}}
+    <div class="page-header-modern">
+        <div class="header-top compact">
+            <div class="header-icon wwtp">
+                <i class="fas fa-tint"></i>
+            </div>
+
+            <div class="header-text">
+                <h2 class="page-title-main">Waste Water Treatment Plant (WWTP)</h2>
+                <p class="page-subtitle-main">
+                    Kelola data monitoring pengolahan air limbah dengan sistem tracking harian dan bulanan
+                </p>
+            </div>
         </div>
     </div>
 
-    <!-- Tabs -->
-    <div class="tabs-nav">
-        <button onclick="switchTab('harian')" id="tab-harian" class="tab-button active">
-            Data Harian
+
+    {{-- Tabs Navigation --}}
+    <div class="page-tabs">
+        <button onclick="switchTabWWTP('harian')" id="tab-harian" class="page-tab-btn active">
+            <i class="fas fa-calendar-day"></i>
+            <span>Data Harian</span>
         </button>
-        <button onclick="switchTab('bulanan')" id="tab-bulanan" class="tab-button">
-            Data Bulanan
+        <button onclick="switchTabWWTP('bulanan')" id="tab-bulanan" class="page-tab-btn">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Data Bulanan</span>
         </button>
     </div>
 
-    <!-- Filter Harian -->
-    <div id="filter-harian" class="filter-section">
-        <form method="GET" action="{{ route('wwtp.index') }}">
-            <div class="filter-grid">
-                <div class="form-group">
-                    <label class="form-label">Tanggal Dari</label>
+    {{-- DATA HARIAN SECTION --}}
+    <div id="content-harian" class="data-section">
+        <div class="filter-actions-bar">
+            <form method="GET" action="{{ route('wwtp.index') }}" class="filter-inputs" id="filter-harian">
+                <div class="filter-group-inline">
+                    <label class="filter-label-inline">Tanggal Dari</label>
                     <input type="date" name="tanggal_dari" id="tanggal_dari"
-                        value="{{ request('tanggal_dari') }}" class="form-input">
+                        value="{{ request('tanggal_dari') }}" class="filter-input-inline">
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Tanggal Sampai</label>
+                <div class="filter-group-inline">
+                    <label class="filter-label-inline">Tanggal Sampai</label>
                     <input type="date" name="tanggal_sampai" id="tanggal_sampai"
-                        value="{{ request('tanggal_sampai') }}" class="form-input">
+                        value="{{ request('tanggal_sampai') }}" class="filter-input-inline">
                 </div>
-                <div class="btn-group">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-filter"></i> Filter
+            </form>
+            <div class="action-buttons-group">
+                <button type="submit" form="filter-harian" class="btn-modern btn-filter">
+                    <i class="fas fa-filter"></i> <span>Filter</span>
+                </button>
+                <form action="{{ route('wwtp.index') }}" method="GET" style="display:inline;">
+                    <button type="submit" class="btn-modern btn-reset">
+                        <i class="fas fa-redo"></i> <span>Reset</span>
                     </button>
-                    <a href="{{ route('wwtp.index') }}" class="btn btn-secondary">
-                        <i class="fas fa-redo"></i> Reset
-                    </a>
-                </div>
-                <div>
-                    <button type="button" onclick="exportHarianExcel()" class="btn btn-success" style="width: 100%;">
-                        <i class="fas fa-file-excel"></i> Export Excel
-                    </button>
-                </div>
+                </form>
+                <button onclick="exportHarianExcel()" class="btn-modern btn-export">
+                    <i class="fas fa-file-excel"></i> <span>Export</span>
+                </button>
+                <button onclick="openModalTambahHarian()" class="btn-modern btn-add">
+                    <i class="fas fa-plus"></i> <span>Tambah Data</span>
+                </button>
             </div>
-        </form>
-    </div>
+        </div>
 
-    <!-- Filter Bulanan -->
-    <div id="filter-bulanan" class="filter-section hidden">
-        <form method="GET" action="{{ route('wwtp.index') }}">
-            <div class="filter-grid filter-grid-6">
-                <div class="form-group">
-                    <label class="form-label">Bulan Dari</label>
-                    <select name="bulan_dari" id="bulan_dari" class="form-select">
-                        <option value="">Pilih Bulan</option>
-                        @for($i = 1; $i <= 12; $i++)
-                            <option value="{{ $i }}" {{ request('bulan_dari') == $i ? 'selected' : '' }}>
-                            {{ DateTime::createFromFormat('!m', $i)->format('F') }}
-                            </option>
-                            @endfor
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Tahun Dari</label>
-                    <select name="tahun_dari" id="tahun_dari" class="form-select">
-                        <option value="">Pilih Tahun</option>
-                        @for($year = date('Y'); $year >= 2000; $year--)
-                        <option value="{{ $year }}" {{ request('tahun_dari') == $year ? 'selected' : '' }}>{{ $year }}</option>
-                        @endfor
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Bulan Sampai</label>
-                    <select name="bulan_sampai" id="bulan_sampai" class="form-select">
-                        <option value="">Pilih Bulan</option>
-                        @for($i = 1; $i <= 12; $i++)
-                            <option value="{{ $i }}" {{ request('bulan_sampai') == $i ? 'selected' : '' }}>
-                            {{ DateTime::createFromFormat('!m', $i)->format('F') }}
-                            </option>
-                            @endfor
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Tahun Sampai</label>
-                    <select name="tahun_sampai" id="tahun_sampai" class="form-select">
-                        <option value="">Pilih Tahun</option>
-                        @for($year = date('Y'); $year >= 2000; $year--)
-                        <option value="{{ $year }}" {{ request('tahun_sampai') == $year ? 'selected' : '' }}>{{ $year }}</option>
-                        @endfor
-                    </select>
-                </div>
-                <div class="btn-group">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-filter"></i> Filter
-                    </button>
-                    <a href="{{ route('wwtp.index') }}" class="btn btn-secondary">
-                        <i class="fas fa-redo"></i> Reset
-                    </a>
-                </div>
-                <div>
-                    <button type="button" onclick="exportBulananExcel()" class="btn btn-success" style="width: 100%;">
-                        <i class="fas fa-file-excel"></i> Export Excel
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-
-    <!-- Data Harian Table -->
-    <div id="content-harian" class="table-container">
-        <div class="table-wrapper">
-            <table class="data-table">
+        <div class="table-container">
+            <table class="table-modern">
                 <thead>
                     <tr>
                         <th>Lokasi</th>
@@ -212,25 +148,26 @@
                             {{ Str::limit($harian->keterangan ?? '-', 20) }}
                         </td>
                         <td>
-                            <div class="action-buttons">
-                                <button onclick="editDataHarian('{{ $harian->id }}')" class="btn-icon">
-                                    <i class="fas fa-edit"></i>
+                            <div class="action-buttons-stacked">
+                                <button onclick="editDataHarian('{{ $harian->id }}')" class="btn-table btn-table-edit">
+                                    <i class="fas fa-edit"></i> Edit
                                 </button>
                                 <button
-                                    class="btn-icon btn-delete"
+                                    class="btn-table btn-table-delete"
                                     data-type="harian"
                                     data-id="{{ $harian->id }}"
                                     data-label="{{ ($harian->wwtp->nama_wwtp ?? 'Data') . ' - ' . $harian->tanggal->format('d/m/Y') }}"
-                                    onclick="confirmDelete(this)">
-                                    <i class="fas fa-trash"></i>
+                                    onclick="confirmDeleteWWTP(this)">
+                                    <i class="fas fa-trash"></i> Hapus
                                 </button>
                             </div>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="19" class="table-empty">
-                            Belum ada data harian
+                        <td colspan="19" class="table-empty-modern">
+                            <i class="fas fa-inbox"></i>
+                            <p>Belum ada data harian</p>
                         </td>
                     </tr>
                     @endforelse
@@ -239,10 +176,71 @@
         </div>
     </div>
 
-    <!-- Data Bulanan Table -->
-    <div id="content-bulanan" class="table-container hidden">
-        <div class="table-wrapper">
-            <table class="data-table">
+    {{-- DATA BULANAN SECTION --}}
+    <div id="content-bulanan" class="data-section hidden">
+        <div class="filter-actions-bar">
+            <form method="GET" action="{{ route('wwtp.index') }}" class="filter-inputs" id="filter-bulanan">
+                <div class="filter-group-inline">
+                    <label class="filter-label-inline">Bulan Dari</label>
+                    <select name="bulan_dari" id="bulan_dari" class="filter-select-inline">
+                        <option value="">Pilih Bulan</option>
+                        @for($i = 1; $i <= 12; $i++)
+                            <option value="{{ $i }}" {{ request('bulan_dari') == $i ? 'selected' : '' }}>
+                            {{ DateTime::createFromFormat('!m', $i)->format('F') }}
+                            </option>
+                            @endfor
+                    </select>
+                </div>
+                <div class="filter-group-inline">
+                    <label class="filter-label-inline">Tahun Dari</label>
+                    <select name="tahun_dari" id="tahun_dari" class="filter-select-inline">
+                        <option value="">Pilih Tahun</option>
+                        @for($year = date('Y'); $year >= 2000; $year--)
+                        <option value="{{ $year }}" {{ request('tahun_dari') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                        @endfor
+                    </select>
+                </div>
+                <div class="filter-group-inline">
+                    <label class="filter-label-inline">Bulan Sampai</label>
+                    <select name="bulan_sampai" id="bulan_sampai" class="filter-select-inline">
+                        <option value="">Pilih Bulan</option>
+                        @for($i = 1; $i <= 12; $i++)
+                            <option value="{{ $i }}" {{ request('bulan_sampai') == $i ? 'selected' : '' }}>
+                            {{ DateTime::createFromFormat('!m', $i)->format('F') }}
+                            </option>
+                            @endfor
+                    </select>
+                </div>
+                <div class="filter-group-inline">
+                    <label class="filter-label-inline">Tahun Sampai</label>
+                    <select name="tahun_sampai" id="tahun_sampai" class="filter-select-inline">
+                        <option value="">Pilih Tahun</option>
+                        @for($year = date('Y'); $year >= 2000; $year--)
+                        <option value="{{ $year }}" {{ request('tahun_sampai') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                        @endfor
+                    </select>
+                </div>
+            </form>
+            <div class="action-buttons-group">
+                <button type="submit" form="filter-bulanan" class="btn-modern btn-filter">
+                    <i class="fas fa-filter"></i> <span>Filter</span>
+                </button>
+                <form action="{{ route('wwtp.index') }}" method="GET" style="display:inline;">
+                    <button type="submit" class="btn-modern btn-reset">
+                        <i class="fas fa-redo"></i> <span>Reset</span>
+                    </button>
+                </form>
+                <button onclick="exportBulananExcel()" class="btn-modern btn-export">
+                    <i class="fas fa-file-excel"></i> <span>Export</span>
+                </button>
+                <button onclick="openModalTambahBulanan()" class="btn-modern btn-add">
+                    <i class="fas fa-plus"></i> <span>Tambah Data</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table class="table-modern">
                 <thead>
                     <tr>
                         <th>Lokasi</th>
@@ -293,26 +291,26 @@
                             </div>
                         </td>
                         <td>
-                            <div class="action-buttons">
-                                <button onclick="editDataBulanan('{{ $bulanan->id }}')" class="btn-icon">
-                                    <i class="fas fa-edit"></i>
+                            <div class="action-buttons-stacked">
+                                <button onclick="editDataBulanan('{{ $bulanan->id }}')" class="btn-table btn-table-edit">
+                                    <i class="fas fa-edit"></i> Edit
                                 </button>
                                 <button
-                                    class="btn-icon btn-delete"
+                                    class="btn-table btn-table-delete"
                                     data-type="bulanan"
                                     data-id="{{ $bulanan->id }}"
                                     data-label="{{ ($bulanan->wwtp->nama_wwtp ?? 'Data') . ' - ' . $bulanan->bulan_tahun }}"
-                                    onclick="confirmDelete(this)">
-
-                                    <i class="fas fa-trash"></i>
+                                    onclick="confirmDeleteWWTP(this)">
+                                    <i class="fas fa-trash"></i> Hapus
                                 </button>
                             </div>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="10" class="table-empty">
-                            Belum ada data bulanan
+                        <td colspan="9" class="table-empty-modern">
+                            <i class="fas fa-inbox"></i>
+                            <p>Belum ada data bulanan</p>
                         </td>
                     </tr>
                     @endforelse
@@ -322,13 +320,14 @@
     </div>
 </div>
 
-<!-- Include Modals -->
-@include('components.modals.form-wwtp-harian')
-@include('components.modals.form-wwtp-bulanan')
-@include('components.modals.delete-confirmation')
-
-@push('scripts')
-<script src="{{ asset('js/wwtp.js') }}"></script>
-@endpush
+{{-- Include Modals --}}
+@include('components.form-wwtp-harian')
+@include('components.form-wwtp-bulanan')
+@include('components.delete-confirmation')
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/data-pages-common.js') }}"></script>
+<script src="{{ asset('js/wwtp.js') }}"></script>
+@endpush

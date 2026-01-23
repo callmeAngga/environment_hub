@@ -2,28 +2,10 @@
 
 @section('title', 'TPS Domestik')
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/tps-domestik.css') }}">
-@endpush
-
 @section('content')
 <div class="container">
-    <div class="page-header">
-        <div>
-            <h2 class="page-title">Tempat Penampungan Sementara Domestik</h2>
-            <p class="page-subtitle">Kelola data sampah domestik keluar</p>
-        </div>
-        <div class="header-actions">
-            <button onclick="exportExcel()" class="btn btn-primary">
-                <i class="fas fa-file-excel"></i> Export Excel
-            </button>
-            <button onclick="openTambahDomestik()" class="btn btn-success">
-                <i class="fas fa-plus"></i> Tambah Data
-            </button>
-        </div>
-    </div>
 
-    <!-- Alert Messages -->
+    {{-- Alert Messages --}}
     @if(session('success'))
     <div class="alert alert-success">
         <div class="alert-content">
@@ -37,7 +19,7 @@
     @endif
 
     @if(session('error'))
-    <div class="alert alert-danger">
+    <div class="alert alert-error">
         <div class="alert-content">
             <i class="fas fa-exclamation-circle"></i>
             <span>{{ session('error') }}</span>
@@ -49,7 +31,7 @@
     @endif
 
     @if($errors->any())
-    <div class="alert alert-danger">
+    <div class="alert alert-error">
         <div class="alert-content-block">
             <i class="fas fa-exclamation-triangle"></i>
             <div>
@@ -67,38 +49,57 @@
     </div>
     @endif
 
-    <!-- Filter Section -->
-    <div class="card" style="margin-bottom: 1.5rem;">
-        <div style="padding: 1.5rem;">
-            <form method="GET" action="{{ route('tps-domestik.index') }}">
-                <div class="filter-grid">
-                    <div class="form-group">
-                        <label class="form-label">Tanggal Dari</label>
-                        <input type="date" name="tanggal_dari" id="tanggal_dari"
-                            value="{{ request('tanggal_dari') }}" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Tanggal Sampai</label>
-                        <input type="date" name="tanggal_sampai" id="tanggal_sampai"
-                            value="{{ request('tanggal_sampai') }}" class="form-control">
-                    </div>
-                    <div class="form-group" style="display: flex; gap: 0.5rem; align-items: flex-end;">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-filter"></i> Filter
-                        </button>
-                        <a href="{{ route('tps-domestik.index') }}" class="btn btn-secondary">
-                            <i class="fas fa-redo"></i> Reset
-                        </a>
-                    </div>
-                </div>
-            </form>
+    {{-- Page Header --}}
+    <div class="page-header-modern">
+        <div class="header-top compact">
+            <div class="header-icon domestik">
+                <i class="fas fa-home"></i>
+            </div>
+
+            <div class="header-text">
+                <h2 class="page-title-main">Tempat Penampungan Sementara Domestik</h2>
+                <p class="page-subtitle-main">
+                    Kelola data sampah domestik keluar
+                </p>
+            </div>
         </div>
     </div>
 
-    <!-- Table -->
-    <div class="card">
-        <div class="table-responsive">
-            <table class="data-table">
+    {{-- DATA SECTION (No Tabs) --}}
+    <div class="data-section">
+        <div class="filter-actions-bar">
+            <form method="GET" action="{{ route('tps-domestik.index') }}" class="filter-inputs" id="filter-domestik">
+                <div class="filter-group-inline">
+                    <label class="filter-label-inline">Tanggal Dari</label>
+                    <input type="date" name="tanggal_dari" id="tanggal_dari"
+                        value="{{ request('tanggal_dari') }}" class="filter-input-inline">
+                </div>
+                <div class="filter-group-inline">
+                    <label class="filter-label-inline">Tanggal Sampai</label>
+                    <input type="date" name="tanggal_sampai" id="tanggal_sampai"
+                        value="{{ request('tanggal_sampai') }}" class="filter-input-inline">
+                </div>
+            </form>
+            <div class="action-buttons-group">
+                <button type="submit" form="filter-domestik" class="btn-modern btn-filter">
+                    <i class="fas fa-filter"></i> <span>Filter</span>
+                </button>
+                <form action="{{ route('tps-domestik.index') }}" method="GET" style="display:inline;">
+                    <button type="submit" class="btn-modern btn-reset">
+                        <i class="fas fa-redo"></i> <span>Reset</span>
+                    </button>
+                </form>
+                <button onclick="exportExcel()" class="btn-modern btn-export">
+                    <i class="fas fa-file-excel"></i> <span>Export</span>
+                </button>
+                <button onclick="openTambahDomestik()" class="btn-modern btn-add">
+                    <i class="fas fa-plus"></i> <span>Tambah Data</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table class="table-modern">
                 <thead>
                     <tr>
                         <th>Nama TPS</th>
@@ -109,7 +110,7 @@
                         <th>Berat Bersih (kg)</th>
                         <th>Jenis Sampah</th>
                         <th>Penerima</th>
-                        <th class="text-center">Aksi</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -124,28 +125,23 @@
                         <td>{{ $item->jenisSampah->nama_jenis ?? '-' }}</td>
                         <td>{{ $item->penerima->nama_penerima ?? '-' }}</td>
                         <td>
-                            <div class="action-buttons">
+                            <div class="action-buttons-stacked">
                                 <button onclick="openEditDomestik('{{$item->id}}')"
-                                    class="btn-icon btn-icon-edit"
-                                    title="Edit">
-                                    <i class="fas fa-edit"></i>
+                                    class="btn-table btn-table-edit">
+                                    <i class="fas fa-edit"></i> Edit
                                 </button>
-                                <button onclick="confirmDelete('{{$item->id}}', '{{ $item->no_sampah_keluar }}')"
-                                    class="btn-icon btn-icon-delete"
-                                    title="Hapus">
-                                    <i class="fas fa-trash"></i>
+                                <button onclick="confirmDeleteDomestik('{{$item->id}}', '{{ $item->no_sampah_keluar }}')"
+                                    class="btn-table btn-table-delete">
+                                    <i class="fas fa-trash"></i> Hapus
                                 </button>
                             </div>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="9" class="empty-state">
-                            <div class="empty-state-content">
-                                <i class="fas fa-inbox"></i>
-                                <p class="empty-state-title">Belum ada data sampah domestik keluar</p>
-                                <p class="empty-state-subtitle">Klik tombol "Tambah Data" untuk menambah data baru</p>
-                            </div>
+                        <td colspan="9" class="table-empty-modern">
+                            <i class="fas fa-inbox"></i>
+                            <p>Belum ada data sampah domestik keluar</p>
                         </td>
                     </tr>
                     @endforelse
@@ -153,20 +149,22 @@
             </table>
         </div>
 
-        <!-- Pagination -->
+        {{-- Pagination --}}
         @if($dataDomestik->hasPages())
-        <div class="pagination-wrapper">
+        <div style="padding: 20px 24px; border-top: 2px solid #e8e8e8;">
             {{ $dataDomestik->links() }}
         </div>
         @endif
     </div>
 </div>
 
-@include('components.modals.form-tps-domestik')
-@include('components.modals.delete-confirmation')
+{{-- Include Modals --}}
+@include('components.form-tps-domestik')
+@include('components.delete-confirmation')
 
 @endsection
 
 @push('scripts')
+<script src="{{ asset('js/data-pages-common.js') }}"></script>
 <script src="{{ asset('js/tps-domestik.js') }}"></script>
 @endpush

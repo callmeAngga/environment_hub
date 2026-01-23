@@ -171,7 +171,7 @@
                 <button type="button" onclick="closeModal('modalTambahHarian')" class="btn btn-secondary">
                     <i class="fas fa-times"></i> Batal
                 </button>
-                <button type="submit" class="btn btn-success">
+                <button type="submit" class="btn btn-primary">
                     <i class="fas fa-save"></i> <span id="btnTextHarian">Simpan Data</span>
                 </button>
             </div>

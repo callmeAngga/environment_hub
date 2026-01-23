@@ -8,20 +8,6 @@
                     <p class="footer-text">
                         Sistem Manajemen Data Lingkungan untuk monitoring dan pengelolaan data lingkungan secara terpadu dan terintegrasi.
                     </p>
-                    <div class="footer-social">
-                        <a href="#" class="social-link" title="Facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="social-link" title="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-link" title="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-link" title="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                    </div>
                 </div>
 
                 <!-- Quick Links -->
@@ -68,13 +54,6 @@
                 <p class="footer-copyright">
                     © {{ date('Y') }} PT Indofood CBP Sukses Makmur Tbk. All Rights Reserved.
                 </p>
-                <div class="footer-bottom-links">
-                    <a href="#">Privacy Policy</a>
-                    <span class="separator">|</span>
-                    <a href="#">Terms of Service</a>
-                    <span class="separator">|</span>
-                    <a href="#">Help Center</a>
-                </div>
             </div>
         </div>
     </div>

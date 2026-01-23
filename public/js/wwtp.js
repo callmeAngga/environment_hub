@@ -1,44 +1,12 @@
-// WWTP JavaScript Functions
-
-// Tab Management with Session Storage
-function switchTab(tab) {
-    // Save current tab to session storage
-    sessionStorage.setItem('activeWwtpTab', tab);
-
-    // Reset all tabs
-    document.getElementById('tab-harian').classList.remove('active');
-    document.getElementById('tab-bulanan').classList.remove('active');
-
-    // Hide all content
-    document.getElementById('content-harian').classList.add('hidden');
-    document.getElementById('content-bulanan').classList.add('hidden');
-    document.getElementById('filter-harian').classList.add('hidden');
-    document.getElementById('filter-bulanan').classList.add('hidden');
-    document.getElementById('button-harian-container').classList.add('hidden');
-    document.getElementById('button-bulanan-container').classList.add('hidden');
-
-    // Show selected tab
-    document.getElementById('tab-' + tab).classList.add('active');
-    document.getElementById('content-' + tab).classList.remove('hidden');
-    document.getElementById('filter-' + tab).classList.remove('hidden');
-    document.getElementById('button-' + tab + '-container').classList.remove('hidden');
+function switchTabWWTP(tab) {
+    switchTab(tab, ['harian', 'bulanan'], 'activeWwtpTab');
 }
 
-// Load active tab from session storage on page load
 window.addEventListener('DOMContentLoaded', function () {
     const activeTab = sessionStorage.getItem('activeWwtpTab') || 'harian';
-    switchTab(activeTab);
-
-    // Auto hide alerts after 5 seconds
-    setTimeout(function () {
-        const alerts = document.querySelectorAll('.alert');
-        alerts.forEach(alert => {
-            alert.style.display = 'none';
-        });
-    }, 5000);
+    switchTabWWTP(activeTab);
 });
 
-// Export Functions
 function exportHarianExcel() {
     const tanggalDari = document.getElementById('tanggal_dari').value;
     const tanggalSampai = document.getElementById('tanggal_sampai').value;
@@ -77,26 +45,6 @@ function exportBulananExcel() {
     window.location.href = url;
 }
 
-// Modal Functions
-function openModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('show');
-        document.body.style.overflow = 'hidden';
-    }
-}
-
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.remove('show');
-        modal.classList.add('hidden');
-        document.body.style.overflow = 'auto';
-    }
-}
-
-// Harian Modal Functions
 function openModalTambahHarian() {
     document.getElementById('modalHarianTitle').textContent = 'Tambah Data Harian WWTP';
     document.getElementById('btnTextHarian').textContent = 'Simpan Data';
@@ -166,7 +114,6 @@ async function editDataHarian(id) {
     }
 }
 
-// Bulanan Modal Functions
 function openModalTambahBulanan() {
     document.getElementById('modalBulananTitle').textContent = 'Tambah Data Bulanan WWTP';
     document.getElementById('btnTextBulanan').textContent = 'Simpan Data';
@@ -216,23 +163,22 @@ async function editDataBulanan(id) {
     }
 }
 
-// Delete Confirmation Modal
-function confirmDelete(el) {
+function confirmDeleteWWTP(el) {
     const type = el.dataset.type;
     const id = el.dataset.id;
     const label = el.dataset.label;
 
-    console.log(type, id, label);
-
-    document.getElementById('deleteItemName').textContent = label;
-
-    const form = document.getElementById('formDeleteConfirm');
-
+    let route = '';
     if (type === 'harian') {
-        form.action = `/wwtp/harian/${id}`;
+        route = `/wwtp/harian/${id}`;
     } else if (type === 'bulanan') {
-        form.action = `/wwtp/bulanan/${id}`;
+        route = `/wwtp/bulanan/${id}`;
     }
 
-    openModal('modalDeleteConfirm');
+    confirmDelete({
+        type: type,
+        id: id,
+        label: label,
+        route: route
+    });
 }

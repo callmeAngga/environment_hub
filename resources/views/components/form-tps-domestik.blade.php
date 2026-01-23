@@ -107,7 +107,7 @@
                     <i class="fas fa-times"></i> Batal
                 </button>
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> Simpan
+                    <i class="fas fa-save"></i> Simpan Data
                 </button>
             </div>
         </form>

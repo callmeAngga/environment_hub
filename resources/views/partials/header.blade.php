@@ -1,19 +1,25 @@
 <header class="site-header">
-    <!-- Top Bar -->
-    <div class="header-topbar">
+    <!-- Main Header - Gabungan Top Bar + Main Header -->
+    <div class="header-main">
         <div class="container">
-            <div class="topbar-content">
-                <div class="topbar-left">
-                    <span class="topbar-text">
-                        <i class="fas fa-building"></i>
-                        PT Indofood CBP Sukses Makmur Tbk
-                    </span>
+            <div class="header-content">
+                <!-- Left: Brand -->
+                <div class="header-brand">
+                    <div class="brand-logo">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="brand-text">
+                        <h1 class="brand-title">Sistem Manajemen Data Lingkungan</h1>
+                        <p class="brand-subtitle">PT Indofood CBP Sukses Makmur Tbk</p>
+                    </div>
                 </div>
-                <div class="topbar-right">
-                    <span class="topbar-text">
+
+                <!-- Right: User Info + Logout -->
+                <div class="header-right">
+                    <div class="header-user">
                         <i class="fas fa-user-circle"></i>
-                        {{ Auth::user()->name ?? 'User' }}
-                    </span>
+                        <span>{{ Auth::user()->name ?? 'User' }}</span>
+                    </div>
                     <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                         @csrf
                         <button type="submit" class="btn-logout">
@@ -22,23 +28,8 @@
                         </button>
                     </form>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Main Header -->
-    <div class="header-main">
-        <div class="container">
-            <div class="header-content">
-                <div class="header-brand">
-                    <div class="brand-logo">
-                        <i class="fas fa-leaf"></i>
-                    </div>
-                    <div class="brand-text">
-                        <h1 class="brand-title">Sistem Manajemen Data Lingkungan</h1>
-                        <p class="brand-subtitle">Environmental Data Management System</p>
-                    </div>
-                </div>
+                <!-- Mobile Menu Toggle -->
                 <button class="mobile-menu-toggle" id="mobile-menu-toggle">
                     <span></span>
                     <span></span>
@@ -47,42 +38,42 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Navigation -->
     <nav class="header-nav">
         <div class="container">
             <ul class="nav-list">
                 <li class="nav-item">
-                    <a href="{{ route('dashboard') }}" 
-                       class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('dashboard') }}"
+                        class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                         <i class="fas fa-chart-line"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('wwtp.index') }}" 
-                       class="nav-link {{ request()->routeIs('wwtp.*') ? 'active' : '' }}">
+                    <a href="{{ route('wwtp.index') }}"
+                        class="nav-link {{ request()->routeIs('wwtp.*') ? 'active' : '' }}">
                         <i class="fas fa-water"></i>
                         <span>WWTP</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('tps-produksi.index') }}" 
-                       class="nav-link {{ request()->routeIs('tps-produksi.*') ? 'active' : '' }}">
+                    <a href="{{ route('tps-produksi.index') }}"
+                        class="nav-link {{ request()->routeIs('tps-produksi.*') ? 'active' : '' }}">
                         <i class="fas fa-industry"></i>
                         <span>TPS Produksi</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('tps-domestik.index') }}" 
-                       class="nav-link {{ request()->routeIs('tps-domestik.*') ? 'active' : '' }}">
+                    <a href="{{ route('tps-domestik.index') }}"
+                        class="nav-link {{ request()->routeIs('tps-domestik.*') ? 'active' : '' }}">
                         <i class="fas fa-home"></i>
                         <span>TPS Domestik</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('profile.index') }}" 
-                       class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}">
+                    <a href="{{ route('profile.index') }}"
+                        class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}">
                         <i class="fas fa-cog"></i>
                         <span>Profile</span>
                     </a>

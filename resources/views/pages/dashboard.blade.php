@@ -2,20 +2,9 @@
 
 @section('title', 'Dashboard - Sistem Manajemen Data Lingkungan')
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
-@endpush
-
 @section('content')
-<div class="dashboard-container">
-    <div class="dashboard-header">
-        <h2 class="dashboard-title">Dashboard Overview</h2>
-        <p class="dashboard-subtitle">Ringkasan data lingkungan yang dimonitor</p>
-    </div>
-    
-    <!-- Menu Cards -->
+<div class="dashboard-container">    
     <div class="menu-cards">
-        <!-- WWTP Card -->
         <a href="{{ route('wwtp.index') }}" class="menu-card">
             <div class="card-content">
                 <div class="card-body">
@@ -31,7 +20,6 @@
             </div>
         </a>
 
-        <!-- TPS Produksi Card -->
         <a href="{{ route('tps-produksi.index') }}" class="menu-card">
             <div class="card-content">
                 <div class="card-body">
@@ -47,7 +35,6 @@
             </div>
         </a>
 
-        <!-- TPS Domestik Card -->
         <a href="{{ route('tps-domestik.index') }}" class="menu-card">
             <div class="card-content">
                 <div class="card-body">
@@ -64,30 +51,33 @@
         </a>
     </div>
     
-    <!-- Filter Periode -->
     <div class="filter-section">
         <div class="filter-header">
             <h3 class="filter-title">Grafik Monitoring WWTP</h3>
-            <div class="filter-buttons">
-                <button onclick="loadChartData(1)" id="btn-1" class="filter-btn active">
-                    1 Hari
-                </button>
-                <button onclick="loadChartData(7)" id="btn-7" class="filter-btn">
-                    7 Hari
-                </button>
-                <button onclick="loadChartData(14)" id="btn-14" class="filter-btn">
-                    14 Hari
-                </button>
-                <button onclick="loadChartData(30)" id="btn-30" class="filter-btn">
-                    30 Hari
-                </button>
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label class="filter-label">Lokasi WWTP</label>
+                    <select id="filter-lokasi" class="filter-select">
+                        <option value="">Semua Lokasi</option>
+                        @foreach($lokasiList as $lokasi)
+                            <option value="{{ $lokasi->id }}">{{ $lokasi->nama_wwtp }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Periode</label>
+                    <select id="filter-periode" class="filter-select">
+                        <option value="1" selected>1 Hari</option>
+                        <option value="7">7 Hari</option>
+                        <option value="14">14 Hari</option>
+                        <option value="30">30 Hari</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Charts Section -->
     <div class="charts-grid">
-        <!-- SV30 Chart -->
         <div class="chart-card">
             <h3 class="chart-title">Trend SV30 Aerasi</h3>
             <div class="chart-container">
@@ -95,11 +85,21 @@
             </div>
         </div>
         
-        <!-- DO Chart -->
         <div class="chart-card">
             <h3 class="chart-title">Trend DO (Dissolved Oxygen) Aerasi</h3>
             <div class="chart-container">
                 <canvas id="chartDO"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="charts-grid">
+        <div class="chart-card">
+            <h3 class="chart-title">Chart Parameter Lainnya</h3>
+            <div class="chart-container">
+                <div class="chart-placeholder">
+                    Chart akan ditambahkan di sini
+                </div>
             </div>
         </div>
     </div>
@@ -111,10 +111,21 @@
 <script>
 let chartSV30, chartDO;
 let currentDays = 1;
+let currentLokasi = '';
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeCharts();
-    loadChartData(1);
+    loadChartData();
+
+    document.getElementById('filter-lokasi').addEventListener('change', function() {
+        currentLokasi = this.value;
+        loadChartData();
+    });
+
+    document.getElementById('filter-periode').addEventListener('change', function() {
+        currentDays = parseInt(this.value);
+        loadChartData();
+    });
 });
 
 function initializeCharts() {
@@ -189,23 +200,27 @@ function initializeCharts() {
                     label: 'SV30 Aerasi 1',
                     data: [],
                     borderColor: '#F9A825',
-                    backgroundColor: 'rgba(249, 168, 37, 0.1)',
+                    backgroundColor: 'transparent',
                     tension: 0.4,
                     borderWidth: 2.5,
-                    pointRadius: 3,
-                    pointHoverRadius: 5,
-                    fill: true
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: '#F9A825',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
                 },
                 {
                     label: 'SV30 Aerasi 2',
                     data: [],
                     borderColor: '#E65100',
-                    backgroundColor: 'rgba(230, 81, 0, 0.1)',
+                    backgroundColor: 'transparent',
                     tension: 0.4,
                     borderWidth: 2.5,
-                    pointRadius: 3,
-                    pointHoverRadius: 5,
-                    fill: true
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: '#E65100',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
                 }
             ]
         },
@@ -249,23 +264,27 @@ function initializeCharts() {
                     label: 'DO Aerasi 1',
                     data: [],
                     borderColor: '#F57C00',
-                    backgroundColor: 'rgba(245, 124, 0, 0.1)',
+                    backgroundColor: 'transparent',
                     tension: 0.4,
                     borderWidth: 2.5,
-                    pointRadius: 3,
-                    pointHoverRadius: 5,
-                    fill: true
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: '#F57C00',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
                 },
                 {
                     label: 'DO Aerasi 2',
                     data: [],
                     borderColor: '#FBC02D',
-                    backgroundColor: 'rgba(251, 192, 45, 0.1)',
+                    backgroundColor: 'transparent',
                     tension: 0.4,
                     borderWidth: 2.5,
-                    pointRadius: 3,
-                    pointHoverRadius: 5,
-                    fill: true
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: '#FBC02D',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
                 }
             ]
         },
@@ -300,23 +319,15 @@ function initializeCharts() {
     });
 }
 
-function loadChartData(days) {
-    currentDays = days;
-    
-    // Update button states
-    ['btn-1', 'btn-7', 'btn-14', 'btn-30'].forEach(id => {
-        const btn = document.getElementById(id);
-        if (id === `btn-${days}`) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
-        }
-    });
-
-    // Show loading state
+function loadChartData() {
     showLoadingState();
 
-    fetch(`{{ route('dashboard.chart-data') }}?days=${days}`)
+    const params = new URLSearchParams({
+        days: currentDays,
+        lokasi_id: currentLokasi
+    });
+
+    fetch(`{{ route('dashboard.chart-data') }}?${params}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
