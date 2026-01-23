@@ -268,7 +268,7 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Data TPS Produksi</h3>
-                <button onclick="openTPSModal()" class="btn-modern btn-add">
+                <button onclick="openTPSModal(null, '', '', '', '', '', 'PRODUKSI')" class="btn-modern btn-add">
                     <i class="fas fa-plus"></i> <span>Tambah TPS</span>
                 </button>
             </div>
@@ -284,17 +284,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($tps as $tp)
+                        @forelse($tps_produksi as $tp)
                         <tr>
                             <td>{{ $tp->nama_tps }}</td>
                             <td>{{ $tp->alamat }}</td>
-                            <td>{{ $tp->kapasitas_max }} m³</td>
+                            <td>{{ $tp->kapasitas_max ? number_format($tp->kapasitas_max, 2).' m³' : '-' }}</td>
                             <td>
                                 <div style="display:flex; gap:8px; justify-content:end;">
                                     <button onclick="openTPSModal('{{ $tp->id }}','{{ addslashes($tp->nama_tps) }}','{{ addslashes($tp->alamat) }}','{{ $tp->koordinat_lat }}','{{ $tp->koordinat_lng }}','{{ $tp->kapasitas_max }}')" class="btn-table btn-table-edit">
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
-                                    <form action="{{ route('tps.destroy',$tp->id) }}" method="POST" onsubmit="return confirm('Hapus TPS?')">
+                                    <form action="{{ route('tps.destroy', $tp->id) }}" method="POST" onsubmit="return confirm('Hapus TPS?')">
                                         @csrf @method('DELETE')
                                         <button class="btn-table btn-table-delete">
                                             <i class="fas fa-trash"></i> Hapus
@@ -308,6 +308,64 @@
                             <td colspan="4" class="table-empty-modern">
                                 <i class="fas fa-inbox"></i>
                                 <p>Belum ada data TPS</p>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Daftar Ekspedisi</h3>
+                <button onclick="openEkspedisiModal(null, '', '', 'PRODUKSI')" class="btn-modern btn-add">
+                    <i class="fas fa-plus"></i> <span>Tambah Ekspedisi</span>
+                </button>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="table-modern">
+                    <thead>
+                        <tr>
+                            <th>Nama Ekspedisi</th>
+                            <th>Alamat</th>
+                            <th style="text-align:end;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($ekspedisi_produksi as $ekspedisi)
+                        <tr>
+                            <td>{{ $ekspedisi->nama_ekspedisi }}</td>
+                            <td>{{ $ekspedisi->alamat ?? '-' }}</td>
+                            <td>
+                                <div style="display:flex; gap:8px; justify-content:end;">
+                                    <button
+                                        onclick="openEkspedisiModal(
+                                        '{{ $ekspedisi->id }}',
+                                        '{{ addslashes($ekspedisi->nama_ekspedisi) }}',
+                                        '{{ addslashes($ekspedisi->alamat) }}'
+                                    )"
+                                        class="btn-table btn-table-edit">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+
+                                    <form action="{{ route('daftar-ekspedisi.destroy', $ekspedisi->id) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Hapus?')">
+                                        @csrf @method('DELETE')
+                                        <button class="btn-table btn-table-delete">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="3" class="table-empty-modern">
+                                <i class="fas fa-inbox"></i>
+                                <p>Belum ada data Ekspedisi</p>
                             </td>
                         </tr>
                         @endforelse
@@ -406,6 +464,65 @@
             </div>
         </div>
 
+        {{-- DAFTAR PENERIMA SAMPAH --}}
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Daftar Penerima Sampah</h3>
+                <button onclick="openPenerimaModal(null, '', '', 'PRODUKSI')" class="btn-modern btn-add">
+                    <i class="fas fa-plus"></i> <span>Tambah Penerima</span>
+                </button>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="table-modern">
+                    <thead>
+                        <tr>
+                            <th>Nama Penerima</th>
+                            <th>Alamat</th>
+                            <th style="text-align:end;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($penerima_produksi as $penerima)
+                        <tr>
+                            <td>{{ $penerima->nama_penerima }}</td>
+                            <td>{{ $penerima->alamat ?? '-' }}</td>
+                            <td>
+                                <div style="display:flex; gap:8px; justify-content:end;">
+                                    <button
+                                        onclick="openPenerimaModal(
+                                        '{{ $penerima->id }}',
+                                        '{{ addslashes($penerima->nama_penerima) }}',
+                                        '{{ addslashes($penerima->alamat) }}'
+                                    )"
+                                        class="btn-table btn-table-edit">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+
+                                    <form action="{{ route('daftar-penerima.destroy',$penerima->id) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Hapus?')">
+                                        @csrf @method('DELETE')
+                                        <button class="btn-table btn-table-delete">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="3" class="table-empty-modern">
+                                <i class="fas fa-inbox"></i>
+                                <p>Belum ada data penerima sampah</p>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 
 
@@ -417,7 +534,7 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Data TPS Domestik</h3>
-                <button onclick="openTPSModal()" class="btn-modern btn-add">
+                <button onclick="openTPSModal(null, '', '', '', '', '', 'DOMESTIK')" class="btn-modern btn-add">
                     <i class="fas fa-plus"></i> <span>Tambah TPS</span>
                 </button>
             </div>
@@ -433,7 +550,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($tps as $tp)
+                        @forelse($tps_domestik as $tp)
                         <tr>
                             <td>{{ $tp->nama_tps }}</td>
                             <td>{{ $tp->alamat }}</td>
@@ -471,6 +588,64 @@
                             <td colspan="4" class="table-empty-modern">
                                 <i class="fas fa-inbox"></i>
                                 <p>Belum ada data TPS</p>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Daftar Ekspedisi</h3>
+                <button onclick="openEkspedisiModal(null, '', '', 'DOMESTIK')" class="btn-modern btn-add">
+                    <i class="fas fa-plus"></i> <span>Tambah Ekspedisi</span>
+                </button>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="table-modern">
+                    <thead>
+                        <tr>
+                            <th>Nama Ekspedisi</th>
+                            <th>Alamat</th>
+                            <th style="text-align:end;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($ekspedisi_domestik as $ekspedisi)
+                        <tr>
+                            <td>{{ $ekspedisi->nama_ekspedisi }}</td>
+                            <td>{{ $ekspedisi->alamat ?? '-' }}</td>
+                            <td>
+                                <div style="display:flex; gap:8px; justify-content:end;">
+                                    <button
+                                        onclick="openEkspedisiModal(
+                                        '{{ $ekspedisi->id }}',
+                                        '{{ addslashes($ekspedisi->nama_ekspedisi) }}',
+                                        '{{ addslashes($ekspedisi->alamat) }}'
+                                    )"
+                                        class="btn-table btn-table-edit">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+
+                                    <form action="{{ route('daftar-ekspedisi.destroy', $ekspedisi->id) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Hapus?')">
+                                        @csrf @method('DELETE')
+                                        <button class="btn-table btn-table-delete">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="3" class="table-empty-modern">
+                                <i class="fas fa-inbox"></i>
+                                <p>Belum ada data Ekspedisi</p>
                             </td>
                         </tr>
                         @endforelse
@@ -534,7 +709,7 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Daftar Penerima Sampah</h3>
-                <button onclick="openPenerimaModal()" class="btn-modern btn-add">
+                <button onclick="openPenerimaModal(null, '', '', 'DOMESTIK')" class="btn-modern btn-add">
                     <i class="fas fa-plus"></i> <span>Tambah Penerima</span>
                 </button>
             </div>
@@ -549,7 +724,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($daftar_penerima as $penerima)
+                        @forelse($penerima_domestik as $penerima)
                         <tr>
                             <td>{{ $penerima->nama_penerima }}</td>
                             <td>{{ $penerima->alamat ?? '-' }}</td>
@@ -793,6 +968,7 @@
         <form id="formTPS" method="POST">
             @csrf
             <input type="hidden" id="tps_method" name="_method" value="POST">
+            <input type="hidden" name="tipe" id="tps_tipe" value="">
             <div class="modal-body">
                 <div class="form-section">
                     <h4 class="form-section-title">Informasi TPS</h4>
@@ -904,6 +1080,7 @@
         <form id="formEkspedisi" method="POST">
             @csrf
             <input type="hidden" id="ekspedisi_method" name="_method" value="POST">
+            <input type="hidden" name="tipe" id="ekspedisi_tipe" value="">
             <div class="modal-body">
                 <div class="form-group">
                     <label class="form-label">Nama Ekspedisi <span class="required-mark">*</span></label>
@@ -938,6 +1115,7 @@
         <form id="formPenerimaSampah" method="POST">
             @csrf
             <input type="hidden" id="penerima_sampah_method" name="_method" value="POST">
+            <input type="hidden" name="tipe" id="penerima_tipe" value="">
             <div class="modal-body">
                 <div class="form-group">
                     <label class="form-label">Nama Penerima Sampah <span class="required-mark">*</span></label>

@@ -15,9 +15,9 @@ class TpsDomestikController extends Controller
 {
     public function index(Request $request)
     {
-        $tpsList = Tps::orderBy('nama_tps')->get();
-        $ekspedisiList = DaftarEkspedisi::orderBy('nama_ekspedisi')->get();
-        $penerimaList = DaftarPenerima::orderBy('nama_penerima')->get();
+        $tpsList = Tps::where('tipe', 'DOMESTIK')->orderBy('nama_tps')->get();
+        $ekspedisiList = DaftarEkspedisi::where('tipe', 'DOMESTIK')->orderBy('nama_ekspedisi')->get();
+        $penerimaList = DaftarPenerima::where('tipe', 'DOMESTIK')->orderBy('nama_penerima')->get();
         $jenisSampahList = JenisSampah::orderBy('nama_jenis')->get();
 
         $query = TpsDomestik::with(['tps', 'ekspedisi', 'penerima', 'jenisSampah']);

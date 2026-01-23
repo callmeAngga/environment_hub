@@ -10,6 +10,7 @@ class DaftarPenerima extends Model
     
     protected $fillable = [
         'nama_penerima',
-        'alamat'
+        'alamat',
+        'tipe'
     ];
 }

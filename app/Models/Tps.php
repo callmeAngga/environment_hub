@@ -13,7 +13,8 @@ class Tps extends Model
         'alamat',
         'koordinat_lat',
         'koordinat_lng',
-        'kapasitas_max'
+        'kapasitas_max',
+        'tipe'
     ];
 
     protected $casts = [

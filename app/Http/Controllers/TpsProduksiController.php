@@ -19,11 +19,11 @@ class TpsProduksiController extends Controller
 {
     public function index(Request $request)
     {
-        $tpsList = Tps::latest()->get();
+        $tpsList = Tps::where('tipe', 'PRODUKSI')->latest()->get();
         $satuanList = SatuanSampah::latest()->get();
         $jenisList = JenisSampah::latest()->get();
-        $ekspedisiList = DaftarEkspedisi::latest()->get();
-        $penerimaList = DaftarPenerima::latest()->get();
+        $ekspedisiList = DaftarEkspedisi::where('tipe', 'PRODUKSI')->latest()->get();
+        $penerimaList = DaftarPenerima::where('tipe', 'PRODUKSI')->latest()->get();
 
         // Query untuk Sampah Masuk
         $queryMasuk = TpsProduksiMasuk::with(['tps', 'satuanSampah', 'jenisSampah']);

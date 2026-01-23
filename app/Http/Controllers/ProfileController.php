@@ -21,11 +21,19 @@ class ProfileController extends Controller
         $wwtps = LokasiWwtp::latest()->get();
         $operators = OperatorWwtp::latest()->get();
         $labs = Lab::latest()->get();
-        $tps = Tps::latest()->get();
+
+       // === DATA PRODUKSI (Filter tipe = PRODUKSI) ===
+        $tps_produksi = Tps::where('tipe', 'PRODUKSI')->latest()->get();
+        $ekspedisi_produksi = DaftarEkspedisi::where('tipe', 'PRODUKSI')->latest()->get();
+        $penerima_produksi = DaftarPenerima::where('tipe', 'PRODUKSI')->latest()->get();
+
+        // === DATA DOMESTIK (Filter tipe = DOMESTIK) ===
+        $tps_domestik = Tps::where('tipe', 'DOMESTIK')->latest()->get();
+        $ekspedisi_domestik = DaftarEkspedisi::where('tipe', 'DOMESTIK')->latest()->get();
+        $penerima_domestik = DaftarPenerima::where('tipe', 'DOMESTIK')->latest()->get();
+
         $satuan_sampah = SatuanSampah::latest()->get();
         $jenis_sampah = JenisSampah::latest()->get();
-        $daftar_ekspedisi = DaftarEkspedisi::latest()->get();
-        $daftar_penerima = DaftarPenerima::latest()->get();
 
         $usersList = [];
         if (auth()->user()->role === 'ADMIN') {
@@ -46,11 +54,17 @@ class ProfileController extends Controller
             'usersList',
             'operators',
             'labs',
-            'tps',
+
+            'tps_produksi',
+            'ekspedisi_produksi',
+            'penerima_produksi',
+            
+            'tps_domestik',
+            'ekspedisi_domestik',
+            'penerima_domestik',
+
             'satuan_sampah',
             'jenis_sampah',
-            'daftar_ekspedisi',
-            'daftar_penerima'
         ));
     }
 }
