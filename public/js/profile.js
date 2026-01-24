@@ -37,6 +37,141 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+// Delete Confirmation Functions
+function confirmDelete(config) {
+    const { type, id, label, route } = config;
+
+    // Set form action
+    document.getElementById('formDeleteConfirm').action = route;
+
+    // Set item name to display
+    document.getElementById('deleteItemName').textContent = label;
+
+    // Open modal
+    openModal('modalDeleteConfirm');
+}
+
+// Specific delete functions for each entity
+function confirmDeleteWWTP(id, nama) {
+    const baseUrl = window.location.origin;
+    const route = baseUrl + `/profile/wwtp/${id}`;
+
+    confirmDelete({
+        type: 'wwtp',
+        id: id,
+        label: `WWTP: ${nama}`,
+        route: route
+    });
+}
+
+function confirmDeleteOperator(id, nama) {
+    const baseUrl = window.location.origin;
+    const route = baseUrl + `/profile/operator/${id}`;
+
+    confirmDelete({
+        type: 'operator',
+        id: id,
+        label: `Operator: ${nama}`,
+        route: route
+    });
+}
+
+function confirmDeleteLab(id, nama) {
+    const baseUrl = window.location.origin;
+    const route = baseUrl + `/profile/lab/${id}`;
+
+    confirmDelete({
+        type: 'lab',
+        id: id,
+        label: `Lab: ${nama}`,
+        route: route
+    });
+}
+
+function confirmDeleteTPS(id, nama) {
+    const baseUrl = window.location.origin;
+    const route = baseUrl + `/profile/tps/${id}`;
+
+    confirmDelete({
+        type: 'tps',
+        id: id,
+        label: `TPS: ${nama}`,
+        route: route
+    });
+}
+
+function confirmDeleteEkspedisi(id, nama) {
+    const baseUrl = window.location.origin;
+    const route = baseUrl + `/profile/daftar-ekspedisi/${id}`;
+
+    confirmDelete({
+        type: 'ekspedisi',
+        id: id,
+        label: `Ekspedisi: ${nama}`,
+        route: route
+    });
+}
+
+function confirmDeleteJenisSampah(id, nama) {
+    const baseUrl = window.location.origin;
+    const route = baseUrl + `/profile/jenis-sampah/${id}`;
+
+    confirmDelete({
+        type: 'jenis-sampah',
+        id: id,
+        label: `Jenis Sampah: ${nama}`,
+        route: route
+    });
+}
+
+function confirmDeleteStatusSampah(id, nama) {
+    const baseUrl = window.location.origin;
+    const route = baseUrl + `/profile/status-sampah/${id}`;
+
+    confirmDelete({
+        type: 'status-sampah',
+        id: id,
+        label: `Status: ${nama}`,
+        route: route
+    });
+}
+
+function confirmDeleteSatuanSampah(id, nama) {
+    const baseUrl = window.location.origin;
+    const route = baseUrl + `/profile/satuan-sampah/${id}`;
+
+    confirmDelete({
+        type: 'satuan-sampah',
+        id: id,
+        label: `Satuan: ${nama}`,
+        route: route
+    });
+}
+
+function confirmDeletePenerima(id, nama) {
+    const baseUrl = window.location.origin;
+    const route = baseUrl + `/profile/daftar-penerima/${id}`;
+
+    confirmDelete({
+        type: 'penerima',
+        id: id,
+        label: `Penerima: ${nama}`,
+        route: route
+    });
+}
+
+function confirmDeleteUser(id, email) {
+    const baseUrl = window.location.origin;
+    const route = baseUrl + `/profile/users/${id}`;
+
+    confirmDelete({
+        type: 'user',
+        id: id,
+        label: `User: ${email}`,
+        route: route
+    });
+}
+
 // Modal Functions
 function openModal(modalId) {
     const modal = document.getElementById(modalId);

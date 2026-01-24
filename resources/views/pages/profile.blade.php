@@ -133,15 +133,11 @@
                                             <i class="fas fa-edit"></i>
                                         </button>
 
-                                        <form action="{{ route('wwtp.destroy', $wwtp->id) }}"
-                                            method="POST"
-                                            onsubmit="return confirm('Hapus WWTP {{ $wwtp->nama_wwtp }}?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn-table btn-table-delete">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
+                                        <button
+                                            onclick="confirmDeleteWWTP('{{ $wwtp->id }}', '{{ addslashes($wwtp->nama_wwtp) }}')"
+                                            class="btn-table btn-table-delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -189,12 +185,9 @@
                                     <button onclick="openOperatorModal('{{ $op->id }}', '{{ addslashes($op->nama_operator) }}')" class="btn-table btn-table-edit">
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
-                                    <form action="{{ route('operator.destroy', $op->id) }}" method="POST" onsubmit="return confirm('Hapus operator?')" style="display: inline;">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="btn-table btn-table-delete">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
+                                    <button onclick="confirmDeleteOperator('{{ $op->id }}', '{{ addslashes($op->nama_operator) }}')" class="btn-table btn-table-delete">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -237,12 +230,9 @@
                                     <button onclick="openLabModal('{{ $lab->id }}', '{{ addslashes($lab->nama_lab) }}', '{{ addslashes($lab->lokasi) }}')" class="btn-table btn-table-edit">
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
-                                    <form action="{{ route('lab.destroy', $lab->id) }}" method="POST" onsubmit="return confirm('Hapus lab?')" style="display: inline;">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="btn-table btn-table-delete">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
+                                    <button onclick="confirmDeleteLab('{{ $lab->id }}', '{{ addslashes($lab->nama_lab) }}')" class="btn-table btn-table-delete">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -293,12 +283,9 @@
                                     <button onclick="openTPSModal('{{ $tp->id }}','{{ addslashes($tp->nama_tps) }}','{{ addslashes($tp->alamat) }}','{{ $tp->koordinat_lat }}','{{ $tp->koordinat_lng }}','{{ $tp->kapasitas_max }}')" class="btn-table btn-table-edit">
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
-                                    <form action="{{ route('tps.destroy', $tp->id) }}" method="POST" onsubmit="return confirm('Hapus TPS?')">
-                                        @csrf @method('DELETE')
-                                        <button class="btn-table btn-table-delete">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
+                                    <button onclick="confirmDeleteTPS('{{ $tp->id }}', '{{ addslashes($tp->nama_tps) }}')" class="btn-table btn-table-delete">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -341,22 +328,17 @@
                                 <div style="display:flex; gap:8px; justify-content:end;">
                                     <button
                                         onclick="openEkspedisiModal(
-                                        '{{ $ekspedisi->id }}',
-                                        '{{ addslashes($ekspedisi->nama_ekspedisi) }}',
-                                        '{{ addslashes($ekspedisi->alamat) }}'
-                                    )"
+                                            '{{ $ekspedisi->id }}',
+                                            '{{ addslashes($ekspedisi->nama_ekspedisi) }}',
+                                            '{{ addslashes($ekspedisi->alamat) }}'
+                                        )"
                                         class="btn-table btn-table-edit">
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
 
-                                    <form action="{{ route('daftar-ekspedisi.destroy', $ekspedisi->id) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('Hapus?')">
-                                        @csrf @method('DELETE')
-                                        <button class="btn-table btn-table-delete">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
+                                    <button onclick="confirmDeleteEkspedisi('{{ $ekspedisi->id }}', '{{ addslashes($ekspedisi->nama_ekspedisi) }}')" class="btn-table btn-table-delete">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -398,12 +380,9 @@
                                     <button onclick="openJenisSampahModal('{{ $jenis->id }}','{{ addslashes($jenis->nama_jenis) }}')" class="btn-table btn-table-edit">
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
-                                    <form action="{{ route('jenis-sampah.destroy',$jenis->id) }}" method="POST" onsubmit="return confirm('Hapus?')">
-                                        @csrf @method('DELETE')
-                                        <button class="btn-table btn-table-delete">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
+                                    <button onclick="confirmDeleteJenisSampah('{{ $jenis->id }}', '{{ addslashes($jenis->nama_jenis) }}')" class="btn-table btn-table-delete">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -442,12 +421,9 @@
                                     <button onclick="openStatusSampahModal('{{ $status->id }}','{{ addslashes($status->nama_status) }}')" class="btn-table btn-table-edit">
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
-                                    <form action="{{ route('status-sampah.destroy',$status->id) }}" method="POST" onsubmit="return confirm('Hapus?')">
-                                        @csrf @method('DELETE')
-                                        <button class="btn-table btn-table-delete">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
+                                    <button onclick="confirmDeleteStatusSampah('{{ $status->id }}', '{{ addslashes($status->nama_status) }}')" class="btn-table btn-table-delete">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -487,12 +463,9 @@
                                     <button onclick="openSatuanSampahModal('{{ $sat->id }}','{{ addslashes($sat->nama_satuan) }}')" class="btn-table btn-table-edit">
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
-                                    <form action="{{ route('satuan-sampah.destroy',$sat->id) }}" method="POST" onsubmit="return confirm('Hapus?')">
-                                        @csrf @method('DELETE')
-                                        <button class="btn-table btn-table-delete">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
+                                    <button onclick="confirmDeleteSatuanSampah('{{ $sat->id }}', '{{ addslashes($sat->nama_satuan) }}')" class="btn-table btn-table-delete">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -541,14 +514,9 @@
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
 
-                                    <form action="{{ route('daftar-penerima.destroy',$penerima->id) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('Hapus?')">
-                                        @csrf @method('DELETE')
-                                        <button class="btn-table btn-table-delete">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
+                                    <button onclick="confirmDeletePenerima('{{ $penerima->id }}', '{{ addslashes($penerima->nama_penerima) }}')" class="btn-table btn-table-delete">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -568,7 +536,6 @@
     </div>
 
 
-    {{-- TAB TPS DOMESTIK --}}
     {{-- TAB TPS DOMESTIK --}}
     <div id="content-tps-domestik-profile" class="data-section hidden">
 
@@ -614,14 +581,9 @@
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
 
-                                    <form action="{{ route('tps.destroy',$tp->id) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('Hapus TPS?')">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="btn-table btn-table-delete">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
+                                    <button onclick="confirmDeleteTPS('{{ $tp->id }}', '{{ addslashes($tp->nama_tps) }}')" class="btn-table btn-table-delete">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -664,22 +626,17 @@
                                 <div style="display:flex; gap:8px; justify-content:end;">
                                     <button
                                         onclick="openEkspedisiModal(
-                                        '{{ $ekspedisi->id }}',
-                                        '{{ addslashes($ekspedisi->nama_ekspedisi) }}',
-                                        '{{ addslashes($ekspedisi->alamat) }}'
-                                    )"
+                                            '{{ $ekspedisi->id }}',
+                                            '{{ addslashes($ekspedisi->nama_ekspedisi) }}',
+                                            '{{ addslashes($ekspedisi->alamat) }}'
+                                        )"
                                         class="btn-table btn-table-edit">
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
 
-                                    <form action="{{ route('daftar-ekspedisi.destroy', $ekspedisi->id) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('Hapus?')">
-                                        @csrf @method('DELETE')
-                                        <button class="btn-table btn-table-delete">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
+                                    <button onclick="confirmDeleteEkspedisi('{{ $ekspedisi->id }}', '{{ addslashes($ekspedisi->nama_ekspedisi) }}')" class="btn-table btn-table-delete">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -724,14 +681,9 @@
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
 
-                                    <form action="{{ route('jenis-sampah.destroy',$jenis->id) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('Hapus?')">
-                                        @csrf @method('DELETE')
-                                        <button class="btn-table btn-table-delete">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
+                                    <button onclick="confirmDeleteJenisSampah('{{ $jenis->id }}', '{{ addslashes($jenis->nama_jenis) }}')" class="btn-table btn-table-delete">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -782,14 +734,9 @@
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
 
-                                    <form action="{{ route('daftar-penerima.destroy',$penerima->id) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('Hapus?')">
-                                        @csrf @method('DELETE')
-                                        <button class="btn-table btn-table-delete">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
+                                    <button onclick="confirmDeletePenerima('{{ $penerima->id }}', '{{ addslashes($penerima->nama_penerima) }}')" class="btn-table btn-table-delete">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -853,16 +800,9 @@
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
 
-                                    <form
-                                        action="{{ route('users.destroy', $u->id) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('Hapus user ini? Akses mereka akan hilang.')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn-table btn-table-delete">
-                                            <i class="fas fa-trash"></i> Hapus
-                                        </button>
-                                    </form>
+                                    <button onclick="confirmDeleteUser('{{ $u->id }}', '{{ addslashes($u->email) }}')" class="btn-table btn-table-delete">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -898,6 +838,9 @@
 
 <!-- Modals Pengguna -->
 @include('components.form-pengguna')
+
+<!-- Modals Delete Confirmation -->
+@include('components.delete-confirmation')
 
 @push('scripts')
 <script src="{{ asset('js/profile.js') }}"></script>
