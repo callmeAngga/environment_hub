@@ -12,7 +12,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label class="form-label">Nama Jenis <span class="required-mark">*</span></label>
-                    <input type="text" name="nama_jenis" id="nama_jenis" class="form-input" required placeholder="Contoh: Organik, Anorganik">
+                    <input type="text" name="nama_jenis" id="nama_jenis" class="form-input" required>
                 </div>
             </div>
             <div class="modal-footer">

@@ -12,7 +12,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label class="form-label">Nama Satuan <span class="required-mark">*</span></label>
-                    <input type="text" name="nama_satuan" id="nama_satuan" class="form-input" required placeholder="Contoh: kg, ton, m³">
+                    <input type="text" name="nama_satuan" id="nama_satuan" class="form-input" required>
                 </div>
             </div>
             <div class="modal-footer">
