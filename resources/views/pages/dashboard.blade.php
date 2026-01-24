@@ -53,7 +53,7 @@
 
     <div class="filter-section">
         <div class="filter-header">
-            <h3 class="filter-title">Grafik Monitoring WWTP</h3>
+            <h3 class="filter-title">GRAFIK MONITORING WWTP</h3>
             <div class="filter-controls">
                 <div class="filter-group">
                     <label class="filter-label">Lokasi WWTP</label>
@@ -75,27 +75,28 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="charts-grid">
-        <div class="chart-card">
-            <h3 class="chart-title">Trend SV30 Aerasi</h3>
-            <div class="chart-container">
-                <canvas id="chartSV30"></canvas>
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3 class="chart-title">Trend SV30 Aerasi</h3>
+                <div class="chart-container">
+                    <canvas id="chartSV30"></canvas>
+                </div>
+            </div>
+    
+            <div class="chart-card">
+                <h3 class="chart-title">Trend DO (Dissolved Oxygen) Aerasi</h3>
+                <div class="chart-container">
+                    <canvas id="chartDO"></canvas>
+                </div>
             </div>
         </div>
-
-        <div class="chart-card">
-            <h3 class="chart-title">Trend DO (Dissolved Oxygen) Aerasi</h3>
-            <div class="chart-container">
-                <canvas id="chartDO"></canvas>
-            </div>
-        </div>
     </div>
+
 
     <div class="filter-section" style="margin-top: 40px;">
         <div class="filter-header">
-            <h3 class="filter-title">Grafik Stok Sampah TPS Produksi</h3>
+        <h3 class="filter-title">GRAFIK STOK SAMPAH TPS PRODUKSI</h3>
             <div class="filter-controls">
                 <div class="filter-group">
                     <label class="filter-label">Lokasi TPS</label>
@@ -116,22 +117,22 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="charts-grid-full">
-        <div class="chart-card">
-            <h3 class="chart-title">Monitoring Stok Sampah Produksi</h3>
-            <div class="chart-info">
-                <span class="info-badge">
-                    <i class="fas fa-info-circle"></i>
-                    Stok Awal Periode: <strong id="stok-awal-display">-</strong> unit
-                </span>
-            </div>
-            <div class="chart-container">
-                <canvas id="chartStokSampah"></canvas>
+        <div class="charts-grid-full">
+            <div class="chart-card">
+                <h3 class="chart-title">Monitoring Stok Sampah Produksi</h3>
+                <div class="chart-info">
+                    <span class="info-badge">
+                        <i class="fas fa-info-circle"></i>
+                        Stok Awal Periode: <strong id="stok-awal-display">-</strong> unit
+                    </span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chartStokSampah"></canvas>
+                </div>
             </div>
         </div>
     </div>
+
 </div>
 @endsection
 
