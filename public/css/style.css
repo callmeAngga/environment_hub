@@ -717,6 +717,22 @@ ul {
 }
 
 /* Modern Buttons */
+.btn-sort {
+    padding: 9px 18px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.btn-sort:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-sort i {
+    margin-right: 6px;
+}
+
 .btn-modern {
     padding: 9px 18px;
     border-radius: 6px;

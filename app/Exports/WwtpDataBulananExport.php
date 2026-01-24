@@ -53,6 +53,7 @@ class WwtpDataBulananExport implements FromCollection, WithHeadings, WithMapping
     {
         return [
             'Lokasi WWTP',
+            'Daftar Lab',
             'Bulan',
             'Tahun',
             'TSS Inlet',
@@ -72,6 +73,7 @@ class WwtpDataBulananExport implements FromCollection, WithHeadings, WithMapping
     {
         return [
             $row->wwtp->nama_wwtp ?? '-',
+            $row->lab->nama_lab ?? '-',
             $row->nama_bulan,
             $row->tahun,
             $row->tss_inlet ?? '-',

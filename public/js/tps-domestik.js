@@ -104,3 +104,12 @@ function confirmDeleteDomestik(id, nama) {
         route: route
     });
 }
+
+function toggleSortDomestik() {
+    const sortInput = document.getElementById('input-sort-domestik');
+    if (!sortInput) return;
+    
+    const currentSort = sortInput.value;
+    sortInput.value = currentSort === 'asc' ? 'desc' : 'asc';
+    document.getElementById('filter-domestik').submit();
+}

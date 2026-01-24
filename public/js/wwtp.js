@@ -143,6 +143,7 @@ async function editDataBulanan(id) {
         document.getElementById('formDataBulanan').action = `/wwtp/bulanan/${id}`;
 
         document.getElementById('bulanan_wwtp_id').value = data.wwtp_id;
+        document.getElementById('bulanan_lab_id').value = data.lab_id;
         document.getElementById('bulanan_bulan').value = data.bulan;
         document.getElementById('bulanan_tahun').value = data.tahun;
         document.getElementById('bulanan_tss_inlet').value = data.tss_inlet || '';
@@ -181,4 +182,33 @@ function confirmDeleteWWTP(el) {
         label: label,
         route: route
     });
+}
+
+// Function untuk toggle sorting data harian
+function toggleSortHarian() {
+    const sortInput = document.getElementById('input-sort-harian');
+    
+    const currentSort = sortInput.value;
+    const newSort = currentSort === 'asc' ? 'desc' : 'asc';
+    
+    sortInput.value = newSort;
+    
+    const form = document.getElementById('filter-harian');
+    if (form) {
+        form.submit();
+    }
+}
+
+function toggleSortBulanan() {
+    const sortInput = document.getElementById('input-sort-bulanan');
+    
+    const currentSort = sortInput.value;
+    const newSort = currentSort === 'asc' ? 'desc' : 'asc';
+    
+    sortInput.value = newSort;
+    
+    const form = document.getElementById('filter-bulanan');
+    if (form) {
+        form.submit();
+    }
 }

@@ -33,7 +33,8 @@ class TpsProduksiController extends Controller
             $queryMasuk->whereBetween('tanggal', [$request->tanggal_masuk_dari, $request->tanggal_masuk_sampai]);
         }
 
-        $dataMasuk = $queryMasuk->latest()->get();
+        $sortMasuk = $request->get('sort_masuk', 'asc');
+        $dataMasuk = $queryMasuk->orderBy('created_at', $sortMasuk)->get();
 
         $queryKeluar = TpsProduksiKeluar::with(['tps', 'ekspedisi', 'jenisSampah', 'penerima', 'statusSampah']);
 
@@ -41,7 +42,8 @@ class TpsProduksiController extends Controller
             $queryKeluar->whereBetween('tanggal_pengangkutan', [$request->tanggal_keluar_dari, $request->tanggal_keluar_sampai]);
         }
 
-        $dataKeluar = $queryKeluar->latest()->get();
+        $sortKeluar = $request->get('sort_keluar', 'asc');
+        $dataKeluar = $queryKeluar->orderBy('created_at', $sortKeluar)->get();
 
         return view('pages.tps-produksi', compact(
             'tpsList',
@@ -51,7 +53,9 @@ class TpsProduksiController extends Controller
             'penerimaList',
             'statusList',
             'dataMasuk',
-            'dataKeluar'
+            'dataKeluar',
+            'sortMasuk',
+            'sortKeluar'
         ));
     }
 
