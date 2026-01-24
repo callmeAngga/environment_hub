@@ -87,6 +87,18 @@
                     </div>
 
                     <div class="form-group" style="flex:1">
+                        <label class="form-label">Status Sampah <span class="text-red">*</span></label>
+                        <select name="status_sampah_id" id="keluarStatusSampah" required class="form-control">
+                            <option value="">Pilih Status</option>
+                            @foreach($statusList as $status)
+                            <option value="{{ $status->id }}">{{ $status->nama_status }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex-gap">
+                    <div class="form-group" style="flex:1">
                         <label class="form-label">Total Unit <span class="text-red">*</span></label>
                         <input
                             type="number"
@@ -108,6 +120,7 @@
                         </select>
                     </div>
                 </div>
+
 
             </div>
 
@@ -158,6 +171,7 @@
             document.getElementById('keluarTotalUnit').value = data.total_unit;
             document.getElementById('keluarJenisSampah').value = data.jenis_sampah_id;
             document.getElementById('keluarPenerima').value = data.penerima_id;
+            document.getElementById('keluarStatusSampah').value = data.status_sampah_id;
 
             hitungBeratBersihKeluar();
             openModal('modalSampahKeluar');

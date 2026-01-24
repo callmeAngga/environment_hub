@@ -172,6 +172,24 @@ function openJenisSampahModal(id = null, nama = '') {
     openModal('modalJenisSampah');
 }
 
+// Status Sampah Modal Functions
+function openStatusSampahModal(id = null, nama = '') {
+    if (id) {
+        document.getElementById('modalStatusSampahTitle').textContent = 'Edit Status';
+        document.getElementById('btnSubmitStatusSampah').textContent = 'Update';
+        document.getElementById('status_sampah_method').value = 'PUT';
+        document.getElementById('formStatusSampah').action = '/profile/status-sampah/' + id;
+        document.getElementById('nama_status').value = nama;
+    } else {
+        document.getElementById('modalStatusSampahTitle').textContent = 'Tambah Status';
+        document.getElementById('btnSubmitStatusSampah').textContent = 'Simpan';
+        document.getElementById('status_sampah_method').value = 'POST';
+        document.getElementById('formStatusSampah').action = '/profile/status-sampah';
+        document.getElementById('formStatusSampah').reset();
+    }
+    openModal('modalStatusSampah');
+}
+
 // Penerima Modal Functions
 function openPenerimaModal(id = null, nama = '', alamat = '', tipe = '') {
     document.getElementById('penerima_tipe').value = tipe;

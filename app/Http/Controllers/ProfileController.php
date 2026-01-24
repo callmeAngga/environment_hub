@@ -12,6 +12,7 @@ use App\Models\SatuanSampah;
 use App\Models\JenisSampah;
 use App\Models\DaftarEkspedisi;
 use App\Models\DaftarPenerima;
+use App\Models\StatusSampah;
 
 class ProfileController extends Controller
 {
@@ -34,6 +35,7 @@ class ProfileController extends Controller
 
         $satuan_sampah = SatuanSampah::latest()->get();
         $jenis_sampah = JenisSampah::latest()->get();
+        $status_sampah = StatusSampah::latest()->get();
 
         $usersList = [];
         if (auth()->user()->role === 'ADMIN') {
@@ -65,6 +67,7 @@ class ProfileController extends Controller
 
             'satuan_sampah',
             'jenis_sampah',
+            'status_sampah',
         ));
     }
 }

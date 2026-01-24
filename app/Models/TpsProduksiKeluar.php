@@ -20,6 +20,7 @@ class TpsProduksiKeluar extends Model
         'jenis_sampah_id',
         'penerima_id',
         'total_unit',
+        'status_sampah_id',
     ];
 
     protected $casts = [
@@ -27,7 +28,7 @@ class TpsProduksiKeluar extends Model
         'berat_kosong_kg' => 'float',
         'berat_isi_kg' => 'float',
         'berat_bersih_kg' => 'float',
-        'total_unit' => 'integer'
+        'total_unit' => 'integer',
     ];
 
     public function tps(): BelongsTo
@@ -48,5 +49,10 @@ class TpsProduksiKeluar extends Model
     public function penerima(): BelongsTo
     {
         return $this->belongsTo(DaftarPenerima::class, 'penerima_id');
+    }
+
+    public function statusSampah(): BelongsTo
+    {
+        return $this->belongsTo(StatusSampah::class, 'status_sampah_id');
     }
 }

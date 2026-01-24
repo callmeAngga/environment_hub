@@ -14,6 +14,7 @@ use App\Http\Controllers\SatuanSampahController;
 use App\Http\Controllers\JenisSampahController;
 use App\Http\Controllers\DaftarEkspedisiController;
 use App\Http\Controllers\DaftarPenerimaController;
+use App\Http\Controllers\StatusSampahController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
@@ -83,6 +84,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('lab', LabController::class)->only(['store', 'update', 'destroy']);
         Route::resource('jenis-sampah', JenisSampahController::class)->only(['store', 'update', 'destroy']);
         Route::resource('satuan-sampah', SatuanSampahController::class)->only(['store', 'update', 'destroy']);
+        Route::resource('status-sampah', StatusSampahController::class)->only(['store', 'update', 'destroy']);
         Route::resource('daftar-ekspedisi', DaftarEkspedisiController::class)->only(['store', 'update', 'destroy']);
         Route::resource('daftar-penerima', DaftarPenerimaController::class)->only(['store', 'update', 'destroy']);
 

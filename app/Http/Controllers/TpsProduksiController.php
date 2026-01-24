@@ -9,6 +9,7 @@ use App\Models\SatuanSampah;
 use App\Models\JenisSampah;
 use App\Models\DaftarEkspedisi;
 use App\Models\DaftarPenerima;
+use App\Models\StatusSampah;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\TpsProduksiMasukExport;
@@ -24,8 +25,8 @@ class TpsProduksiController extends Controller
         $jenisList = JenisSampah::latest()->get();
         $ekspedisiList = DaftarEkspedisi::where('tipe', 'PRODUKSI')->latest()->get();
         $penerimaList = DaftarPenerima::where('tipe', 'PRODUKSI')->latest()->get();
+        $statusList = StatusSampah::latest()->get();
 
-        // Query untuk Sampah Masuk
         $queryMasuk = TpsProduksiMasuk::with(['tps', 'satuanSampah', 'jenisSampah']);
 
         if ($request->filled('tanggal_masuk_dari') && $request->filled('tanggal_masuk_sampai')) {
@@ -34,8 +35,7 @@ class TpsProduksiController extends Controller
 
         $dataMasuk = $queryMasuk->latest()->get();
 
-        // Query untuk Sampah Keluar
-        $queryKeluar = TpsProduksiKeluar::with(['tps', 'ekspedisi', 'jenisSampah', 'penerima']);
+        $queryKeluar = TpsProduksiKeluar::with(['tps', 'ekspedisi', 'jenisSampah', 'penerima', 'statusSampah']);
 
         if ($request->filled('tanggal_keluar_dari') && $request->filled('tanggal_keluar_sampai')) {
             $queryKeluar->whereBetween('tanggal_pengangkutan', [$request->tanggal_keluar_dari, $request->tanggal_keluar_sampai]);
@@ -49,6 +49,7 @@ class TpsProduksiController extends Controller
             'jenisList',
             'ekspedisiList',
             'penerimaList',
+            'statusList',
             'dataMasuk',
             'dataKeluar'
         ));
@@ -189,7 +190,8 @@ class TpsProduksiController extends Controller
             'berat_isi_kg' => 'required|numeric|min:0|gt:berat_kosong_kg',
             'jenis_sampah_id' => 'required|exists:jenis_sampah,id',
             'penerima_id' => 'required|exists:daftar_penerima,id',
-            'total_unit' => 'required|integer'
+            'total_unit' => 'required|integer',
+            'status_sampah_id' => 'required|exists:status_sampah,id'
         ], [
             'tps_id.required' => 'TPS harus dipilih',
             'no_sampah_keluar.required' => 'Nomor sampah keluar harus diisi',
@@ -206,6 +208,7 @@ class TpsProduksiController extends Controller
             'total_unit.required' => 'Total unit harus diisi',
             'total_unit.integer' => 'Total unit harus berupa angka',
             'total_unit.min' => 'Total unit minimal 0',
+            'status_sampah_id.required' => 'Status sampah harus dipilih'
         ]);
 
         try {
@@ -228,7 +231,8 @@ class TpsProduksiController extends Controller
             'berat_isi_kg' => 'required|numeric|min:0|gt:berat_kosong_kg',
             'jenis_sampah_id' => 'required|exists:jenis_sampah,id',
             'penerima_id' => 'required|exists:daftar_penerima,id',
-            'total_unit' => 'required|integer|min:0'
+            'total_unit' => 'required|integer|min:0',
+            'status_sampah_id' => 'required|exists:status_sampah,id'
         ]);
 
         try {

@@ -106,7 +106,6 @@ async function openEditKeluar(id) {
             document.getElementById('formSampahKeluar').action = `/tps-produksi/keluar/${id}`;
             document.getElementById('keluarMethod').value = 'PUT'; 
             document.getElementById('keluarId').value = id;
-
             document.getElementById('keluarTps').value = data.tps_id;
             document.getElementById('keluarNomor').value = data.no_sampah_keluar;
 
@@ -122,6 +121,7 @@ async function openEditKeluar(id) {
             document.getElementById('keluarTotalUnit').value = data.total_unit;
             document.getElementById('keluarJenisSampah').value = data.jenis_sampah_id; 
             document.getElementById('keluarPenerima').value = data.penerima_id;
+            document.getElementById('keluarStatusSampah').value = data.status_sampah_id;
 
             hitungBeratBersihKeluar();
             

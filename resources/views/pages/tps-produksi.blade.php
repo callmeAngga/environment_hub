@@ -183,6 +183,7 @@
                         <th>Berat Isi (kg)</th>
                         <th>Berat Bersih (kg)</th>
                         <th>Total Unit</th>
+                        <th>Status Sampah</th>
                         <th>Jenis Sampah</th>
                         <th>Penerima</th>
                         <th>Aksi</th>
@@ -200,6 +201,7 @@
                         <td>{{ number_format($item->berat_isi_kg, 2, ',', '.') }}</td>
                         <td class="text-bold text-success">{{ number_format($item->berat_isi_kg - $item->berat_kosong_kg, 2, ',', '.') }}</td>
                         <td>{{ $item->total_unit }}</td>
+                        <td>{{ $item->statusSampah->nama_status ?? '-' }}</td>
                         <td>{{ $item->jenisSampah->nama_jenis ?? '-' }}</td>
                         <td>{{ $item->penerima->nama_penerima ?? '-' }}</td>
                         <td>

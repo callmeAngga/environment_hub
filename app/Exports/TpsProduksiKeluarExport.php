@@ -22,7 +22,7 @@ class TpsProduksiKeluarExport implements FromCollection, WithHeadings, WithMappi
 
     public function collection()
     {
-        $query = TpsProduksiKeluar::with(['tps', 'ekspedisi', 'jenisSampah', 'penerima']);
+        $query = TpsProduksiKeluar::with(['tps', 'ekspedisi', 'jenisSampah', 'penerima', 'statusSampah']);
         
         if ($this->tanggalDari && $this->tanggalSampai) {
             $query->whereBetween('tanggal_pengangkutan', [$this->tanggalDari, $this->tanggalSampai]);
@@ -44,6 +44,7 @@ class TpsProduksiKeluarExport implements FromCollection, WithHeadings, WithMappi
             'Berat Isi (kg)',
             'Berat Bersih (kg)',
             'Total Unit',
+            'Status Sampah',
             'Jenis Sampah',
             'Penerima',
         ];
@@ -67,6 +68,7 @@ class TpsProduksiKeluarExport implements FromCollection, WithHeadings, WithMappi
             number_format($row->berat_isi_kg, 2, ',', '.'),
             number_format($beratBersih, 2, ',', '.'),
             $row->total_unit,
+            $row->statusSampah->nama_status ?? '-',
             $row->jenisSampah->nama_jenis ?? '-',
             $row->penerima->nama_penerima ?? '-',
         ];

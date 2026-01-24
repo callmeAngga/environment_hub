@@ -87,7 +87,7 @@
         <div id="content-wwtp-profile" class="data-section">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data WWTP</h3>
+                    <h3 class="card-title">WWTP</h3>
                     <button onclick="openWWTPModal()" class="btn-modern btn-add">
                         <i class="fas fa-plus"></i> <span>Tambah WWTP</span>
                     </button>
@@ -165,7 +165,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Daftar Operator</h3>
+                <h3 class="card-title">OPERATOR</h3>
                 <button onclick="openOperatorModal()" class="btn-modern btn-add">
                     <i class="fas fa-plus"></i> <span>Tambah Operator</span>
                 </button>
@@ -213,7 +213,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Daftar Lab</h3>
+                <h3 class="card-title">LAB</h3>
                 <button onclick="openLabModal()" class="btn-modern btn-add">
                     <i class="fas fa-plus"></i> <span>Tambah Lab</span>
                 </button>
@@ -261,13 +261,12 @@
     </div>
 
     {{-- TAB TPS PRODUKSI --}}
-    {{-- TAB TPS PRODUKSI --}}
     <div id="content-tps-produksi-profile" class="data-section hidden">
 
         {{-- DATA TPS PRODUKSI --}}
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Data TPS Produksi</h3>
+                <h3 class="card-title">TPS PRODUKSI</h3>
                 <button onclick="openTPSModal(null, '', '', '', '', '', 'PRODUKSI')" class="btn-modern btn-add">
                     <i class="fas fa-plus"></i> <span>Tambah TPS</span>
                 </button>
@@ -318,7 +317,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Daftar Ekspedisi</h3>
+                <h3 class="card-title">EKSPEDISI</h3>
                 <button onclick="openEkspedisiModal(null, '', '', 'PRODUKSI')" class="btn-modern btn-add">
                     <i class="fas fa-plus"></i> <span>Tambah Ekspedisi</span>
                 </button>
@@ -374,10 +373,9 @@
             </div>
         </div>
 
-        {{-- JENIS SAMPAH --}}
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Jenis Sampah</h3>
+                <h3 class="card-title">JENIS SAMPAH</h3>
                 <button onclick="openJenisSampahModal()" class="btn-modern btn-add">
                     <i class="fas fa-plus"></i> <span>Tambah Jenis</span>
                 </button>
@@ -419,10 +417,54 @@
             </div>
         </div>
 
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">STATUS SAMPAH</h3>
+                <button onclick="openStatusSampahModal()" class="btn-modern btn-add">
+                    <i class="fas fa-plus"></i> <span>Tambah Status</span>
+                </button>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="table-modern">
+                    <thead>
+                        <tr>
+                            <th>Nama Status</th>
+                            <th style="text-align:end;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($status_sampah as $status)
+                        <tr>
+                            <td>{{ $status->nama_status }}</td>
+                            <td>
+                                <div style="display:flex; gap:8px; justify-content:end;">
+                                    <button onclick="openStatusSampahModal('{{ $status->id }}','{{ addslashes($status->nama_status) }}')" class="btn-table btn-table-edit">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <form action="{{ route('status-sampah.destroy',$status->id) }}" method="POST" onsubmit="return confirm('Hapus?')">
+                                        @csrf @method('DELETE')
+                                        <button class="btn-table btn-table-delete">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="2" class="table-empty-modern">Belum ada data</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         {{-- SATUAN SAMPAH --}}
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Satuan Sampah</h3>
+                <h3 class="card-title">SATUAN SAMPAH</h3>
                 <button onclick="openSatuanSampahModal()" class="btn-modern btn-add">
                     <i class="fas fa-plus"></i> <span>Tambah Satuan</span>
                 </button>
@@ -467,7 +509,7 @@
         {{-- DAFTAR PENERIMA SAMPAH --}}
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Daftar Penerima Sampah</h3>
+                <h3 class="card-title">PENERIMA SAMPAH</h3>
                 <button onclick="openPenerimaModal(null, '', '', 'PRODUKSI')" class="btn-modern btn-add">
                     <i class="fas fa-plus"></i> <span>Tambah Penerima</span>
                 </button>
@@ -533,7 +575,7 @@
         {{-- DATA TPS DOMESTIK --}}
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Data TPS Domestik</h3>
+                <h3 class="card-title">TPS DOMESTIK</h3>
                 <button onclick="openTPSModal(null, '', '', '', '', '', 'DOMESTIK')" class="btn-modern btn-add">
                     <i class="fas fa-plus"></i> <span>Tambah TPS</span>
                 </button>
@@ -598,7 +640,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Daftar Ekspedisi</h3>
+                <h3 class="card-title">EKSPEDISI</h3>
                 <button onclick="openEkspedisiModal(null, '', '', 'DOMESTIK')" class="btn-modern btn-add">
                     <i class="fas fa-plus"></i> <span>Tambah Ekspedisi</span>
                 </button>
@@ -657,7 +699,7 @@
         {{-- JENIS SAMPAH --}}
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Jenis Sampah</h3>
+                <h3 class="card-title">JENIS SAMPAH</h3>
                 <button onclick="openJenisSampahModal()" class="btn-modern btn-add">
                     <i class="fas fa-plus"></i> <span>Tambah Jenis</span>
                 </button>
@@ -708,7 +750,7 @@
         {{-- DAFTAR PENERIMA SAMPAH --}}
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Daftar Penerima Sampah</h3>
+                <h3 class="card-title">PENERIMA SAMPAH</h3>
                 <button onclick="openPenerimaModal(null, '', '', 'DOMESTIK')" class="btn-modern btn-add">
                     <i class="fas fa-plus"></i> <span>Tambah Penerima</span>
                 </button>
@@ -771,7 +813,7 @@
     <div id="content-pengguna-profile" class="hidden">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Manajemen Pengguna</h3>
+                <h3 class="card-title">MANAJEMEN PENGGUNA</h3>
                 <button onclick="openUserModal()" class="btn-modern btn-add">
                     <i class="fas fa-plus"></i> Tambah User
                 </button>
@@ -840,303 +882,21 @@
     @endif
 </div>
 
-{{-- Modal WWTP --}}
-<div id="modalLokasiWWTP" class="modal-overlay">
-    <div class="modal-content modal-lg">
-        <div class="modal-header">
-            <h3 id="modalLokasiWWTPTitle" class="modal-title">Form WWTP</h3>
-            <button type="button" onclick="closeModal('modalLokasiWWTP')" class="modal-close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <form id="formWWTP" method="POST">
-            @csrf
-            <input type="hidden" id="wwtp_method" name="_method" value="POST">
-            <div class="modal-body">
-                <div class="form-section">
-                    <h4 class="form-section-title">Informasi WWTP</h4>
-                    <div class="form-grid">
-                        <div class="form-group" style="grid-column: 1 / -1;">
-                            <label class="form-label">Nama WWTP <span class="required-mark">*</span></label>
-                            <input type="text" name="nama_wwtp" id="nama_wwtp" class="form-input" required>
-                        </div>
-                        <div class="form-group" style="grid-column: 1 / -1;">
-                            <label class="form-label">Alamat <span class="required-mark">*</span></label>
-                            <textarea name="alamat" id="alamat_wwtp" class="form-input" rows="3" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Latitude</label>
-                            <input type="text" name="koordinat_lat" id="koordinat_lat_wwtp" class="form-input" placeholder="-6.9175">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Longitude</label>
-                            <input type="text" name="koordinat_lng" id="koordinat_lng_wwtp" class="form-input" placeholder="107.6191">
-                        </div>
-                        <div class="form-group" style="grid-column: 1 / -1;">
-                            <label class="form-label">Kapasitas Debit (m³)</label>
-                            <input type="number" step="0.01" name="kapasitas_debit" id="kapasitas_debit" class="form-input">
-                            <span class="form-help">Masukkan kapasitas dalam meter kubik</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="closeModal('modalLokasiWWTP')" class="btn-modern btn-reset">
-                    <i class="fas fa-times"></i> Batal
-                </button>
-                <button type="submit" id="btnSubmitWWTP" class="btn-modern btn-add">
-                    <i class="fas fa-save"></i> Simpan
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
 
-{{-- Modal Operator --}}
-<div id="modalOperatorWwtp" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 id="modalOperatorWwtpTitle" class="modal-title">Form Operator</h3>
-            <button type="button" onclick="closeModal('modalOperatorWwtp')" class="modal-close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <form id="formOperator" method="POST">
-            @csrf
-            <input type="hidden" id="operator_method" name="_method" value="POST">
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Nama Operator <span class="required-mark">*</span></label>
-                    <input type="text" name="nama_operator" id="nama_operator" class="form-input" required>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="closeModal('modalOperatorWwtp')" class="btn-modern btn-reset">
-                    <i class="fas fa-times"></i> Batal
-                </button>
-                <button type="submit" id="btnSubmitOperator" class="btn-modern btn-add">
-                    <i class="fas fa-save"></i> Simpan
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
+<!-- Modals WWTP -->
+@include('components.form-lokasi-wwtp')
+@include('components.form-operator-wwtp')
+@include('components.form-lab')
 
-{{-- Modal Lab --}}
-<div id="modalLab" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 id="modalLabTitle" class="modal-title">Form Lab</h3>
-            <button type="button" onclick="closeModal('modalLab')" class="modal-close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <form id="formLab" method="POST">
-            @csrf
-            <input type="hidden" id="lab_method" name="_method" value="POST">
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Nama Lab <span class="required-mark">*</span></label>
-                    <input type="text" name="nama_lab" id="nama_lab" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Lokasi <span class="required-mark">*</span></label>
-                    <input type="text" name="lokasi" id="lokasi" class="form-input" required>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="closeModal('modalLab')" class="btn-modern btn-reset">
-                    <i class="fas fa-times"></i> Batal
-                </button>
-                <button type="submit" id="btnSubmitLab" class="btn-modern btn-add">
-                    <i class="fas fa-save"></i> Simpan
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
+<!-- Modals TPS -->
+@include('components.form-tps')
+@include('components.form-ekspedisi')
+@include('components.form-jenis-sampah')
+@include('components.form-status-sampah')
+@include('components.form-satuan-sampah')
+@include('components.form-penerima-sampah')
 
-{{-- Modal TPS --}}
-<div id="modalTPS" class="modal-overlay">
-    <div class="modal-content modal-lg">
-        <div class="modal-header">
-            <h3 id="modalTPSTitle" class="modal-title">Form TPS</h3>
-            <button type="button" onclick="closeModal('modalTPS')" class="modal-close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <form id="formTPS" method="POST">
-            @csrf
-            <input type="hidden" id="tps_method" name="_method" value="POST">
-            <input type="hidden" name="tipe" id="tps_tipe" value="">
-            <div class="modal-body">
-                <div class="form-section">
-                    <h4 class="form-section-title">Informasi TPS</h4>
-                    <div class="form-grid">
-                        <div class="form-group" style="grid-column: 1 / -1;">
-                            <label class="form-label">Nama TPS <span class="required-mark">*</span></label>
-                            <input type="text" name="nama_tps" id="nama_tps" class="form-input" required>
-                        </div>
-                        <div class="form-group" style="grid-column: 1 / -1;">
-                            <label class="form-label">Alamat</label>
-                            <textarea name="alamat" id="alamat_tps" class="form-input" rows="3"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Latitude</label>
-                            <input type="text" name="koordinat_lat" id="koordinat_lat_tps" class="form-input">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Longitude</label>
-                            <input type="text" name="koordinat_lng" id="koordinat_lng_tps" class="form-input">
-                        </div>
-                        <div class="form-group" style="grid-column: 1 / -1;">
-                            <label class="form-label">Kapasitas Maximum (m³)</label>
-                            <input type="number" step="0.01" name="kapasitas_max" id="kapasitas_max" class="form-input">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="closeModal('modalTPS')" class="btn-modern btn-reset">
-                    <i class="fas fa-times"></i> Batal
-                </button>
-                <button type="submit" id="btnSubmitTPS" class="btn-modern btn-add">
-                    <i class="fas fa-save"></i> Simpan
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-{{-- Modal Satuan Sampah --}}
-<div id="modalSatuanSampah" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 id="modalSatuanSampahTitle" class="modal-title">Form Satuan</h3>
-            <button type="button" onclick="closeModal('modalSatuanSampah')" class="modal-close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <form id="formSatuanSampah" method="POST">
-            @csrf
-            <input type="hidden" id="satuan_sampah_method" name="_method" value="POST">
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Nama Satuan <span class="required-mark">*</span></label>
-                    <input type="text" name="nama_satuan" id="nama_satuan" class="form-input" required placeholder="Contoh: kg, ton, m³">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="closeModal('modalSatuanSampah')" class="btn-modern btn-reset">
-                    <i class="fas fa-times"></i> Batal
-                </button>
-                <button type="submit" id="btnSubmitSatuanSampah" class="btn-modern btn-add">
-                    <i class="fas fa-save"></i> Simpan
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-{{-- Modal Jenis Sampah --}}
-<div id="modalJenisSampah" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 id="modalJenisSampahTitle" class="modal-title">Form Jenis</h3>
-            <button type="button" onclick="closeModal('modalJenisSampah')" class="modal-close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <form id="formJenisSampah" method="POST">
-            @csrf
-            <input type="hidden" id="jenis_sampah_method" name="_method" value="POST">
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Nama Jenis <span class="required-mark">*</span></label>
-                    <input type="text" name="nama_jenis" id="nama_jenis" class="form-input" required placeholder="Contoh: Organik, Anorganik">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="closeModal('modalJenisSampah')" class="btn-modern btn-reset">
-                    <i class="fas fa-times"></i> Batal
-                </button>
-                <button type="submit" id="btnSubmitJenisSampah" class="btn-modern btn-add">
-                    <i class="fas fa-save"></i> Simpan
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-{{-- Modal Ekspedisi --}}
-<div id="modalEkspedisi" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 id="modalEkspedisiTitle" class="modal-title">Form Ekspedisi</h3>
-            <button type="button" onclick="closeModal('modalEkspedisi')" class="modal-close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <form id="formEkspedisi" method="POST">
-            @csrf
-            <input type="hidden" id="ekspedisi_method" name="_method" value="POST">
-            <input type="hidden" name="tipe" id="ekspedisi_tipe" value="">
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Nama Ekspedisi <span class="required-mark">*</span></label>
-                    <input type="text" name="nama_ekspedisi" id="nama_ekspedisi" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Alamat</label>
-                    <textarea name="alamat" id="alamat_ekspedisi" class="form-input" rows="3"></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="closeModal('modalEkspedisi')" class="btn-modern btn-reset">
-                    <i class="fas fa-times"></i> Batal
-                </button>
-                <button type="submit" id="btnSubmitEkspedisi" class="btn-modern btn-add">
-                    <i class="fas fa-save"></i> Simpan
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-{{-- Modal Penerima Sampah --}}
-<div id="modalPenerimaSampah" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 id="modalPenerimaSampahTitle" class="modal-title">Form Penerima Sampah</h3>
-            <button type="button" onclick="closeModal('modalPenerimaSampah')" class="modal-close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <form id="formPenerimaSampah" method="POST">
-            @csrf
-            <input type="hidden" id="penerima_sampah_method" name="_method" value="POST">
-            <input type="hidden" name="tipe" id="penerima_tipe" value="">
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Nama Penerima Sampah <span class="required-mark">*</span></label>
-                    <input type="text" name="nama_penerima" id="nama_penerima" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Alamat</label>
-                    <textarea name="alamat" id="alamat_penerima_sampah" class="form-input" rows="3"></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="closeModal('modalPenerimaSampah')" class="btn-modern btn-reset">
-                    <i class="fas fa-times"></i> Batal
-                </button>
-                <button type="submit" id="btnSubmitPenerimaSampah" class="btn-modern btn-add">
-                    <i class="fas fa-save"></i> Simpan
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
+<!-- Modals Pengguna -->
 @include('components.form-pengguna')
 
 @push('scripts')
