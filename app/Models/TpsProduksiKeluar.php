@@ -18,14 +18,16 @@ class TpsProduksiKeluar extends Model
         'berat_kosong_kg',
         'berat_isi_kg',
         'jenis_sampah_id',
-        'penerima_id'
+        'penerima_id',
+        'total_unit',
     ];
 
     protected $casts = [
         'tanggal_pengangkutan' => 'date',
         'berat_kosong_kg' => 'float',
         'berat_isi_kg' => 'float',
-        'berat_bersih_kg' => 'float'
+        'berat_bersih_kg' => 'float',
+        'total_unit' => 'integer'
     ];
 
     public function tps(): BelongsTo

@@ -85,6 +85,19 @@
                             @endforeach
                         </select>
                     </div>
+
+                    <div class="form-group" style="flex:1">
+                        <label class="form-label">Total Unit <span class="text-red">*</span></label>
+                        <input
+                            type="number"
+                            name="total_unit"
+                            id="keluarTotalUnit"
+                            class="form-control"
+                            min="1"
+                            placeholder="Masukkan total unit"
+                            required>
+                    </div>
+
                     <div class="form-group" style="flex:1">
                         <label class="form-label">Penerima <span class="text-red">*</span></label>
                         <select name="penerima_id" id="keluarPenerima" required class="form-control">
@@ -95,6 +108,7 @@
                         </select>
                     </div>
                 </div>
+
             </div>
 
             <div class="modal-footer">
@@ -121,6 +135,7 @@
         document.getElementById('keluarId').value = '';
         document.getElementById('keluarTanggal').value = "{{ date('Y-m-d') }}";
         document.getElementById('keluarBeratBersih').value = '0.00';
+        document.getElementById('keluarTotalUnit').value = '';
         openModal('modalSampahKeluar');
     }
 
@@ -133,7 +148,6 @@
             document.getElementById('formSampahKeluar').action = `/tps-produksi/keluar/${id}`;
             document.getElementById('keluarMethod').value = 'PUT';
             document.getElementById('keluarId').value = id;
-
             document.getElementById('keluarTps').value = data.tps_id;
             document.getElementById('keluarNomor').value = data.no_sampah_keluar;
             document.getElementById('keluarTanggal').value = data.tanggal_pengangkutan;
@@ -141,6 +155,7 @@
             document.getElementById('keluarKendaraan').value = data.no_kendaraan;
             document.getElementById('keluarBeratKosong').value = data.berat_kosong_kg;
             document.getElementById('keluarBeratIsi').value = data.berat_isi_kg;
+            document.getElementById('keluarTotalUnit').value = data.total_unit;
             document.getElementById('keluarJenisSampah').value = data.jenis_sampah_id;
             document.getElementById('keluarPenerima').value = data.penerima_id;
 

@@ -4,7 +4,7 @@
             <div class="footer-grid">
                 <!-- Company Info -->
                 <div class="footer-column">
-                    <h3 class="footer-title">PT Indofood CBP Sukses Makmur Tbk</h3>
+                    <h3 class="footer-title">PT Indofood</h3>
                     <p class="footer-text">
                         Sistem Manajemen Data Lingkungan untuk monitoring dan pengelolaan data lingkungan secara terpadu dan terintegrasi.
                     </p>
@@ -37,10 +37,7 @@
                             <i class="fas fa-envelope"></i>
                             <span>info@indofood.co.id</span>
                         </li>
-                        <li>
-                            <i class="fas fa-clock"></i>
-                            <span>Senin - Jumat: 08:00 - 17:00</span>
-                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -52,7 +49,7 @@
         <div class="container">
             <div class="footer-bottom-content">
                 <p class="footer-copyright">
-                    © {{ date('Y') }} PT Indofood CBP Sukses Makmur Tbk. All Rights Reserved.
+                    © {{ date('Y') }} PT Indofood. All Rights Reserved.
                 </p>
             </div>
         </div>

@@ -119,7 +119,7 @@ async function openEditKeluar(id) {
             document.getElementById('keluarKendaraan').value = data.no_kendaraan;
             document.getElementById('keluarBeratKosong').value = data.berat_kosong_kg;
             document.getElementById('keluarBeratIsi').value = data.berat_isi_kg;
-            
+            document.getElementById('keluarTotalUnit').value = data.total_unit;
             document.getElementById('keluarJenisSampah').value = data.jenis_sampah_id; 
             document.getElementById('keluarPenerima').value = data.penerima_id;
 

@@ -43,6 +43,7 @@ class TpsProduksiKeluarExport implements FromCollection, WithHeadings, WithMappi
             'Berat Kosong (kg)',
             'Berat Isi (kg)',
             'Berat Bersih (kg)',
+            'Total Unit',
             'Jenis Sampah',
             'Penerima',
         ];
@@ -65,6 +66,7 @@ class TpsProduksiKeluarExport implements FromCollection, WithHeadings, WithMappi
             number_format($row->berat_kosong_kg, 2, ',', '.'),
             number_format($row->berat_isi_kg, 2, ',', '.'),
             number_format($beratBersih, 2, ',', '.'),
+            $row->total_unit,
             $row->jenisSampah->nama_jenis ?? '-',
             $row->penerima->nama_penerima ?? '-',
         ];

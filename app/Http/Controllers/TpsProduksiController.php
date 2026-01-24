@@ -27,20 +27,20 @@ class TpsProduksiController extends Controller
 
         // Query untuk Sampah Masuk
         $queryMasuk = TpsProduksiMasuk::with(['tps', 'satuanSampah', 'jenisSampah']);
-        
+
         if ($request->filled('tanggal_masuk_dari') && $request->filled('tanggal_masuk_sampai')) {
             $queryMasuk->whereBetween('tanggal', [$request->tanggal_masuk_dari, $request->tanggal_masuk_sampai]);
         }
-        
+
         $dataMasuk = $queryMasuk->latest()->get();
 
         // Query untuk Sampah Keluar
         $queryKeluar = TpsProduksiKeluar::with(['tps', 'ekspedisi', 'jenisSampah', 'penerima']);
-        
+
         if ($request->filled('tanggal_keluar_dari') && $request->filled('tanggal_keluar_sampai')) {
             $queryKeluar->whereBetween('tanggal_pengangkutan', [$request->tanggal_keluar_dari, $request->tanggal_keluar_sampai]);
         }
-        
+
         $dataKeluar = $queryKeluar->latest()->get();
 
         return view('pages.tps-produksi', compact(
@@ -58,11 +58,11 @@ class TpsProduksiController extends Controller
     {
         $tanggalDari = $request->tanggal_masuk_dari;
         $tanggalSampai = $request->tanggal_masuk_sampai;
-        
+
         $fileName = 'Data_TPS_Produksi_Masuk_' . date('YmdHis') . '.xlsx';
-        
+
         return Excel::download(
-            new TpsProduksiMasukExport($tanggalDari, $tanggalSampai), 
+            new TpsProduksiMasukExport($tanggalDari, $tanggalSampai),
             $fileName
         );
     }
@@ -71,11 +71,11 @@ class TpsProduksiController extends Controller
     {
         $tanggalDari = $request->tanggal_keluar_dari;
         $tanggalSampai = $request->tanggal_keluar_sampai;
-        
+
         $fileName = 'Data_TPS_Produksi_Keluar_' . date('YmdHis') . '.xlsx';
-        
+
         return Excel::download(
-            new TpsProduksiKeluarExport($tanggalDari, $tanggalSampai), 
+            new TpsProduksiKeluarExport($tanggalDari, $tanggalSampai),
             $fileName
         );
     }
@@ -85,12 +85,12 @@ class TpsProduksiController extends Controller
         try {
             $data = TpsProduksiKeluar::with(['tps', 'ekspedisi', 'jenisSampah', 'penerima'])
                 ->findOrFail($id);
-            
+
             $pdf = PDF::loadView('pdf.surat-pengiriman-barang', compact('data'));
             $pdf->setPaper('a4', 'portrait');
-            
+
             $filename = 'Surat_Pengiriman_' . $data->no_sampah_keluar . '_' . date('YmdHis') . '.pdf';
-            
+
             return $pdf->download($filename);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal membuat PDF: ' . $e->getMessage());
@@ -188,7 +188,8 @@ class TpsProduksiController extends Controller
             'berat_kosong_kg' => 'required|numeric|min:0',
             'berat_isi_kg' => 'required|numeric|min:0|gt:berat_kosong_kg',
             'jenis_sampah_id' => 'required|exists:jenis_sampah,id',
-            'penerima_id' => 'required|exists:daftar_penerima,id'
+            'penerima_id' => 'required|exists:daftar_penerima,id',
+            'total_unit' => 'required|integer'
         ], [
             'tps_id.required' => 'TPS harus dipilih',
             'no_sampah_keluar.required' => 'Nomor sampah keluar harus diisi',
@@ -201,7 +202,10 @@ class TpsProduksiController extends Controller
             'berat_isi_kg.min' => 'Berat isi tidak boleh negatif',
             'berat_isi_kg.gt' => 'Berat isi harus lebih besar dari berat kosong',
             'jenis_sampah_id.required' => 'Jenis sampah harus dipilih',
-            'penerima_id.required' => 'Penerima harus dipilih'
+            'penerima_id.required' => 'Penerima harus dipilih',
+            'total_unit.required' => 'Total unit harus diisi',
+            'total_unit.integer' => 'Total unit harus berupa angka',
+            'total_unit.min' => 'Total unit minimal 0',
         ]);
 
         try {
@@ -223,7 +227,8 @@ class TpsProduksiController extends Controller
             'berat_kosong_kg' => 'required|numeric|min:0',
             'berat_isi_kg' => 'required|numeric|min:0|gt:berat_kosong_kg',
             'jenis_sampah_id' => 'required|exists:jenis_sampah,id',
-            'penerima_id' => 'required|exists:daftar_penerima,id'
+            'penerima_id' => 'required|exists:daftar_penerima,id',
+            'total_unit' => 'required|integer|min:0'
         ]);
 
         try {
