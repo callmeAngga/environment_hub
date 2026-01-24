@@ -198,6 +198,7 @@
                         <th>Status Sampah</th>
                         <th>Jenis Sampah</th>
                         <th>Penerima</th>
+                        <th>Keterangan</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -216,6 +217,7 @@
                         <td>{{ $item->statusSampah->nama_status ?? '-' }}</td>
                         <td>{{ $item->jenisSampah->nama_jenis ?? '-' }}</td>
                         <td>{{ $item->penerima->nama_penerima ?? '-' }}</td>
+                        <td>{{ $item->keterangan ?? '-' }}</td>
                         <td>
                             <div class="action-buttons-stacked">
                                 <a href="{{ route('tps-produksi.export.single.pdf', $item->id) }}"

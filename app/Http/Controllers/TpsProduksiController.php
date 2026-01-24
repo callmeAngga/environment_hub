@@ -195,7 +195,8 @@ class TpsProduksiController extends Controller
             'jenis_sampah_id' => 'required|exists:jenis_sampah,id',
             'penerima_id' => 'required|exists:daftar_penerima,id',
             'total_unit' => 'required|integer',
-            'status_sampah_id' => 'required|exists:status_sampah,id'
+            'status_sampah_id' => 'required|exists:status_sampah,id',
+            'keterangan' => 'nullable|string',
         ], [
             'tps_id.required' => 'TPS harus dipilih',
             'no_sampah_keluar.required' => 'Nomor sampah keluar harus diisi',
@@ -236,7 +237,8 @@ class TpsProduksiController extends Controller
             'jenis_sampah_id' => 'required|exists:jenis_sampah,id',
             'penerima_id' => 'required|exists:daftar_penerima,id',
             'total_unit' => 'required|integer|min:0',
-            'status_sampah_id' => 'required|exists:status_sampah,id'
+            'status_sampah_id' => 'required|exists:status_sampah,id',
+            'keterangan' => 'nullable|string',
         ]);
 
         try {

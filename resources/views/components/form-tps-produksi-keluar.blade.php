@@ -121,6 +121,11 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="form-label">Keterangan</label>
+                    <textarea name="keterangan" id="keluarKeterangan" class="form-control" rows="3" placeholder="Masukkan Keterangan"></textarea>
+                </div>
+
 
             </div>
 
@@ -149,6 +154,7 @@
         document.getElementById('keluarTanggal').value = "{{ date('Y-m-d') }}";
         document.getElementById('keluarBeratBersih').value = '0.00';
         document.getElementById('keluarTotalUnit').value = '';
+        document.getElementById('keluarKeterangan').value = '';
         openModal('modalSampahKeluar');
     }
 
@@ -172,6 +178,7 @@
             document.getElementById('keluarJenisSampah').value = data.jenis_sampah_id;
             document.getElementById('keluarPenerima').value = data.penerima_id;
             document.getElementById('keluarStatusSampah').value = data.status_sampah_id;
+            document.getElementById('keluarKeterangan').value = data.keterangan || '';
 
             hitungBeratBersihKeluar();
             openModal('modalSampahKeluar');

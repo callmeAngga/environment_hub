@@ -21,6 +21,7 @@ class TpsProduksiKeluar extends Model
         'penerima_id',
         'total_unit',
         'status_sampah_id',
+        'keterangan',
     ];
 
     protected $casts = [
