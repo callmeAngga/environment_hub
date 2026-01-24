@@ -6,7 +6,7 @@
                 <!-- Left: Brand -->
                 <div class="header-brand">
                     <div class="brand-logo">
-                        <i class="fas fa-leaf"></i>
+                        <img src="{{ asset('images/logo_environment_hub.png') }}" alt="Environment Hub Logo">
                     </div>
                     <div class="brand-text">
                         <h1 class="brand-title">Sistem Manajemen Data Lingkungan</h1>
