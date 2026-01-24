@@ -4,8 +4,9 @@
     <meta charset="utf-8">
     <title>Surat Pengiriman Barang</title>
     <style>
+        /* Margin disesuaikan dengan standar surat jalan A4 */
         @page {
-            margin: 10mm 15mm;
+            margin: 20mm 30mm;
         }
         
         body {
@@ -18,9 +19,8 @@
         .bold { font-weight: bold; }
         .center { text-align: center; }
         .right { text-align: right; }
-        .left { text-align: left; }
-        .uppercase { text-transform: uppercase; }
         
+        /* Layout Grid menggunakan Table */
         .layout-table {
             width: 100%;
             border-collapse: collapse;
@@ -32,72 +32,72 @@
             padding: 0;
         }
 
+        /* Header Styles */
         .company-name {
             font-size: 18pt;
             font-weight: bold;
+            margin-bottom: 2px;
         }
         .company-address {
             font-size: 9pt;
+            line-height: 1.2;
         }
 
-        .recipient-box {
-            margin-left: auto;
-            width: 60%;
-        }
+        /* Info Labels (Titik dua sejajar) */
+        .info-row { margin-bottom: 2px; }
+        .info-label { display: inline-block; width: 100px; }
+        .info-label-mini { display: inline-block; width: 55px; }
+        .info-colon { display: inline-block; width: 10px; text-align: center; }
 
-        .info-label {
-            display: inline-block;
-            width: 100px;
-        }
-        .info-colon {
-            display: inline-block;
-            width: 10px;
-            text-align: center;
-        }
-
+        /* Judul Dokumen */
         .doc-title {
             font-size: 14pt;
             font-weight: bold;
-            text-decoration: none;
+            text-decoration: underline;
             text-align: center;
-            margin: 20px 0;
+            margin-top: 25px;
+            margin-bottom: 15px;
         }
 
+        /* Tabel Data Utama */
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 10px;
+            margin-bottom: 2px; /* Jarak dikit ke footer code */
         }
         .data-table th, .data-table td {
             border: 1px solid #000;
-            padding: 5px;
-            vertical-align: middle;
+            padding: 5px 8px;
+            vertical-align: top;
         }
         .data-table th {
             text-align: center;
             font-weight: bold;
-            height: 30px;
+            background-color: #fff;
+            height: 25px;
         }
         .data-table td {
-            height: 40px;
+            height: 40px; /* Tinggi minimum baris */
         }
 
-        .disclaimer {
-            text-align: center;
-            font-size: 9pt;
-            font-weight: bold;
-            margin: 15px 0;
-        }
-        .doc-code-left {
-            font-size: 9pt;
-            position: absolute;
-            left: 0;
-        }
-        .doc-code-right {
-            font-size: 9pt;
+        /* Footer Code (Pojok Kanan Bawah Tabel) */
+        .footer-code {
             text-align: right;
+            font-size: 9pt;
+            margin-bottom: 10px;
+            padding-right: 42px;
         }
 
+        /* Disclaimer */
+        .disclaimer {
+            text-align: left;
+            font-size: 8pt;
+            font-style: italic;
+            margin: 15px 0;
+            line-height: 1.4;
+        }
+
+        /* Area Tanda Tangan */
         .signature-table {
             width: 100%;
             margin-top: 20px;
@@ -106,17 +106,20 @@
         .signature-space {
             height: 70px;
         }
-        .signature-title {
+        .signature-name {
             font-weight: bold;
-            margin-bottom: 5px;
+            text-decoration: underline;
         }
         .signature-role {
-            margin-top: 5px;
+            margin-top: 3px;
+            font-size: 10pt;
         }
 
+        /* Daftar Distribusi */
         .distribution-list {
             margin-top: 20px;
             font-size: 8pt;
+            line-height: 1.4;
         }
     </style>
 </head>
@@ -139,20 +142,23 @@
 
     <table class="layout-table">
         <tr>
-            <td style="width: 55%">
-                <div>Kepada Yth</div>
-                <div class="bold">NON-BIWA</div> <div class="bold">{{ $data->penerima->nama_penerima ?? 'PT. Tenang Jaya Sejahtera' }}</div>
-                <div>Waste Management Service</div>
+            <td style="width: 72%;">
+                <div style="font-size: 10pt;">Kepada Yth</div>
+                <div style="font-size: 10pt; margin: 2px 0;">{{ $data->penerima->nama_penerima ?? 'PT. Tenang Jaya Sejahtera' }}</div>
+                <div style="font-size: 10pt;">Waste Management Service</div>
+                <div style="font-size: 10pt; width: 95%; line-height: 1.2; margin-top: 2px;">
+                    {{ $data->penerima->alamat ?? '-' }}
+                </div>
             </td>
-
-            <td style="width: 55%;padding-left: 148px;">
-                <div>
-                    <span class="info-label">SPB No</span>
+            
+            <td style="width: 28%;">
+                <div class="info-row">
+                    <span class="info-label-mini">SPB No</span>
                     <span class="info-colon">:</span>
                     <span>{{ $data->no_sampah_keluar }}</span>
                 </div>
-                <div>
-                    <span class="info-label">Tanggal</span>
+                <div class="info-row">
+                    <span class="info-label-mini">Tanggal</span>
                     <span class="info-colon">:</span>
                     <span>{{ $data->tanggal_pengangkutan ? $data->tanggal_pengangkutan->format('d.m.Y') : '-' }}</span>
                 </div>
@@ -162,15 +168,15 @@
 
     <br>
 
-    <table class="layout-table">
+    <table>
         <tr>
             <td style="width: 55%;">
-                <div>
+                <div class="info-row">
                     <span class="info-label">Jasa ekspedisi</span>
                     <span class="info-colon">:</span>
                     <span>{{ $data->ekspedisi->nama_ekspedisi ?? '-' }}</span>
                 </div>
-                <div>
+                <div class="info-row">
                     <span class="info-label">No Polisi</span>
                     <span class="info-colon">:</span>
                     <span>{{ $data->no_kendaraan }}</span>
@@ -179,7 +185,10 @@
         </tr>
     </table>
 
-    <div class="doc-title">SURAT PENGIRIMAN BARANG</div>
+    <br>
+    <br>
+    <br>
+
 
     <table class="data-table">
         <thead>
@@ -193,65 +202,50 @@
         </thead>
         <tbody>
             <tr>
-                <td class="center">1</td>
-                <td>{{ $data->jenisSampah->nama_jenis ?? '-' }}</td>
-                <td class="center">Kilogram</td>
-                <td class="center">{{ number_format($data->berat_isi_kg - $data->berat_kosong_kg, 0, ',', '.') }}</td>
-                <td></td>
+                <td class="center" style="height: 300px;">1</td>
+                <td style="height: 300px;">{{ $data->jenisSampah->nama_jenis ?? '-' }}</td>
+                <td class="center" style="height: 300px;">Kilogram</td>
+                <td class="center" style="height: 300px;">{{ number_format($data->berat_isi_kg - $data->berat_kosong_kg, 0, ',', '.') }}</td>
+                <td style="height: 300px;">{{ $data->keterangan ?? '' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <table class="layout-table">
-        <tr>
-            <td>
-                <div class="bold">F.02.01/FGT-HR-004</div>
-            </td>
-        </tr>
-    </table>
-
-    <br>
+    <div class="footer-code">F.02.02/FGT-HR-004</div>
 
     <div class="disclaimer">
         "KEKURANGAN BARANG SETELAH KELUAR DARI PABRIK MERUPAKAN TANGGUNG JAWAB EKSPEDISI"<br>
         "CLAIM KERUSAKAN/KEKURANGAN BARANG KEPADA EKSPEDISI"
     </div>
 
-    <br>
+    <table class="layout-table" style="margin-top: 30px;">
+        <tr>
+            <td style="width: 30%; vertical-align: top;">
+                <div style="font-size: 8pt;">
+                    <div class="bold" style="margin-bottom: 5px;">Distribusi</div>
+                    <div>- Human Resource</div>
+                    <div>- Ekspedisi</div>
+                    <div>- Penerima Barang</div>
+                </div>
+            </td>
 
-    <table class="signature-table">
-        <tr>
-            <td style="width: 33%;">Dibuat Oleh</td>
-            <td style="width: 33%;">Diketahui Oleh</td>
-            <td style="width: 33%;">Diterima Oleh</td>
-        </tr>
-        <tr>
-            <td class="signature-space"></td>
-            <td class="signature-space"></td>
-            <td class="signature-space"></td>
-        </tr>
-        <tr>
-            <td>
-                <span style="text-decoration: underline;">(________________)</span>
-                <div>GAS Leader</div>
+            <td style="width: 40%; text-align: center; vertical-align: top;">
+                <div>Disetujui Oleh</div>
+                <div style="height: 60px;"></div>
+                
+                <div class="signature-name">(________________)</div>
+                <div style="margin-top: 5px;">________________</div>
             </td>
-            <td>
-                <span style="text-decoration: underline;">(________________)</span>
-                <div>GAS SPV</div>
-            </td>
-            <td>
-                <span style="text-decoration: underline;">(________________)</span>
-                <div>Ekspedisi</div>
+
+            <td style="width: 30%; text-align: center; vertical-align: top;">
+                <div>Diterima Oleh</div>
+                <div style="height: 60px;"></div>
+                
+                <div class="signature-name">(________________)</div>
+                <div class="signature-role">Ekspedisi</div>
             </td>
         </tr>
     </table>
-
-    <div class="distribution-list">
-        <div class="bold">Distribusi</div>
-        <div>- Human Resource</div>
-        <div>- Ekspedisi</div>
-        <div>- Penerima Barang</div>
-    </div>
 
 </body>
 </html>
