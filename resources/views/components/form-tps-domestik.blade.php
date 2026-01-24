@@ -30,12 +30,11 @@
                             name="no_sampah_keluar" 
                             id="domestikNomor" 
                             class="form-control" 
-                            placeholder="Contoh: 2025010001" 
+                            placeholder="" 
                             maxlength="10"
                             pattern="\d{10}"
                             title="Format: YYYYMMXXXX (10 digit angka)"
                             required>
-                        <small class="form-help">Format: YYYYMMXXXX (contoh: 2025010001)</small>
                     </div>
 
                     <div class="form-group">

@@ -1508,6 +1508,9 @@ textarea.form-input {
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 16px;
+    padding: 10px 0 20px 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
 }
 
 .filter-title {
