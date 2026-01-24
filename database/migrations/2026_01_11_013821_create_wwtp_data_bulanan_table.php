@@ -16,6 +16,7 @@ class CreateWwtpDataBulananTable extends Migration
         Schema::create('wwtp_data_bulanan', function (Blueprint $table) {
             $table->id();
             $table->foreignId('wwtp_id')->constrained('lokasi_wwtp')->onDelete('cascade');
+            $table->foreignId('lab_id')->constrained('lab')->onDelete('cascade');
             $table->integer('bulan');
             $table->integer('tahun');
             $table->decimal('tss_inlet', 10, 2)->nullable();

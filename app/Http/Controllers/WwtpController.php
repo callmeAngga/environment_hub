@@ -19,15 +19,15 @@ class WwtpController extends Controller
             $queryHarian->whereBetween('tanggal', [$request->tanggal_dari, $request->tanggal_sampai]);
         }
 
-        $dataHarian = $queryHarian->latest()->get();
+        $sortHarian = $request->get('sort_harian', 'asc');
+        $dataHarian = $queryHarian->orderBy('created_at', $sortHarian)->get();
 
-        $queryBulanan = WwtpDataBulanan::with('wwtp');
+        $queryBulanan = WwtpDataBulanan::with('wwtp', 'lab');
 
         if (
             $request->filled('bulan_dari') && $request->filled('tahun_dari') &&
             $request->filled('bulan_sampai') && $request->filled('tahun_sampai')
         ) {
-
             $queryBulanan->where(function ($q) use ($request) {
                 $q->where(function ($subQ) use ($request) {
                     $subQ->where('tahun', '>', $request->tahun_dari)
@@ -45,9 +45,10 @@ class WwtpController extends Controller
             });
         }
 
-        $dataBulanan = $queryBulanan->latest()->get();
+        $sortBulanan = $request->get('sort_bulanan', 'asc');
+        $dataBulanan = $queryBulanan->orderBy('created_at', $sortBulanan)->get();
 
-        return view('pages.wwtp', compact('dataHarian', 'dataBulanan'));
+        return view('pages.wwtp', compact('dataHarian', 'dataBulanan', 'sortHarian', 'sortBulanan'));
     }
 
     public function exportHarianExcel(Request $request)
@@ -168,6 +169,7 @@ class WwtpController extends Controller
     {
         $validated = $request->validate([
             'wwtp_id' => 'required|exists:lokasi_wwtp,id',
+            'lab_id' => 'required|exists:lab,id',
             'bulan' => 'required|integer|between:1,12',
             'tahun' => 'required|integer|min:2000|max:' . (date('Y') + 1),
             'tss_inlet' => 'nullable|numeric',
@@ -194,6 +196,7 @@ class WwtpController extends Controller
     {
         $validated = $request->validate([
             'wwtp_id' => 'required|exists:lokasi_wwtp,id',
+            'lab_id' => 'required|exists:lab,id',
             'bulan' => 'required|integer|between:1,12',
             'tahun' => 'required|integer|min:2000|max:' . (date('Y') + 1),
             'tss_inlet' => 'nullable|numeric',

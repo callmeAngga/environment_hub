@@ -69,6 +69,8 @@
     <div class="data-section">
         <div class="filter-actions-bar">
             <form method="GET" action="{{ route('tps-domestik.index') }}" class="filter-inputs" id="filter-domestik">
+                <input type="hidden" name="sort_domestik" id="input-sort-domestik" value="{{ request('sort_domestik', 'asc') }}">
+
                 <div class="filter-group-inline">
                     <label class="filter-label-inline">Tanggal Dari</label>
                     <input type="date" name="tanggal_dari" id="tanggal_dari"
@@ -89,6 +91,10 @@
                         <i class="fas fa-redo"></i> <span>Reset</span>
                     </button>
                 </form>
+                <button onclick="toggleSortDomestik()" class="btn-modern btn-sort" id="btn-sort-domestik">
+                    <i class="fas fa-sort-amount-{{ request('sort_domestik', 'asc') === 'asc' ? 'up' : 'down' }}"></i>
+                    <span>{{ request('sort_domestik', 'asc') === 'asc' ? 'Terlama' : 'Terbaru' }}</span>
+                </button>
                 <button onclick="exportExcel()" class="btn-modern btn-export">
                     <i class="fas fa-file-excel"></i> <span>Export</span>
                 </button>

@@ -70,6 +70,8 @@
     <div id="content-harian" class="data-section">
         <div class="filter-actions-bar">
             <form method="GET" action="{{ route('wwtp.index') }}" class="filter-inputs" id="filter-harian">
+                <input type="hidden" name="sort_harian" id="input-sort-harian" value="{{ request('sort_harian', 'asc') }}">
+
                 <div class="filter-group-inline">
                     <label class="filter-label-inline">Tanggal Dari</label>
                     <input type="date" name="tanggal_dari" id="tanggal_dari"
@@ -90,6 +92,10 @@
                         <i class="fas fa-redo"></i> <span>Reset</span>
                     </button>
                 </form>
+                <button onclick="toggleSortHarian()" class="btn-modern btn-sort" id="btn-sort-harian">
+                    <i class="fas fa-sort-amount-{{ request('sort_harian', 'asc') === 'asc' ? 'up' : 'down' }}"></i>
+                    <span>{{ request('sort_harian', 'asc') === 'asc' ? 'Terlama' : 'Terbaru' }}</span>
+                </button>
                 <button onclick="exportHarianExcel()" class="btn-modern btn-export">
                     <i class="fas fa-file-excel"></i> <span>Export</span>
                 </button>
@@ -180,6 +186,8 @@
     <div id="content-bulanan" class="data-section hidden">
         <div class="filter-actions-bar">
             <form method="GET" action="{{ route('wwtp.index') }}" class="filter-inputs" id="filter-bulanan">
+                <input type="hidden" name="sort_bulanan" id="input-sort-bulanan" value="{{ request('sort_bulanan', 'asc') }}">
+
                 <div class="filter-group-inline">
                     <label class="filter-label-inline">Bulan Dari</label>
                     <select name="bulan_dari" id="bulan_dari" class="filter-select-inline">
@@ -230,6 +238,10 @@
                         <i class="fas fa-redo"></i> <span>Reset</span>
                     </button>
                 </form>
+                <button onclick="toggleSortBulanan()" class="btn-modern btn-sort" id="btn-sort-bulanan">
+                    <i class="fas fa-sort-amount-{{ request('sort_bulanan', 'asc') === 'asc' ? 'up' : 'down' }}"></i>
+                    <span>{{ request('sort_bulanan', 'asc') === 'asc' ? 'Terlama' : 'Terbaru' }}</span>
+                </button>
                 <button onclick="exportBulananExcel()" class="btn-modern btn-export">
                     <i class="fas fa-file-excel"></i> <span>Export</span>
                 </button>
@@ -244,6 +256,7 @@
                 <thead>
                     <tr>
                         <th>Lokasi</th>
+                        <th>Lab</th>
                         <th>Bulan</th>
                         <th>Tahun</th>
                         <th>TSS In/Out</th>
@@ -258,6 +271,7 @@
                     @forelse($dataBulanan as $bulanan)
                     <tr>
                         <td>{{ $bulanan->wwtp->nama_wwtp ?? '-' }}</td>
+                        <td>{{ $bulanan->lab->nama_lab ?? '-' }}</td>
                         <td>{{ $bulanan->nama_bulan }}</td>
                         <td>{{ $bulanan->tahun }}</td>
                         <td>

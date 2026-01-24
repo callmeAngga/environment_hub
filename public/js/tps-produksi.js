@@ -147,3 +147,21 @@ function confirmDeleteProduksi(type, id, label) {
         route: route
     });
 }
+
+function toggleSortMasuk() {
+    const sortInput = document.getElementById('input-sort-masuk');
+    if (!sortInput) return;
+    
+    const currentSort = sortInput.value;
+    sortInput.value = currentSort === 'asc' ? 'desc' : 'asc';
+    document.getElementById('filter-masuk').submit();
+}
+
+function toggleSortKeluar() {
+    const sortInput = document.getElementById('input-sort-keluar');
+    if (!sortInput) return;
+    
+    const currentSort = sortInput.value;
+    sortInput.value = currentSort === 'asc' ? 'desc' : 'asc';
+    document.getElementById('filter-keluar').submit();
+}

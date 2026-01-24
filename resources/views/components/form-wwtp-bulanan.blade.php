@@ -19,6 +19,7 @@
                     
                     @php
                         $wwtps = \App\Models\LokasiWwtp::all();
+                        $labs = \App\Models\Lab::all();
                     @endphp
                     
                     <div class="form-grid">
@@ -28,6 +29,16 @@
                                 <option value="">Pilih Lokasi WWTP</option>
                                 @foreach($wwtps as $wwtp)
                                 <option value="{{ $wwtp->id }}">{{ $wwtp->nama_wwtp }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Daftar Lab<span class="required-mark">*</span></label>
+                            <select id="bulanan_lab_id" name="lab_id" required class="form-select">
+                                <option value="">Pilih Lab</option>
+                                @foreach($labs as $lab)
+                                <option value="{{ $lab->id }}">{{ $lab->nama_lab }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -61,7 +72,7 @@
                 
                 <!-- TSS -->
                 <div class="form-section">
-                    <h4 class="form-section-title">TSS (mg/L)</h4>
+                    <h4 class="form-section-title">TSS (Total Suspended Solids) - mg/L</h4>
                     
                     <div class="form-grid">
                         <div class="form-group">
@@ -80,7 +91,7 @@
                 
                 <!-- TDS -->
                 <div class="form-section">
-                    <h4 class="form-section-title">TDS (mg/L)</h4>
+                    <h4 class="form-section-title">TDS (Total Dissolved Solids) - mg/L</h4>
                     
                     <div class="form-grid">
                         <div class="form-group">
@@ -99,7 +110,7 @@
                 
                 <!-- BOD -->
                 <div class="form-section">
-                    <h4 class="form-section-title">BOD (mg/L)</h4>
+                    <h4 class="form-section-title">BOD (Biochemical Oxygen Demand) - mg/L</h4>
                     
                     <div class="form-grid">
                         <div class="form-group">
@@ -118,7 +129,7 @@
                 
                 <!-- COD -->
                 <div class="form-section">
-                    <h4 class="form-section-title">COD (mg/L)</h4>
+                    <h4 class="form-section-title">COD (Chemical Oxygen Demand) - mg/L</h4>
                     
                     <div class="form-grid">
                         <div class="form-group">

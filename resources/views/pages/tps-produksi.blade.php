@@ -63,6 +63,8 @@
     <div id="content-masuk" class="data-section">
         <div class="filter-actions-bar">
             <form method="GET" action="{{ route('tps-produksi.index') }}" class="filter-inputs" id="filter-masuk">
+                <input type="hidden" name="sort_masuk" id="input-sort-masuk" value="{{ request('sort_masuk', 'asc') }}">
+
                 <div class="filter-group-inline">
                     <label class="filter-label-inline">Tanggal Dari</label>
                     <input type="date" name="tanggal_masuk_dari" id="tanggal_masuk_dari"
@@ -83,6 +85,10 @@
                         <i class="fas fa-redo"></i> <span>Reset</span>
                     </button>
                 </form>
+                <button onclick="toggleSortMasuk()" class="btn-modern btn-sort" id="btn-sort-masuk">
+                    <i class="fas fa-sort-amount-{{ request('sort_masuk', 'asc') === 'asc' ? 'up' : 'down' }}"></i>
+                    <span>{{ request('sort_masuk', 'asc') === 'asc' ? 'Terlama' : 'Terbaru' }}</span>
+                </button>
                 <button onclick="exportMasukExcel()" class="btn-modern btn-export">
                     <i class="fas fa-file-excel"></i> <span>Export</span>
                 </button>
@@ -141,6 +147,8 @@
     <div id="content-keluar" class="data-section hidden">
         <div class="filter-actions-bar">
             <form method="GET" action="{{ route('tps-produksi.index') }}" class="filter-inputs" id="filter-keluar">
+                <input type="hidden" name="sort_keluar" id="input-sort-keluar" value="{{ request('sort_keluar', 'asc') }}">
+
                 <div class="filter-group-inline">
                     <label class="filter-label-inline">Tanggal Dari</label>
                     <input type="date" name="tanggal_keluar_dari" id="tanggal_keluar_dari"
@@ -161,6 +169,10 @@
                         <i class="fas fa-redo"></i> <span>Reset</span>
                     </button>
                 </form>
+                <button onclick="toggleSortKeluar()" class="btn-modern btn-sort" id="btn-sort-keluar">
+                    <i class="fas fa-sort-amount-{{ request('sort_keluar', 'asc') === 'asc' ? 'up' : 'down' }}"></i>
+                    <span>{{ request('sort_keluar', 'asc') === 'asc' ? 'Terlama' : 'Terbaru' }}</span>
+                </button>
                 <button onclick="exportKeluarExcel()" class="btn-modern btn-export">
                     <i class="fas fa-file-excel"></i> <span>Export</span>
                 </button>

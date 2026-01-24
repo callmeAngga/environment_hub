@@ -10,6 +10,7 @@ class WwtpDataBulanan extends Model
 
     protected $fillable = [
         'wwtp_id',
+        'lab_id',
         'bulan',
         'tahun',
         'tss_inlet',
@@ -162,5 +163,10 @@ class WwtpDataBulanan extends Model
     public function wwtp()
     {
         return $this->belongsTo(LokasiWwtp::class, 'wwtp_id');
+    }
+
+    public function lab()
+    {
+        return $this->belongsTo(Lab::class, 'lab_id');
     }
 }

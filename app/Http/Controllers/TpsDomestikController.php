@@ -26,14 +26,16 @@ class TpsDomestikController extends Controller
             $query->whereBetween('tanggal_pengangkutan', [$request->tanggal_dari, $request->tanggal_sampai]);
         }
 
-        $dataDomestik = $query->latest('tanggal_pengangkutan')->paginate(15);
+        $sortDomestik = $request->get('sort_domestik', 'asc');
+        $dataDomestik = $query->orderBy('created_at', $sortDomestik)->paginate(15);
 
         return view('pages.tps-domestik', compact(
             'tpsList',
             'ekspedisiList',
             'penerimaList',
             'jenisSampahList',
-            'dataDomestik'
+            'dataDomestik',
+            'sortDomestik'
         ));
     }
 
