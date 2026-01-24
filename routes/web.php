@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     // Dashboard Routes
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])->name('dashboard.chart-data');
+    Route::get('/dashboard/chart-stok-sampah', [DashboardController::class, 'getChartStokSampah'])->name('dashboard.chart-stok-sampah');
 
     // WWTP Routes
     Route::prefix('wwtp')->group(function () {
@@ -95,4 +96,3 @@ Route::middleware('auth')->group(function () {
         });
     });
 });
-

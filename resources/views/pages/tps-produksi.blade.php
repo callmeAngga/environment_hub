@@ -175,7 +175,7 @@
                 <thead>
                     <tr>
                         <th>Nama TPS</th>
-                        <th>No. Sampah Keluar</th>
+                        <th>No. Sampah</th>
                         <th>Tanggal</th>
                         <th>Ekspedisi</th>
                         <th>No. Kendaraan</th>
@@ -222,7 +222,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="11" class="table-empty-modern">
+                        <td colspan="13" class="table-empty-modern">
                             <i class="fas fa-inbox"></i>
                             <p>Belum ada data sampah keluar</p>
                         </td>

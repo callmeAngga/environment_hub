@@ -6,27 +6,24 @@ use Illuminate\Support\Facades\Schema;
 
 class AddStatusSampahToTpsProduksiKeluarTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('tps_produksi_keluar', function (Blueprint $table) {
-            $table->string('status_sampah')->after('total_unit');
+            $table->unsignedBigInteger('status_sampah_id')
+                ->after('total_unit');
+
+            $table->foreign('status_sampah_id')
+                ->references('id')
+                ->on('status_sampah')
+                ->onDelete('restrict');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table('tps_produksi_keluar', function (Blueprint $table) {
-            $table->dropColumn('status_sampah');
+            $table->dropForeign(['status_sampah_id']);
+            $table->dropColumn('status_sampah_id');
         });
     }
 }
