@@ -122,6 +122,7 @@ async function openEditKeluar(id) {
             document.getElementById('keluarJenisSampah').value = data.jenis_sampah_id; 
             document.getElementById('keluarPenerima').value = data.penerima_id;
             document.getElementById('keluarStatusSampah').value = data.status_sampah_id;
+            document.getElementById('keluarKeterangan').value = data.keterangan;
 
             hitungBeratBersihKeluar();
             
