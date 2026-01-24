@@ -112,7 +112,8 @@ function openLabModal(id = null, nama = '', lokasi = '') {
 }
 
 // TPS Modal Functions
-function openTPSModal(id = null, nama = '', alamat = '', lat = '', lng = '', kapasitas = '') {
+function openTPSModal(id = null, nama = '', alamat = '', lat = '', lng = '', kapasitas = '', tipe = '') {
+    document.getElementById('tps_tipe').value = tipe;
     if (id) {
         document.getElementById('modalTPSTitle').textContent = 'Edit TPS';
         document.getElementById('btnSubmitTPS').textContent = 'Update';
@@ -129,6 +130,8 @@ function openTPSModal(id = null, nama = '', alamat = '', lat = '', lng = '', kap
         document.getElementById('tps_method').value = 'POST';
         document.getElementById('formTPS').action = '/profile/tps';
         document.getElementById('formTPS').reset();
+
+        document.getElementById('tps_tipe').value = tipe;
     }
     openModal('modalTPS');
 }
@@ -170,7 +173,8 @@ function openJenisSampahModal(id = null, nama = '') {
 }
 
 // Penerima Modal Functions
-function openPenerimaModal(id = null, nama = '', alamat = '') {
+function openPenerimaModal(id = null, nama = '', alamat = '', tipe = '') {
+    document.getElementById('penerima_tipe').value = tipe;
     if (id) {
         document.getElementById('modalPenerimaSampahTitle').textContent = 'Edit Penerima';
         document.getElementById('btnSubmitPenerimaSampah').textContent = 'Update';
@@ -184,12 +188,15 @@ function openPenerimaModal(id = null, nama = '', alamat = '') {
         document.getElementById('penerima_sampah_method').value = 'POST';
         document.getElementById('formPenerimaSampah').action = '/profile/daftar-penerima';
         document.getElementById('formPenerimaSampah').reset();
+
+        document.getElementById('penerima_tipe').value = tipe;
     }
     openModal('modalPenerimaSampah');
 }
 
 // Ekspedisi Modal Functions
-function openEkspedisiModal(id = null, nama = '', alamat = '') {
+function openEkspedisiModal(id = null, nama = '', alamat = '', tipe = '') {
+    document.getElementById('ekspedisi_tipe').value = tipe;
     if (id) {
         document.getElementById('modalEkspedisiTitle').textContent = 'Edit Ekspedisi';
         document.getElementById('btnSubmitEkspedisi').textContent = 'Update';
@@ -203,6 +210,8 @@ function openEkspedisiModal(id = null, nama = '', alamat = '') {
         document.getElementById('ekspedisi_method').value = 'POST';
         document.getElementById('formEkspedisi').action = '/profile/daftar-ekspedisi';
         document.getElementById('formEkspedisi').reset();
+
+        document.getElementById('ekspedisi_tipe').value = tipe;
     }
     openModal('modalEkspedisi');
 }

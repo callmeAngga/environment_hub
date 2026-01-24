@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', function () {
 function exportMasukExcel() {
     const dari = document.getElementById('tanggal_masuk_dari').value;
     const sampai = document.getElementById('tanggal_masuk_sampai').value;
-    let url = '/tps-produksi/export/masuk/excel';
+    let url = '/tps-produksi/export/masuk';
     const params = new URLSearchParams();
     if (dari) params.append('tanggal_masuk_dari', dari);
     if (sampai) params.append('tanggal_masuk_sampai', sampai);
@@ -21,7 +21,7 @@ function exportMasukExcel() {
 function exportKeluarExcel() {
     const dari = document.getElementById('tanggal_keluar_dari').value;
     const sampai = document.getElementById('tanggal_keluar_sampai').value;
-    let url = '/tps-produksi/export/keluar/excel';
+    let url = '/tps-produksi/export/keluar';
     const params = new URLSearchParams();
     if (dari) params.append('tanggal_keluar_dari', dari);
     if (sampai) params.append('tanggal_keluar_sampai', sampai);

@@ -11,7 +11,8 @@ class DaftarPenerimaController extends Controller
     {
         $validated = $request->validate([
             'nama_penerima' => 'required|string|max:255',
-            'alamat' => 'required|string'
+            'alamat' => 'required|string',
+            'tipe' => 'required|string|in:PRODUKSI,DOMESTIK'
         ]);
 
         try {

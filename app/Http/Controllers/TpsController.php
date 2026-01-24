@@ -14,7 +14,8 @@ class TpsController extends Controller
             'alamat' => 'required|string',
             'koordinat_lat' => 'required|numeric|between:-90,90',
             'koordinat_lng' => 'required|numeric|between:-180,180',
-            'kapasitas_max' => 'required|numeric|min:0'
+            'kapasitas_max' => 'required|numeric|min:0',
+            'tipe' => 'required|string|in:PRODUKSI,DOMESTIK'
         ]);
 
         try {

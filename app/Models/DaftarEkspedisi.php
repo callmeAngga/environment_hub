@@ -10,6 +10,7 @@ class DaftarEkspedisi extends Model
     
     protected $fillable = [
         'nama_ekspedisi',
-        'alamat'
+        'alamat',
+        'tipe'
     ];
 }

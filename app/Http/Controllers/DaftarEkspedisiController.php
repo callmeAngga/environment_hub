@@ -11,7 +11,8 @@ class DaftarEkspedisiController extends Controller
     {
         $validated = $request->validate([
             'nama_ekspedisi' => 'required|string|max:255',
-            'alamat' => 'required|string'
+            'alamat' => 'required|string',
+            'tipe' => 'required|string|in:PRODUKSI,DOMESTIK'
         ]);
 
         try {
