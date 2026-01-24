@@ -938,6 +938,7 @@ ul {
 
 .card-header {
     display: flex;
+    gap: 20px;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
@@ -2104,6 +2105,15 @@ textarea.form-input {
 
 @media (max-width: 480px) {
 
+    .card-header {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 10px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
     .main-content {
         padding: var(--spacing-md) 0;
         background-position: center 25%;
@@ -2152,12 +2162,33 @@ textarea.form-input {
         margin: 0;
     }
 
-    .btn-modern span {
-        display: none;
+    .action-buttons-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .action-buttons-group form {
+        width: 100%;
+        display: block !important;
+        flex: 1 1 calc(50% - 4px);
+        min-width: 0;
     }
 
     .btn-modern {
-        padding: 9px 14px;
+        flex: 1 1 calc(50% - 4px);
+        padding: 12px 16px;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .btn-modern span {
+        display: inline;
+        font-size: 13px;
+    }
+
+    .btn-modern i {
+        font-size: 14px;
     }
 
     .brand-title {

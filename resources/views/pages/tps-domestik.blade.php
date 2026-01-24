@@ -91,10 +91,10 @@
                         <i class="fas fa-redo"></i> <span>Reset</span>
                     </button>
                 </form>
-                <button onclick="toggleSortDomestik()" class="btn-modern btn-sort" id="btn-sort-domestik">
+                <!-- <button onclick="toggleSortDomestik()" class="btn-modern btn-sort" id="btn-sort-domestik">
                     <i class="fas fa-sort-amount-{{ request('sort_domestik', 'asc') === 'asc' ? 'up' : 'down' }}"></i>
                     <span>{{ request('sort_domestik', 'asc') === 'asc' ? 'Terlama' : 'Terbaru' }}</span>
-                </button>
+                </button> -->
                 <button onclick="exportExcel()" class="btn-modern btn-export">
                     <i class="fas fa-file-excel"></i> <span>Export</span>
                 </button>

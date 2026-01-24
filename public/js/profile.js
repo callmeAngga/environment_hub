@@ -20,38 +20,29 @@ function switchTabProfile(tab) {
         activeContent.classList.remove('hidden');
     }
 
-    // Simpan tab aktif ke sessionStorage
     sessionStorage.setItem('activeProfileTab', tab);
 }
 
-// Load tab yang aktif saat halaman dimuat
 window.addEventListener('DOMContentLoaded', function () {
-    // Jika ada search_user, tampilkan tab pengguna
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('search_user')) {
         switchTabProfile('pengguna');
     } else {
-        // Gunakan tab dari sessionStorage atau default ke 'wwtp'
         const activeTab = sessionStorage.getItem('activeProfileTab') || 'wwtp';
         switchTabProfile(activeTab);
     }
 });
 
-// Delete Confirmation Functions
 function confirmDelete(config) {
     const { type, id, label, route } = config;
 
-    // Set form action
     document.getElementById('formDeleteConfirm').action = route;
 
-    // Set item name to display
     document.getElementById('deleteItemName').textContent = label;
 
-    // Open modal
     openModal('modalDeleteConfirm');
 }
 
-// Specific delete functions for each entity
 function confirmDeleteWWTP(id, nama) {
     const baseUrl = window.location.origin;
     const route = baseUrl + `/profile/wwtp/${id}`;
@@ -160,16 +151,21 @@ function confirmDeletePenerima(id, nama) {
     });
 }
 
-function confirmDeleteUser(id, email) {
-    const baseUrl = window.location.origin;
-    const route = baseUrl + `/profile/users/${id}`;
-
-    confirmDelete({
-        type: 'user',
-        id: id,
-        label: `User: ${email}`,
-        route: route
-    });
+function confirmDeleteUser(id, username) {
+    if(confirm(`Apakah Anda yakin ingin menghapus user "${username}"?`)) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/profile/users/' + id;
+        
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        form.innerHTML = `
+            <input type="hidden" name="_token" value="${csrfToken}">
+            <input type="hidden" name="_method" value="DELETE">
+        `;
+        
+        document.body.appendChild(form);
+        form.submit();
+    }
 }
 
 // Modal Functions

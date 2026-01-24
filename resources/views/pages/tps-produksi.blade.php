@@ -85,10 +85,10 @@
                         <i class="fas fa-redo"></i> <span>Reset</span>
                     </button>
                 </form>
-                <button onclick="toggleSortMasuk()" class="btn-modern btn-sort" id="btn-sort-masuk">
+                <!-- <button onclick="toggleSortMasuk()" class="btn-modern btn-sort" id="btn-sort-masuk">
                     <i class="fas fa-sort-amount-{{ request('sort_masuk', 'asc') === 'asc' ? 'up' : 'down' }}"></i>
                     <span>{{ request('sort_masuk', 'asc') === 'asc' ? 'Terlama' : 'Terbaru' }}</span>
-                </button>
+                </button> -->
                 <button onclick="exportMasukExcel()" class="btn-modern btn-export">
                     <i class="fas fa-file-excel"></i> <span>Export</span>
                 </button>
@@ -169,10 +169,10 @@
                         <i class="fas fa-redo"></i> <span>Reset</span>
                     </button>
                 </form>
-                <button onclick="toggleSortKeluar()" class="btn-modern btn-sort" id="btn-sort-keluar">
+                <!-- <button onclick="toggleSortKeluar()" class="btn-modern btn-sort" id="btn-sort-keluar">
                     <i class="fas fa-sort-amount-{{ request('sort_keluar', 'asc') === 'asc' ? 'up' : 'down' }}"></i>
                     <span>{{ request('sort_keluar', 'asc') === 'asc' ? 'Terlama' : 'Terbaru' }}</span>
-                </button>
+                </button> -->
                 <button onclick="exportKeluarExcel()" class="btn-modern btn-export">
                     <i class="fas fa-file-excel"></i> <span>Export</span>
                 </button>
@@ -236,7 +236,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="13" class="table-empty-modern">
+                        <td colspan="14" class="table-empty-modern">
                             <i class="fas fa-inbox"></i>
                             <p>Belum ada data sampah keluar</p>
                         </td>

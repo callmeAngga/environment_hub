@@ -92,10 +92,10 @@
                         <i class="fas fa-redo"></i> <span>Reset</span>
                     </button>
                 </form>
-                <button onclick="toggleSortHarian()" class="btn-modern btn-sort" id="btn-sort-harian">
+                <!-- <button onclick="toggleSortHarian()" class="btn-modern btn-sort" id="btn-sort-harian">
                     <i class="fas fa-sort-amount-{{ request('sort_harian', 'asc') === 'asc' ? 'up' : 'down' }}"></i>
                     <span>{{ request('sort_harian', 'asc') === 'asc' ? 'Terlama' : 'Terbaru' }}</span>
-                </button>
+                </button> -->
                 <button onclick="exportHarianExcel()" class="btn-modern btn-export">
                     <i class="fas fa-file-excel"></i> <span>Export</span>
                 </button>
@@ -238,10 +238,10 @@
                         <i class="fas fa-redo"></i> <span>Reset</span>
                     </button>
                 </form>
-                <button onclick="toggleSortBulanan()" class="btn-modern btn-sort" id="btn-sort-bulanan">
+                <!-- <button onclick="toggleSortBulanan()" class="btn-modern btn-sort" id="btn-sort-bulanan">
                     <i class="fas fa-sort-amount-{{ request('sort_bulanan', 'asc') === 'asc' ? 'up' : 'down' }}"></i>
                     <span>{{ request('sort_bulanan', 'asc') === 'asc' ? 'Terlama' : 'Terbaru' }}</span>
-                </button>
+                </button> -->
                 <button onclick="exportBulananExcel()" class="btn-modern btn-export">
                     <i class="fas fa-file-excel"></i> <span>Export</span>
                 </button>
@@ -322,7 +322,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="9" class="table-empty-modern">
+                        <td colspan="10" class="table-empty-modern">
                             <i class="fas fa-inbox"></i>
                             <p>Belum ada data bulanan</p>
                         </td>

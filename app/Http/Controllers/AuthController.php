@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -14,8 +14,8 @@ class AuthController extends Controller
 
     public function authenticate(Request $request)
     {
-        $credential = $request -> validate([
-            'email' => ['required', 'email'],
+        $credential = $request->validate([
+            'username' => ['required', 'string'],
             'password' => ['required'],
         ]);
 
@@ -26,14 +26,16 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Email atau Password salah.',
-        ]);
+            'username' => 'Username atau Password salah.',
+        ])->withInput($request->only('username'));
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        
         return redirect('/login');
     }
 }

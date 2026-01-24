@@ -11,17 +11,14 @@ class UserController extends Controller
    public function store(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|unique:users,email',
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|unique:users,username|max:255',
             'password' => 'required|min:6'
         ]);
 
-        // Auto generate nama dari email (karena form cuma minta email & password)
-        // Contoh: budi@gmail.com -> Namanya jadi "budi"
-        $name = explode('@', $request->email)[0];
-
         User::create([
-            'name' => ucfirst($name),
-            'email' => $request->email,
+            'name' => $request->name,
+            'username' => $request->username,
             'password' => Hash::make($request->password),
             'role' => 'USER'
         ]);
@@ -34,16 +31,16 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         $request->validate([
-            'email' => 'required|email|unique:users,email,'.$id,
-            // Password nullable, kalau kosong berarti gak diganti
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|unique:users,username,'.$id.'|max:255',
             'password' => 'nullable|min:6'
         ]);
 
         $data = [
-            'email' => $request->email,
+            'name' => $request->name,
+            'username' => $request->username,
         ];
 
-        // Cek apakah password diisi?
         if($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
@@ -55,7 +52,6 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        // Cegah Admin menghapus dirinya sendiri
         if(auth()->user()->id == $id) {
             return redirect()->back()->with('error', 'Anda tidak bisa menghapus akun sendiri.');
         }

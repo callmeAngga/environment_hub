@@ -84,44 +84,43 @@
     {{-- TAB WWTP --}}
     <div id="content-wwtp-profile" class="data-section">
         {{-- TAB WWTP --}}
-        <div id="content-wwtp-profile" class="data-section">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">WWTP</h3>
-                    <button onclick="openWWTPModal()" class="btn-modern btn-add">
-                        <i class="fas fa-plus"></i> <span>Tambah WWTP</span>
-                    </button>
-                </div>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">WWTP</h3>
+                <button onclick="openWWTPModal()" class="btn-modern btn-add">
+                    <i class="fas fa-plus"></i> <span>Tambah WWTP</span>
+                </button>
+            </div>
 
-                <div class="table-responsive">
-                    <table class="table-modern">
-                        <thead>
-                            <tr>
-                                <th>Nama WWTP</th>
-                                <th>Alamat</th>
-                                <th>Koordinat</th>
-                                <th>Kapasitas</th>
-                                <th style="text-align: end;">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($wwtps as $wwtp)
-                            <tr>
-                                <td>{{ $wwtp->nama_wwtp }}</td>
-                                <td>{{ $wwtp->alamat }}</td>
-                                <td>
-                                    {{ $wwtp->koordinat_lat }},
-                                    {{ $wwtp->koordinat_lng }}
-                                </td>
-                                <td>
-                                    {{ $wwtp->kapasitas_debit
+            <div class="table-wrapper">
+                <table class="table-modern">
+                    <thead>
+                        <tr>
+                            <th>Nama WWTP</th>
+                            <th>Alamat</th>
+                            <th>Koordinat</th>
+                            <th>Kapasitas</th>
+                            <th style="text-align: end;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($wwtps as $wwtp)
+                        <tr>
+                            <td>{{ $wwtp->nama_wwtp }}</td>
+                            <td>{{ $wwtp->alamat }}</td>
+                            <td>
+                                {{ $wwtp->koordinat_lat }},
+                                {{ $wwtp->koordinat_lng }}
+                            </td>
+                            <td>
+                                {{ $wwtp->kapasitas_debit
                                 ? number_format($wwtp->kapasitas_debit, 2) . ' m³'
                                 : '-' }}
-                                </td>
-                                <td>
-                                    <div style="display: flex; gap: 8px; justify-content: end;">
-                                        <button
-                                            onclick="openWWTPModal(
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 8px; justify-content: end;">
+                                    <button
+                                        onclick="openWWTPModal(
                                         '{{ $wwtp->id }}',
                                         '{{ addslashes($wwtp->nama_wwtp) }}',
                                         '{{ addslashes($wwtp->alamat) }}',
@@ -129,32 +128,28 @@
                                         '{{ $wwtp->koordinat_lng }}',
                                         '{{ $wwtp->kapasitas_debit }}'
                                     )"
-                                            class="btn-table btn-table-edit">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
+                                        class="btn-table btn-table-edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
 
-                                        <button
-                                            onclick="confirmDeleteWWTP('{{ $wwtp->id }}', '{{ addslashes($wwtp->nama_wwtp) }}')"
-                                            class="btn-table btn-table-delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="6"
-                                    class="text-center text-gray"
-                                    style="padding: 40px;">
-                                    <i class="fas fa-inbox"
-                                        style="font-size: 32px; display:block; margin-bottom:12px;"></i>
-                                    Belum ada data WWTP
-                                </td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                                    <button
+                                        onclick="confirmDeleteWWTP('{{ $wwtp->id }}', '{{ addslashes($wwtp->nama_wwtp) }}')"
+                                        class="btn-table btn-table-delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="6" class="table-empty-modern">
+                                <i class="fas fa-inbox"></i>
+                                <p>Belum ada data WWTP</p>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -388,7 +383,10 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="2" class="table-empty-modern">Belum ada data</td>
+                            <td colspan="6" class="table-empty-modern">
+                                <i class="fas fa-inbox"></i>
+                                <p>Belum ada data Jenis Sampah</p>
+                            </td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -429,7 +427,10 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="2" class="table-empty-modern">Belum ada data</td>
+                            <td colspan="6" class="table-empty-modern">
+                                <i class="fas fa-inbox"></i>
+                                <p>Belum ada data Status Sampah</p>
+                            </td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -471,7 +472,10 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="2" class="table-empty-modern">Belum ada data</td>
+                            <td colspan="6" class="table-empty-modern">
+                                <i class="fas fa-inbox"></i>
+                                <p>Belum ada data Satuan Sampah</p>
+                            </td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -524,7 +528,7 @@
                         <tr>
                             <td colspan="3" class="table-empty-modern">
                                 <i class="fas fa-inbox"></i>
-                                <p>Belum ada data penerima sampah</p>
+                                <p>Belum ada data Penerima Sampah</p>
                             </td>
                         </tr>
                         @endforelse
@@ -689,8 +693,9 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="2" class="table-empty-modern">
-                                Belum ada data
+                            <td colspan="6" class="table-empty-modern">
+                                <i class="fas fa-inbox"></i>
+                                <p>Belum ada data Jenis Sampah</p>
                             </td>
                         </tr>
                         @endforelse
@@ -744,7 +749,7 @@
                         <tr>
                             <td colspan="3" class="table-empty-modern">
                                 <i class="fas fa-inbox"></i>
-                                <p>Belum ada data penerima sampah</p>
+                                <p>Belum ada data Penerima Sampah</p>
                             </td>
                         </tr>
                         @endforelse
@@ -762,7 +767,7 @@
             <div class="card-header">
                 <h3 class="card-title">MANAJEMEN PENGGUNA</h3>
                 <button onclick="openUserModal()" class="btn-modern btn-add">
-                    <i class="fas fa-plus"></i> Tambah User
+                    <i class="fas fa-plus"></i> <span>Tambah User</span>
                 </button>
             </div>
 
@@ -771,7 +776,7 @@
                     <thead>
                         <tr>
                             <th>Nama</th>
-                            <th>Email</th>
+                            <th>Username</th>
                             <th>Role</th>
                             <th style="text-align: end;">Aksi</th>
                         </tr>
@@ -780,27 +785,27 @@
                         @forelse($usersList as $u)
                         <tr>
                             <td>{{ $u->name }}</td>
-                            <td>{{ $u->email }}</td>
+                            <td>{{ $u->username }}</td>
                             <td>
                                 <span style="
-                                background:#dbeafe;
-                                color:#1e40af;
-                                padding:2px 8px;
-                                border-radius:4px;
-                                font-size:0.8rem;
-                            ">
+                            background:#dbeafe;
+                            color:#1e40af;
+                            padding:2px 8px;
+                            border-radius:4px;
+                            font-size:0.8rem;
+                        ">
                                     {{ $u->role }}
                                 </span>
                             </td>
                             <td>
                                 <div style="display: flex; gap: 8px; justify-content: end;">
                                     <button
-                                        onclick="openUserModal('{{ $u->id }}', '{{ $u->email }}')"
+                                        onclick="openUserModal('{{ $u->id }}', '{{ addslashes($u->name) }}', '{{ addslashes($u->username) }}')"
                                         class="btn-table btn-table-edit">
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
 
-                                    <button onclick="confirmDeleteUser('{{ $u->id }}', '{{ addslashes($u->email) }}')" class="btn-table btn-table-delete">
+                                    <button onclick="confirmDeleteUser('{{ $u->id }}', '{{ addslashes($u->username) }}')" class="btn-table btn-table-delete">
                                         <i class="fas fa-trash"></i> Hapus
                                     </button>
                                 </div>
@@ -808,8 +813,9 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="text-center text-gray">
-                                Tidak ada data pengguna found.
+                            <td colspan="4" class="table-empty-modern">
+                                <i class="fas fa-inbox"></i>
+                                <p>Belum ada data Pengguna</p>
                             </td>
                         </tr>
                         @endforelse
@@ -818,7 +824,6 @@
             </div>
         </div>
     </div>
-
     @endif
 </div>
 

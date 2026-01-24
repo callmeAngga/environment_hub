@@ -11,8 +11,13 @@
             
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">Email <span class="text-red">*</span></label>
-                    <input type="email" name="email" id="userEmail" required class="form-control" placeholder="user@example.com">
+                    <label class="form-label">Nama Lengkap <span class="text-red">*</span></label>
+                    <input type="text" name="name" id="userName" required class="form-control" placeholder="Masukkan nama lengkap">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Username <span class="text-red">*</span></label>
+                    <input type="text" name="username" id="userUsername" required class="form-control" placeholder="Masukkan username">
                 </div>
                 
                 <div class="form-group">
@@ -31,15 +36,15 @@
 </div>
 
 <script>
-function openUserModal(id = null, email = '') {
+function openUserModal(id = null, name = '', username = '') {
     if (id) {
         document.getElementById('modalUserTitle').innerText = "Edit Pengguna";
         document.getElementById('userMethod').value = "PUT";
         document.getElementById('formUser').action = "/profile/users/" + id;
         
-        document.getElementById('userEmail').value = email;
+        document.getElementById('userName').value = name;
+        document.getElementById('userUsername').value = username;
         
-        // Ubah tampilan input password untuk mode Edit
         document.getElementById('userPassword').required = false;
         document.getElementById('passReq').style.display = 'none';
         document.getElementById('passHint').style.display = 'block';
@@ -49,7 +54,6 @@ function openUserModal(id = null, email = '') {
         document.getElementById('formUser').action = "{{ route('users.store') }}";
         document.getElementById('formUser').reset();
         
-        // Ubah tampilan input password untuk mode Tambah
         document.getElementById('userPassword').required = true;
         document.getElementById('passReq').style.display = 'inline';
         document.getElementById('passHint').style.display = 'none';
