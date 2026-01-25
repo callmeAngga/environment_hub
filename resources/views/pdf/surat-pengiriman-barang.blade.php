@@ -4,13 +4,12 @@
     <meta charset="utf-8">
     <title>Surat Pengiriman Barang</title>
     <style>
-        /* Margin disesuaikan dengan standar surat jalan A4 */
         @page {
             margin: 20mm 30mm;
         }
         
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Book Antiqua', serif;
             font-size: 10pt;
             line-height: 1.3;
             color: #000;
@@ -20,7 +19,6 @@
         .center { text-align: center; }
         .right { text-align: right; }
         
-        /* Layout Grid menggunakan Table */
         .layout-table {
             width: 100%;
             border-collapse: collapse;
@@ -32,38 +30,49 @@
             padding: 0;
         }
 
-        /* Header Styles */
         .company-name {
             font-size: 18pt;
             font-weight: bold;
             margin-bottom: 2px;
         }
         .company-address {
-            font-size: 9pt;
             line-height: 1.2;
         }
 
-        /* Info Labels (Titik dua sejajar) */
-        .info-row { margin-bottom: 2px; }
-        .info-label { display: inline-block; width: 100px; }
-        .info-label-mini { display: inline-block; width: 55px; }
-        .info-colon { display: inline-block; width: 10px; text-align: center; }
-
-        /* Judul Dokumen */
-        .doc-title {
-            font-size: 14pt;
-            font-weight: bold;
-            text-decoration: underline;
+        .info-row { 
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+        }
+        .info-label { 
+            display: inline-block; 
+            width: 100px;
+        }
+        .info-label-mini { 
+            display: inline-block; 
+            width: 55px;
+        }
+        .info-colon { 
+            display: inline-block; 
+            width: 10px; 
             text-align: center;
-            margin-top: 25px;
+        }
+        .info-value {
+            display: inline-block;
+        }
+
+        .doc-title {
+            font-size: 18pt;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
             margin-bottom: 15px;
         }
 
-        /* Tabel Data Utama */
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 2px; /* Jarak dikit ke footer code */
+            margin-bottom: 2px;
         }
         .data-table th, .data-table td {
             border: 1px solid #000;
@@ -77,10 +86,8 @@
             height: 25px;
         }
         .data-table td {
-            height: 40px; /* Tinggi minimum baris */
+            height: 40px; 
         }
-
-        /* Footer Code (Pojok Kanan Bawah Tabel) */
         .footer-code {
             text-align: right;
             font-size: 9pt;
@@ -88,16 +95,15 @@
             padding-right: 42px;
         }
 
-        /* Disclaimer */
         .disclaimer {
             text-align: left;
             font-size: 8pt;
             font-style: italic;
+            font-weight: bold;
             margin: 15px 0;
             line-height: 1.4;
         }
 
-        /* Area Tanda Tangan */
         .signature-table {
             width: 100%;
             margin-top: 20px;
@@ -106,20 +112,16 @@
         .signature-space {
             height: 70px;
         }
-        .signature-name {
-            font-weight: bold;
-            text-decoration: underline;
-        }
         .signature-role {
             margin-top: 3px;
             font-size: 10pt;
         }
 
-        /* Daftar Distribusi */
         .distribution-list {
-            margin-top: 20px;
-            font-size: 8pt;
-            line-height: 1.4;
+            line-height: 1.3;
+        }
+        .distribution-list div {
+            margin-bottom: 2px;
         }
     </style>
 </head>
@@ -141,12 +143,12 @@
     <br>
 
     <table class="layout-table">
-        <tr>
+        <tr> 
             <td style="width: 72%;">
-                <div style="font-size: 10pt;">Kepada Yth</div>
-                <div style="font-size: 10pt; margin: 2px 0;">{{ $data->penerima->nama_penerima ?? 'PT. Tenang Jaya Sejahtera' }}</div>
-                <div style="font-size: 10pt;">Waste Management Service</div>
-                <div style="font-size: 10pt; width: 95%; line-height: 1.2; margin-top: 2px;">
+                <div>Kepada Yth</div>
+                <div style="margin: 2px 0;">{{ $data->penerima->nama_penerima ?? 'PT. Tenang Jaya Sejahtera' }}</div>
+                <div >Waste Management Service</div>
+                <div style=" width: 95%; line-height: 1.2; margin-top: 2px;">
                     {{ $data->penerima->alamat ?? '-' }}
                 </div>
             </td>
@@ -155,12 +157,12 @@
                 <div class="info-row">
                     <span class="info-label-mini">SPB No</span>
                     <span class="info-colon">:</span>
-                    <span>{{ $data->no_sampah_keluar }}</span>
+                    <span class="info-value">{{ $data->no_sampah_keluar }}</span>
                 </div>
                 <div class="info-row">
                     <span class="info-label-mini">Tanggal</span>
                     <span class="info-colon">:</span>
-                    <span>{{ $data->tanggal_pengangkutan ? $data->tanggal_pengangkutan->format('d.m.Y') : '-' }}</span>
+                    <span class="info-value">{{ $data->tanggal_pengangkutan ? $data->tanggal_pengangkutan->format('d.m.Y') : '-' }}</span>
                 </div>
             </td>
         </tr>
@@ -174,21 +176,18 @@
                 <div class="info-row">
                     <span class="info-label">Jasa ekspedisi</span>
                     <span class="info-colon">:</span>
-                    <span>{{ $data->ekspedisi->nama_ekspedisi ?? '-' }}</span>
+                    <span class="info-value">{{ $data->ekspedisi->nama_ekspedisi ?? '-' }}</span>
                 </div>
                 <div class="info-row">
                     <span class="info-label">No Polisi</span>
                     <span class="info-colon">:</span>
-                    <span>{{ $data->no_kendaraan }}</span>
+                    <span class="info-value">{{ $data->no_kendaraan }}</span>
                 </div>
             </td>
         </tr>
     </table>
 
-    <br>
-    <br>
-    <br>
-
+    <div class="doc-title">SURAT PENGIRIMAN BARANG</div>
 
     <table class="data-table">
         <thead>
@@ -202,9 +201,9 @@
         </thead>
         <tbody>
             <tr>
-                <td class="center" style="height: 300px;">1</td>
+                <td class="center" style="height: 300px; font-style: italic;">1</td>
                 <td style="height: 300px;">{{ $data->jenisSampah->nama_jenis ?? '-' }}</td>
-                <td class="center" style="height: 300px;">Kilogram</td>
+                <td class="center" style="height: 300px; font-style: italic;">Kilogram</td>
                 <td class="center" style="height: 300px;">{{ number_format($data->berat_isi_kg - $data->berat_kosong_kg, 0, ',', '.') }}</td>
                 <td style="height: 300px;">{{ $data->keterangan ?? '' }}</td>
             </tr>
@@ -221,8 +220,8 @@
     <table class="layout-table" style="margin-top: 30px;">
         <tr>
             <td style="width: 30%; vertical-align: top;">
-                <div style="font-size: 8pt;">
-                    <div class="bold" style="margin-bottom: 5px;">Distribusi</div>
+                <div class="distribution-list">
+                    <div style="margin-bottom: 5px;">Distribusi</div>
                     <div>- Human Resource</div>
                     <div>- Ekspedisi</div>
                     <div>- Penerima Barang</div>

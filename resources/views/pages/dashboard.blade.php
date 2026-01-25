@@ -3,7 +3,7 @@
 @section('title', 'Dashboard - Sistem Manajemen Data Lingkungan')
 
 @section('content')
-<div class="dashboard-container">
+<div class="container">
     <div class="menu-cards">
         <a href="{{ route('wwtp.index') }}" class="menu-card">
             <div class="card-content">
@@ -65,13 +65,12 @@
                     </select>
                 </div>
                 <div class="filter-group">
-                    <label class="filter-label">Periode</label>
-                    <select id="filter-periode" class="filter-select">
-                        <option value="1" selected>1 Hari</option>
-                        <option value="7">7 Hari</option>
-                        <option value="14">14 Hari</option>
-                        <option value="30">30 Hari</option>
-                    </select>
+                    <label class="filter-label">Tanggal Dari</label>
+                    <input type="date" id="filter-tanggal-dari" class="filter-select">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Tanggal Sampai</label>
+                    <input type="date" id="filter-tanggal-sampai" class="filter-select">
                 </div>
             </div>
         </div>
@@ -96,7 +95,7 @@
 
     <div class="filter-section" style="margin-top: 40px;">
         <div class="filter-header">
-        <h3 class="filter-title">GRAFIK STOK SAMPAH TPS PRODUKSI</h3>
+            <h3 class="filter-title">GRAFIK STOK SAMPAH TPS PRODUKSI</h3>
             <div class="filter-controls">
                 <div class="filter-group">
                     <label class="filter-label">Lokasi TPS</label>
@@ -108,12 +107,12 @@
                     </select>
                 </div>
                 <div class="filter-group">
-                    <label class="filter-label">Periode</label>
-                    <select id="filter-periode-sampah" class="filter-select">
-                        <option value="7" selected>7 Hari</option>
-                        <option value="14">14 Hari</option>
-                        <option value="30">30 Hari</option>
-                    </select>
+                    <label class="filter-label">Tanggal Dari</label>
+                    <input type="date" id="filter-tanggal-dari-sampah" class="filter-select">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Tanggal Sampai</label>
+                    <input type="date" id="filter-tanggal-sampai-sampah" class="filter-select">
                 </div>
             </div>
         </div>
@@ -140,12 +139,18 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 <script>
     let chartSV30, chartDO, chartStokSampah;
-    let currentDays = 1;
+    let currentTanggalDari = '';
+    let currentTanggalSampai = '';
     let currentLokasi = '';
-    let currentDaysSampah = 7;
+    let currentTanggalDariSampah = '';
+    let currentTanggalSampaiSampah = '';
     let currentTps = '';
+    let debounceTimerWWTP = null;
+    let debounceTimerSampah = null;
 
     document.addEventListener('DOMContentLoaded', function() {
+        setDefaultDates();
+        
         initializeCharts();
         loadChartData();
         loadChartStokSampah();
@@ -155,9 +160,14 @@
             loadChartData();
         });
 
-        document.getElementById('filter-periode').addEventListener('change', function() {
-            currentDays = parseInt(this.value);
-            loadChartData();
+        document.getElementById('filter-tanggal-dari').addEventListener('change', function() {
+            currentTanggalDari = this.value;
+            debouncedValidateAndLoadWWTP();
+        });
+
+        document.getElementById('filter-tanggal-sampai').addEventListener('change', function() {
+            currentTanggalSampai = this.value;
+            debouncedValidateAndLoadWWTP();
         });
 
         document.getElementById('filter-tps').addEventListener('change', function() {
@@ -165,11 +175,106 @@
             loadChartStokSampah();
         });
 
-        document.getElementById('filter-periode-sampah').addEventListener('change', function() {
-            currentDaysSampah = parseInt(this.value);
-            loadChartStokSampah();
+        document.getElementById('filter-tanggal-dari-sampah').addEventListener('change', function() {
+            currentTanggalDariSampah = this.value;
+            debouncedValidateAndLoadSampah();
+        });
+
+        document.getElementById('filter-tanggal-sampai-sampah').addEventListener('change', function() {
+            currentTanggalSampaiSampah = this.value;
+            debouncedValidateAndLoadSampah();
         });
     });
+
+    function setDefaultDates() {
+        const today = new Date();
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(today.getDate() - 6); 
+
+        const formatDate = (date) => {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        };
+
+        currentTanggalDari = formatDate(sevenDaysAgo);
+        currentTanggalSampai = formatDate(today);
+        currentTanggalDariSampah = formatDate(sevenDaysAgo);
+        currentTanggalSampaiSampah = formatDate(today);
+
+        document.getElementById('filter-tanggal-dari').value = currentTanggalDari;
+        document.getElementById('filter-tanggal-sampai').value = currentTanggalSampai;
+        document.getElementById('filter-tanggal-dari-sampah').value = currentTanggalDariSampah;
+        document.getElementById('filter-tanggal-sampai-sampah').value = currentTanggalSampaiSampah;
+    }
+
+    function validateDateRange(dari, sampai) {
+        if (!dari || !sampai) {
+            return { valid: false, message: 'Tanggal dari dan sampai harus diisi' };
+        }
+
+        const startDate = new Date(dari);
+        const endDate = new Date(sampai);
+
+        if (startDate > endDate) {
+            return { valid: false, message: 'Tanggal dari tidak boleh lebih besar dari tanggal sampai' };
+        }
+
+        const daysDiff = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+        if (daysDiff > 90) {
+            return { valid: false, message: 'Rentang tanggal maksimal 90 hari' };
+        }
+
+        return { valid: true };
+    }
+
+    function showValidationError(message) {
+        document.getElementById('validationErrorMessage').textContent = message;
+        openModal('modalValidationError');
+    }
+
+    function debouncedValidateAndLoadWWTP() {
+        // Clear timeout sebelumnya
+        if (debounceTimerWWTP) {
+            clearTimeout(debounceTimerWWTP);
+        }
+
+        // Set timeout baru (500ms delay)
+        debounceTimerWWTP = setTimeout(() => {
+            validateAndLoadWWTP();
+        }, 500);
+    }
+
+    function debouncedValidateAndLoadSampah() {
+        // Clear timeout sebelumnya
+        if (debounceTimerSampah) {
+            clearTimeout(debounceTimerSampah);
+        }
+
+        // Set timeout baru (500ms delay)
+        debounceTimerSampah = setTimeout(() => {
+            validateAndLoadSampah();
+        }, 500);
+    }
+
+    function validateAndLoadWWTP() {
+        const validation = validateDateRange(currentTanggalDari, currentTanggalSampai);
+        if (validation.valid) {
+            loadChartData();
+        } else {
+            showValidationError(validation.message);
+        }
+    }
+
+    function validateAndLoadSampah() {
+        const validation = validateDateRange(currentTanggalDariSampah, currentTanggalSampaiSampah);
+        if (validation.valid) {
+            loadChartStokSampah();
+        } else {
+            showValidationError(validation.message);
+        }
+    }
 
     function initializeCharts() {
         const commonOptions = {
@@ -459,17 +564,24 @@
     }
 
     function loadChartData() {
+        if (!currentTanggalDari || !currentTanggalSampai) {
+            return;
+        }
+
         showLoadingState('.charts-grid');
 
         const params = new URLSearchParams({
-            days: currentDays,
+            tanggal_dari: currentTanggalDari,
+            tanggal_sampai: currentTanggalSampai,
             lokasi_id: currentLokasi
         });
 
         fetch(`{{ route('dashboard.chart-data') }}?${params}`)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    return response.json().then(data => {
+                        throw new Error(data.error || 'Network response was not ok');
+                    });
                 }
                 return response.json();
             })
@@ -491,22 +603,29 @@
             .catch(error => {
                 console.error('Error loading chart data:', error);
                 hideLoadingState('.charts-grid');
-                alert('Gagal memuat data chart WWTP. Silakan coba lagi.');
+                showValidationError('Gagal memuat data chart WWTP: ' + error.message);
             });
     }
 
     function loadChartStokSampah() {
+        if (!currentTanggalDariSampah || !currentTanggalSampaiSampah) {
+            return;
+        }
+
         showLoadingState('.charts-grid-full');
 
         const params = new URLSearchParams({
-            days: currentDaysSampah,
+            tanggal_dari: currentTanggalDariSampah,
+            tanggal_sampai: currentTanggalSampaiSampah,
             tps_id: currentTps
         });
 
         fetch(`{{ route('dashboard.chart-stok-sampah') }}?${params}`)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    return response.json().then(data => {
+                        throw new Error(data.error || 'Network response was not ok');
+                    });
                 }
                 return response.json();
             })
@@ -526,7 +645,7 @@
             .catch(error => {
                 console.error('Error loading stok sampah data:', error);
                 hideLoadingState('.charts-grid-full');
-                alert('Gagal memuat data stok sampah. Silakan coba lagi.');
+                showValidationError('Gagal memuat data stok sampah: ' + error.message);
             });
     }
 

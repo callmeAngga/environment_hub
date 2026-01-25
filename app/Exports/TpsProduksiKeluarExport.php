@@ -47,6 +47,7 @@ class TpsProduksiKeluarExport implements FromCollection, WithHeadings, WithMappi
             'Status Sampah',
             'Jenis Sampah',
             'Penerima',
+            'Keterangan',
         ];
     }
 
@@ -71,6 +72,7 @@ class TpsProduksiKeluarExport implements FromCollection, WithHeadings, WithMappi
             $row->statusSampah->nama_status ?? '-',
             $row->jenisSampah->nama_jenis ?? '-',
             $row->penerima->nama_penerima ?? '-',
+            $row->keterangan ?? '-',
         ];
     }
 

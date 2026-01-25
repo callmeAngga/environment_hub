@@ -25,13 +25,26 @@ class DashboardController extends Controller
 
     public function getChartData(Request $request)
     {
-        $days = $request->input('days', 1);
+        $request->validate([
+            'tanggal_dari' => 'required|date',
+            'tanggal_sampai' => 'required|date|after_or_equal:tanggal_dari',
+            'lokasi_id' => 'nullable|exists:lokasi_wwtp,id'
+        ]);
+
+        $tanggalDari = Carbon::parse($request->tanggal_dari)->startOfDay();
+        $tanggalSampai = Carbon::parse($request->tanggal_sampai)->endOfDay();
+
+        // Validasi maksimal 90 hari
+        $daysDiff = $tanggalDari->diffInDays($tanggalSampai) + 1;
+        if ($daysDiff > 90) {
+            return response()->json([
+                'error' => 'Rentang tanggal maksimal 90 hari'
+            ], 422);
+        }
+
         $lokasiId = $request->input('lokasi_id', null);
 
-        $startDate = Carbon::now()->subDays($days - 1)->startOfDay();
-        $endDate = Carbon::now()->endOfDay();
-
-        $query = WwtpDataHarian::whereBetween('tanggal', [$startDate, $endDate])
+        $query = WwtpDataHarian::whereBetween('tanggal', [$tanggalDari, $tanggalSampai])
             ->orderBy('tanggal', 'asc')
             ->orderBy('waktu', 'asc');
 
@@ -48,11 +61,15 @@ class DashboardController extends Controller
         $do_2 = [];
 
         foreach ($data as $item) {
-            if ($days == 1) {
+            // Logika label berdasarkan rentang tanggal
+            if ($daysDiff == 1) {
+                // 1 hari: tampilkan jam:menit
                 $label = Carbon::parse($item->waktu)->format('H:i');
-            } elseif ($days <= 7) {
+            } elseif ($daysDiff <= 7) {
+                // 2-7 hari: tampilkan tanggal + jam
                 $label = Carbon::parse($item->tanggal)->format('d/m') . ' ' . Carbon::parse($item->waktu)->format('H:i');
             } else {
+                // >7 hari: tampilkan tanggal saja
                 $label = Carbon::parse($item->tanggal)->format('d/m/y');
             }
 
@@ -80,20 +97,33 @@ class DashboardController extends Controller
 
     public function getChartStokSampah(Request $request)
     {
-        $days = $request->input('days', 7);
-        $tpsId = $request->input('tps_id', null);
+        $request->validate([
+            'tanggal_dari' => 'required|date',
+            'tanggal_sampai' => 'required|date|after_or_equal:tanggal_dari',
+            'tps_id' => 'nullable|exists:tps,id'
+        ]);
 
-        $startDate = Carbon::now()->subDays($days - 1)->startOfDay();
-        $endDate = Carbon::now()->endOfDay();
+        $tanggalDari = Carbon::parse($request->tanggal_dari)->startOfDay();
+        $tanggalSampai = Carbon::parse($request->tanggal_sampai)->endOfDay();
+
+        // Validasi maksimal 90 hari
+        $daysDiff = $tanggalDari->diffInDays($tanggalSampai) + 1;
+        if ($daysDiff > 90) {
+            return response()->json([
+                'error' => 'Rentang tanggal maksimal 90 hari'
+            ], 422);
+        }
+
+        $tpsId = $request->input('tps_id', null);
 
         // Hitung stok awal (sebelum periode filter)
         $stokAwalQuery = DB::table('tps_produksi_masuk')
             ->select(DB::raw('COALESCE(SUM(jumlah_sampah), 0) as total_masuk'))
-            ->where('tanggal', '<', $startDate);
+            ->where('tanggal', '<', $tanggalDari);
 
         $stokKeluarQuery = DB::table('tps_produksi_keluar')
             ->select(DB::raw('COALESCE(SUM(total_unit), 0) as total_keluar'))
-            ->where('tanggal_pengangkutan', '<', $startDate);
+            ->where('tanggal_pengangkutan', '<', $tanggalDari);
 
         if ($tpsId) {
             $stokAwalQuery->where('tps_id', $tpsId);
@@ -109,7 +139,7 @@ class DashboardController extends Controller
                 DB::raw('DATE(tanggal) as tanggal'),
                 DB::raw('SUM(jumlah_sampah) as total')
             )
-            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->whereBetween('tanggal', [$tanggalDari, $tanggalSampai])
             ->groupBy(DB::raw('DATE(tanggal)'));
 
         if ($tpsId) {
@@ -123,7 +153,7 @@ class DashboardController extends Controller
                 DB::raw('DATE(tanggal_pengangkutan) as tanggal'),
                 DB::raw('SUM(total_unit) as total')
             )
-            ->whereBetween('tanggal_pengangkutan', [$startDate, $endDate])
+            ->whereBetween('tanggal_pengangkutan', [$tanggalDari, $tanggalSampai])
             ->groupBy(DB::raw('DATE(tanggal_pengangkutan)'));
 
         if ($tpsId) {
@@ -139,13 +169,13 @@ class DashboardController extends Controller
         $keluarData = [];
         
         $currentStok = $stokAwal;
-        $currentDate = Carbon::parse($startDate);
+        $currentDate = Carbon::parse($tanggalDari);
 
-        while ($currentDate <= $endDate) {
+        while ($currentDate <= $tanggalSampai) {
             $dateStr = $currentDate->format('Y-m-d');
             
-            // Format label berdasarkan periode
-            if ($days <= 7) {
+            // Format label berdasarkan rentang tanggal
+            if ($daysDiff <= 7) {
                 $label = $currentDate->format('d/m');
             } else {
                 $label = $currentDate->format('d/m/y');
